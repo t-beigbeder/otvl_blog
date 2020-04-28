@@ -45,8 +45,8 @@ pages:
         title: Actualités
         blog_type: blog
   - id: a-propos
-    menu: A propos
-    title: Pratique
+    menu: À propos
+    title: À propos
     children:
       - id: contact
         type: page

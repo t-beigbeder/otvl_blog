@@ -1,2 +1,4 @@
-server:
-  config_file: /home/guest/git/otvl_blog/data/test_site1/config/qgg.yml
+site_config_file: /home/guest/git/otvl_blog/data/test_site1/config/qgg.yml
+
+cors_mapping:
+  'http://dxpydk:8080': 'http://dxpydk:8888'
