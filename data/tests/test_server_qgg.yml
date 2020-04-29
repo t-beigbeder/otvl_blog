@@ -1,4 +1,21 @@
 site_config_file: /home/guest/git/otvl_blog/data/test_site1/config/qgg.yml
 
+version:
+  server: "1.0"
+  application: "1.0"
+  server_config_file: /home/guest/git/otvl_blog/data/tests/test_server_qgg.yml
+  site_config_file: /home/guest/git/otvl_blog/data/test_site1/config/qgg.yml
+
+meta_md_fields:
+  - version
+  - creation_date
+  - publication_date
+  - last_update_date
+  - summary
+  - authors
+content_md_fields:
+  - title
+  - heading
+
 cors_mapping:
   'http://dxpydk:8080': 'http://dxpydk:8888'
