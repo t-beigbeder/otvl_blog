@@ -1,0 +1,44 @@
+config:
+  home_section: otvl-blog
+  home_type: blox
+  types:
+    page:
+      mapping: StandardPage
+      has_slug: false
+    blox:
+      mapping: BlogIndexPage
+      has_slug: false
+      blog_type: blog
+    blog:
+      mapping: BlogPage
+      has_slug: true
+      blog_index_type: blox
+  default_assets_url: /assets/
+  brand:
+    urls:
+      home: /blox/otvl-blog
+    assets:
+      brand_img: images/common/otvl-blog-brand.png
+    locale: en
+    labels:
+      toolbar: Blog
+      account_tooltip: Account
+      created_on: "Created on "
+      published_on: "Published on "
+      last_updated_on: "Last updated on "
+    behavior:
+      dates_header: true
+      dates_footer: false
+
+pages:
+  - id: otvl-blog
+    type: blox
+    title: Otvl Blog Home
+  - id: about
+    type: page
+    menu: About
+    title: About
+    children:
+      - id: legal-policies
+        type: page
+        menu: Legal Policies

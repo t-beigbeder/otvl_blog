@@ -1,0 +1,122 @@
+![Article image](/assets/images/otvl-web-pres/business-background-illustration-people.jpg "Web Content Manager Cartoon"){: class="BRAND__page-img-full" }
+
+# Publishing content efficiently with otvl_web
+
+Otvl_web is an
+[Open Source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
+web application mainly intended to publish content efficiently.
+
+There is (yet) no GUI for publishing, so the content publisher has to update the site
+using technical tools to modifiy and upload files.
+However, the files structure and their contents remain easy to understand.
+
+This article first gives a short presentation of the application.
+In a second part, some feeback from a development point of view is detailed.
+Finally, some information concerning the deployment is provided.
+
+## General presentation
+
+From a content publisher point of view, the benefits of this tool are
+
+- the site structure and how it is navigable by the end-user through menus/sub-menus
+  is configurable;
+- the web application also features a simple blog publish application;
+- the pages content is described by a sequence of textual, graphical or video items, as well
+  as hyperlinks and some page layout directive;
+- the site configuration, the pages content,
+  media files such as documents, images and video files
+  are managed directly as files on the server;
+- the pages contents are described in
+  [markdown](https://daringfireball.net/projects/markdown/syntax).
+
+From a developper point of view, the benefits of this tool are
+
+- the front-end is developped with
+  [Vue.js](https://vuejs.org/)
+  and more specifically
+  [quasar](https://quasar.dev/)
+  layouts and components,
+  so the site general _look-and-feel_ may be customized and enriched efficiently;
+- on the server side, a collection of simple REST web services are developped in python,
+  their roles being mainly to serve files to the Vue.js client, either directly or
+  with trivial yaml-to-json conversion;
+- this simple design also enables to add specific site features through rapid development.
+
+This application
+[ [![Image GitHub](/assets/images/common/github-logo-24.png)](https://github.com/t-beigbeder/otvl_web) ]
+is still a work-in-progress, however it is already hosting a few web sites in production,
+including this one.
+
+The first concern at this time is obviously the lack of documentation,
+however several samples that are used for tests can help to start a new site,
+moreover this gap may be filled easily, thus quickly.
+
+A second concern is about the ability to customize the site's _look-and-feel_
+without having to modify the source code.
+Several options for this goal are already present but, with no doubt,
+the first future features implemented will target this concern.
+
+## Development feedback
+
+### Vue.js
+
+The front-end is implemented as mentioned above with
+[Vue.js](https://vuejs.org/),
+a major framework for building
+[single-page applications](https://en.wikipedia.org/wiki/Single-page_application),
+and whose promise is to be incrementally adoptable.
+
+Vue.js is one of the Open Source projects with the most amazing documentation quality.
+Being very compact, the documentation can be read easily in a few hours.
+
+Generally speaking, the framework provides developpers with very powerful features
+while remaining as simple to use as possible.
+It is like if all the complexity had been kept in the implementation of the framework itself.
+It is the kind of design mindset we generally find among the Python community projects otherwise.
+
+Even if the full otvl_web application is implemented as a single page,
+I also found the incremental adoption design very valuable concerning the learning curve:
+you can start the application design relying on simple and possibly naive choices,
+while progressively refactoring the existing codebase towards a more efficient implementation,
+as your self-confidence increases.  
+For instance, the use of components may appear intimidating to newcomers,
+specifically concerning the organization of the information among parent and children components.
+However, with a little bit of practice, the refactoring of duplicated code relying on components
+can be achieved rather easily and incrementally,
+while the information reorganization appears rather spontaneous.
+
+TBC: concerns about routing
+
+### Single-page applications
+
+The design of a single-page application compared to
+the design of a classical web "client-server" application
+also provides the developper with much more simplicity and efficiency.
+The most obvious reason is that the separation of concerns
+between the client and the server appears really logical.
+Even if the developper has "full-stack" competencies,
+the organization of work is much more natural when relying on such architecture.
+
+Another benefit of single-page application architectures might not be obvious at first glance:
+the GUI design may in that case be achieved using a static mockup along with mock data,
+but this mockup will not be throwable because it uses the same tools as the final product will.
+With the added availability of off-the-shelf components like in the case of the 
+[quasar framework](https://quasar.dev/)
+the developper becomes much more efficient as implementing new designs.
+
+TBC: concerns about tooling
+
+TBC: concerns about deployment
+
+### Quasar
+
+TBC
+
+## Deployment
+
+TBC
+
+## Conclusion
+
+TBC
+

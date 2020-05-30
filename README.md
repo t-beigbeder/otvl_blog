@@ -1,1 +1,1 @@
-This repository is used to publish blogs and associated code
+This repository is used to publish blog articles and associated code.

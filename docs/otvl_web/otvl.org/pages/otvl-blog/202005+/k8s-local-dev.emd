@@ -1,21 +1,12 @@
-# Set-up kubernetes for local development
-[Return to blog list](index.md)
+![Article image](/assets/images/k8s-local-dev/portVendres.jpg "Vers Port Vendres"){: class="BRAND__page-img-full" }
 
-Published on 2020/03/23
-
-### Index
-
-- [Introduction](#introduction)
-- [How to work locally](#how-to-work-locally)
-- [Choosing solutions](#choosing-solutions)
-- [Conclusion](#conclusion)
-- [References](#references)
+# Working locally with Kubernetes for Data Science
 
 ## Introduction
 
-![work in progess](images/wip.png "Logo work in progress") This is a work in progress.
+![logo work in progess](/assets/images/common/wip.png "Logo work in progress") This is a work in progress.
 
-While the use of Docker and a Kubernetes orchestrator become more and more standard when relying on Cloud Computing,
+While the use of Docker and a Kubernetes orchestrator for Data Science become more and more standard when relying on Cloud Computing,
 two interesting questions remain open:
 
 - how to work locally: this may be useful for debugging, to set-up the initial environment more quickly than when working remotely,
@@ -42,11 +33,3 @@ Not yet
 This section provides you with useful references.
 
 Not yet.
-
-
-## Legal
-
-This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode)
-![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "Logo Creative Commons License")
-
-[Return to blog list](index.md)

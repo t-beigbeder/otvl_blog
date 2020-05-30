@@ -1,0 +1,15 @@
+meta:
+  version: "1.0"
+  publication_date: "20200529"
+  summary_heading: "Publishing content efficiently with otvl_web"
+  summary: |
+    Otvl_web is a web application mainly intended to publish content efficiently.
+    There is (yet) no GUI for publishing,
+    yet the files structure and their contents remain easy to understand.
+
+content:
+  title: Otvl_web presentation
+  heading:
+  stream_fields:
+  - type: md_file
+    file: otvl-web-pres.emd

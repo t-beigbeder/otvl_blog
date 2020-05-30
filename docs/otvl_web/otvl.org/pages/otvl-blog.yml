@@ -1,0 +1,20 @@
+meta:
+  version: "1.0"
+  creation_date: 20200528
+  publication_date: 20200528
+  last_update_date: 20200528
+
+content:
+  title: Otvl Blog Home
+  heading:
+  brand:
+    no_dates: true
+    labels:
+      index_title: List of articles
+      search_blogs: "Search articles..."
+      search_criteria: "Other search criteria..."
+      published_on: "Published on "
+      read_more: "Read more..."
+  stream_fields:
+  - type: md_file
+    file: otvl-blog.emd
