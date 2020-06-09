@@ -1,0 +1,14 @@
+site_config_file: config/otvl_org.yml
+pages_directory: pages
+assets_directory: assets
+j24bots_directory: config/j24bots
+
+version:
+  server: "1.0"
+  application: "1.0"
+
+cors_mapping:
+  'http://vjs-dev-host:8080': 'http://vjs-dev-host:8888'
+
+assets_url: "http://vjs-dev-host:8888/api/assets/"
+sitemap_root: "http://vjs-dev-host:8080/#"
