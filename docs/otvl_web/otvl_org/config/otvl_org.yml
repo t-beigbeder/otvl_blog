@@ -26,6 +26,8 @@ config:
       created_on: "Created on "
       published_on: "Published on "
       last_updated_on: "Last updated on "
+    bottom_menu:
+      index: 0
     behavior:
       dates_header: true
       dates_footer: false

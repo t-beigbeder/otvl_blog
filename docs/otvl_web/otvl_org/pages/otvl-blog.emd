@@ -1,14 +1,16 @@
-![Image Home](/assets/images/common/picCagire.jpg "Pic Cagire"){: class="BRAND__page-img-full" }
+<div otvl-web>
+type: sf_q_img_in_card
+src: /assets/images/common/picCagire.jpg
+alt: Home image
+title: Pic Cagire
+</div>
 
 # Welcome to otvl.org's Blog!
 
 You will find here articles in the domains of software development, data science,
 software engineering, system architecture, system deployment,
 and related methods and practices.
-The articles contents are rather technical, yet by no means reserved to specialists.
-The goal is to share information and know-how acquired through readings, work, practice,
-but in first place thanks to the work and help of so many other people.
 
-For other information, please have a look at the [[/page/about | About]] section.
+More information in the [[/page/about | About]] section.
 
 Here is a list of the published articles.

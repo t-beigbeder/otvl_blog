@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href=/ >
+    <title>{{ content.title }}</title>
+    <meta charset=utf-8>
+    <link rel=icon type=image/ico href=statics/img/favicon.ico>
+  </head>
+  <body>
+    <div>
+      <h1>{{ content.heading }}</h1>
+{% for sf in content.stream_fields %}
+{% if sf.type == "html" %}
+      <div>
+        {{ sf.content }}
+      </div>
+{% endif %}
+{% if sf.type == "sf_img" %}
+      <img src="{{ sf.src }}">
+        {{ sf.content }}
+      </div>
+{% endif %}
+{% endfor %}
+    </div>
+  </body>
+</html>

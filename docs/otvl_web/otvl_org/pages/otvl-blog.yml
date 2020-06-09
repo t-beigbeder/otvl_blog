@@ -9,12 +9,16 @@ content:
   heading:
   brand:
     no_dates: true
+    promotion: true
     labels:
       index_title: List of articles
       search_blogs: "Search articles..."
       search_criteria: "Other search criteria..."
+      created_on: "Created on "
       published_on: "Published on "
+      last_updated_on: "Last updated on "
       read_more: "Read more..."
+      promotion: "Soon on this Blog"
   stream_fields:
   - type: md_file
     file: otvl-blog.emd

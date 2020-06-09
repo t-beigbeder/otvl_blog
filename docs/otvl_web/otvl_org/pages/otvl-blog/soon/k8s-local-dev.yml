@@ -1,6 +1,7 @@
 meta:
   version: "1.0"
-  publication_date: "20200528"
+  publication_date: ""
+  preview: true
   summary_heading: "Working locally with Kubernetes for Data Science"
   summary: |
     While the use of Docker and a Kubernetes orchestrator for Data Science
