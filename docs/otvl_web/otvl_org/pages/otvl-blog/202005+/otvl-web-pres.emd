@@ -73,9 +73,9 @@ to upload files after commit.
 
 There is yet no access control on the published content either.
 
-### For developpers
+### For developers
 
-From a developper point of view, the benefits of this tool are that
+From a developer point of view, the benefits of this tool are that
 
 - the front-end is developped with
   [Vue.js](https://vuejs.org/)
@@ -130,7 +130,7 @@ with the characteristic of being incrementally adoptable.
 Vue.js is one of the Open Source projects with the most amazing documentation quality.
 Being very compact, the documentation can be read easily in a few hours.
 
-Generally speaking, the framework provides developpers with very powerful features
+Generally speaking, the framework provides developers with very powerful features
 while remaining as simple to use as possible.
 All the complexity is kept in the implementation of the framework itself.
 
@@ -168,7 +168,7 @@ The
 [Quasar framework](https://quasar.dev/)
 is based on
 [Vue.js](https://vuejs.org/)
-and it adds a lot of high level features from a developper perspective
+and it adds a lot of high level features from a developer perspective
 to enable a very efficient development of new applications.
 Some specific features are the ability to share the same design
 for classic browsers, for mobile browsers and for mobile applications,
@@ -194,7 +194,7 @@ their use is absolutely not required for simple applications.
 Finally, it offers a powerful
 [command-line interface](https://quasar.dev/start/quasar-cli)
 that helps the newcomer to start a new project easily
-and support the developper for configuring complex sets of development options.
+and support the developer for configuring complex sets of development options.
 
 ### Single-page applications
 
@@ -202,10 +202,10 @@ and support the developper for configuring complex sets of development options.
 
 The design of a single-page application compared to
 the design of a classical web "client-server" application
-provides the developper with much more simplicity and efficiency.
+provides the developer with much more simplicity and efficiency.
 The most obvious reason is that the separation of concerns
 between the client and the server appears really logical.
-Even if the developper has "full-stack" competencies,
+Even if the developer has "full-stack" competencies,
 the organization of work is much more natural when relying on such architecture.
 
 Another benefit of single-page application architecture might not be obvious at first glance:
@@ -214,7 +214,7 @@ but this mockup will not be throwable in that case,
 because it uses the same tools as the final product will.
 With the added availability of _off-the-shelf_ components like in the case of the 
 [Quasar framework](https://quasar.dev/),
-the developper's work becomes much more efficient when implementing new designs.
+the developer's work becomes much more efficient when implementing new designs.
 By contrast, GUI design with a classical web "client-server" architecture
 is achieved with static HTML and has to be translated to server-side templates.
 In that case, the static design becomes more and more outdated as the application evolves.
@@ -244,7 +244,7 @@ also integrates those tools very efficiently though a dedicated
 A second concern is about the
 [single-page application](https://en.wikipedia.org/wiki/Single-page_application)
 technology.
-While it has many benefits for the user and the developper,
+While it has many benefits for the user and the developer,
 it also comes with some constraints, generally related to URL handling.
 URL changes appear on the client-side,
 while the browser navigation bar and

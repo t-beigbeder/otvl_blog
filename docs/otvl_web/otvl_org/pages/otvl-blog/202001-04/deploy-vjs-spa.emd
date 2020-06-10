@@ -17,7 +17,7 @@ of
 [Single Page Applications (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
 has been provided on this blog.
 While the SPA architecture
-provides great features to the users and the developpers,
+provides great features to the users and the developers,
 the deployment of such applications requires implementing several specific solutions,
 some of them are being discussed here.
 
