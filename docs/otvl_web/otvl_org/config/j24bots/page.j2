@@ -15,10 +15,16 @@
         {{ sf.content }}
       </div>
 {% endif %}
-{% if sf.type == "sf_img" %}
-      <img src="{{ sf.src }}">
-        {{ sf.content }}
-      </div>
+{% if sf.type == "sf_q_img_in_card" %}
+      <img
+        src="{{ sf.src }}"
+      {%- if 'alt' in sf %}
+        alt="{{ sf.alt }}"
+      {%- endif %}
+      {%- if 'title' in sf %}
+        title="{{ sf.title }}"
+      {%- endif %}
+      />
 {% endif %}
 {% endfor %}
     </div>
