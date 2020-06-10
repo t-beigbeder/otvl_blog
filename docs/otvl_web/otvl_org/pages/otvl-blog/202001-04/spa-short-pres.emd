@@ -14,8 +14,8 @@ type: sf_page_dates
 The
 [Single Page Application (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
 Architecture
-provides great features to the users and the developpers.
-How does it work, and what does it change for developpers?
+provides great features to the users and the developers.
+How does it work, and what does it change for developers?
 This article is a short presentation of this technical architecture shift.
 
 ## Technical overview
@@ -57,10 +57,10 @@ More application data is downloaded on demand and is possibly updated through th
 
 ### Benefits
 
-The SPA architecture provides great features to the users and the developpers.
+The SPA architecture provides great features to the users and the developers.
 
 On the user side, page transitions are smoother and network data usage is optimal.
-On the developper side, the software architecture
+On the developer side, the software architecture
 and the corresponding client and server implementations are much simpler to design and to maintain.
 
 And finally, from both point of views,
@@ -81,7 +81,7 @@ The
 [Quasar framework](https://quasar.dev/)
 is based among others on
 [Vue.js](https://vuejs.org/)
-and it adds a lot of high level features from a developper perspective
+and it adds a lot of high level features from a developer perspective
 to enable an efficient development of new applications.
 
 ## Navigation and history
@@ -111,7 +111,7 @@ for example.
 
 Any SPA application must deal with some kind of routing.
 Vue.js comes with a dedicated [router](https://router.vuejs.org/) component,
-that helps developper to map URLs schemes to dedicated JavaScript components to handle them.
+that helps developer to map URLs schemes to dedicated JavaScript components to handle them.
 
 The routing is generally fully achieved on the browser side,
 no interaction with the server is required
@@ -124,7 +124,7 @@ but the browser-side router must be invoked to map the requested URL
 to the corresponding JavaScript component to render the corresponding content and data,
 as it would do during standard navigation.
 
-The browser-side routing thus appear as a natural programming model to the developper.
+The browser-side routing thus appear as a natural programming model to the developer.
 
 The Vue.js
 [router](https://router.vuejs.org/) component is as powerful,
@@ -140,7 +140,7 @@ by providing the _single-page_ HTML file in response to HTTP requests to any of 
 
 ### Page rendering and search engines
 
-The developpers must be concerned about
+The developers must be concerned about
 how the application may be crawled by Search Engine robots:
 as those robots sometimes don't support Javascript at all,
 the rendered content must be provided in HTML to such HTTP clients.
