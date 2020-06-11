@@ -11,4 +11,4 @@ cors_mapping:
   'http://vjs-dev-host:8080': 'http://vjs-dev-host:8888'
 
 assets_url: "http://vjs-dev-host:8888/api/assets/"
-sitemap_root: "http://vjs-dev-host:8080/#"
+sitemap_root: "http://vjs-dev-host:8080"
