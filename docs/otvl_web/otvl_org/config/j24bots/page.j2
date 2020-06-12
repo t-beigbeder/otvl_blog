@@ -8,7 +8,9 @@
   </head>
   <body>
     <div>
+{% if content.heading %}
       <h1>{{ content.heading }}</h1>
+{% endif %}
 {% for sf in content.stream_fields %}
 {% if sf.type == "html" %}
       <div>
