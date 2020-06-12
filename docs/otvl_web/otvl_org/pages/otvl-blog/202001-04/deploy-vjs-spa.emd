@@ -238,6 +238,7 @@ based on the Apache rewrite engine module.
     RewriteCond "%{REQUEST_URI}"  "^/assets/" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/api/" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/favicon.ico$" [OR]
+    RewriteCond "%{REQUEST_URI}"  "^/robots.txt$" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/sitemap.xml$"
     RewriteRule ^ - [L]
     
