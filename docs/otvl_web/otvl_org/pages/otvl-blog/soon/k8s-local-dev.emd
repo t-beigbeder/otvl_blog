@@ -13,8 +13,9 @@ title: Vers Port Vendres
 
 ## Introduction
 
-While the use of Docker and a Kubernetes orchestrator for Data Science become more and more standard
-when relying on Cloud Computing, two interesting questions remain open:
+While the use of Docker and a Kubernetes orchestrator for Data Science
+becomes more and more standard when relying on Cloud Computing,
+two interesting questions remain open:
 
 - how to work locally: this may be useful for debugging, to set-up the initial environment
   more quickly than when working remotely,
@@ -33,15 +34,21 @@ and how to use it on simple but representative use cases.
 
 You will find useful references at the bottom of this page.
 
-## How to work locally
-
-Before choosing solutions, we will have a look at relevant use cases and their technical context.
+## Use cases
 
 ## Choosing solutions
+
+## Solution setup
+
+## Build a container
+
+## Run a standalone job
+
+## GPU access
+
+## Airflow integration
 
 ## Conclusion
 
 ## References
-
-This section provides you with useful references.
 
