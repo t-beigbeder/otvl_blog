@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mk8s-server-service
+  labels:
+    app: mk8s-server
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: mk8s-server
