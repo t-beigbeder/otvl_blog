@@ -5,6 +5,7 @@ import json
 import yaml
 import traceback
 import sys
+import socket
 
 import tornado.ioloop
 import tornado.web
@@ -33,9 +34,10 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             xff = "undefined_X-Forwarded-For"
 
-        s = "%s %s (%s) (%s)" % (
+        s = "%s %s %s (%s) (%s)" % (
             self.request.method,
             self.request.uri,
+            self.request.remote_ip,
             xff,
             ua
         )
@@ -79,6 +81,17 @@ class VersionHandler(BaseHandler):
         return self.finish()
 
 
+class HostnameHandler(BaseHandler):
+    logger = logging.getLogger(__module__ + '.' + __qualname__)  # noqa
+
+    def initialize(self, **kwargs):
+        super().initialize(**kwargs)
+
+    def get(self):
+        self.write(json.dumps(socket.gethostname(), indent=2))
+        return self.finish()
+
+
 class AppServerMainBase:
     logger = logging.getLogger(__module__ + '.' + __qualname__)  # noqa
     server_config = None
@@ -105,7 +118,7 @@ class AppServerMainBase:
         self.logger.debug("load_config")
         self.pre_load_config()
         if self.config_file is None:
-            config_dir = os.getenv('CONFIG_DIR', '/config')
+            config_dir = os.getenv('CONFIG_DIR', '/srv/data/config/')
             config_name = os.getenv('CONFIG_NAME', self.name) + '.yml'
             self.config_file = f"{config_dir}/{config_name}"
         with open(self.config_file) as ysd:
@@ -134,7 +147,8 @@ def make_otvl_app(server_config):
         "server_config": server_config
         }
     return tornado.web.Application([
-        (r"/api/version/?", VersionHandler, handler_kwa)
+        (r"/api/version/?", VersionHandler, handler_kwa),
+        (r"/api/hostname/?", HostnameHandler, handler_kwa)
     ])
 
 
