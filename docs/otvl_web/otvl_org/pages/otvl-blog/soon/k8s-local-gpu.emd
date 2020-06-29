@@ -1,0 +1,20 @@
+<div otvl-web>
+type: sf_q_img_in_card
+src: /assets/images/k8s-local-gpu/portVendres.jpg
+alt: Article image
+title: Vers Port Vendres
+</div>
+
+# "Enabling a GPU with Kubernetes for Data Science"
+
+![logo work in progess](/assets/images/common/wip.png "Logo work in progress")
+
+** Preview: ** this is a work in progress.
+
+## Introduction
+
+This article describes how to support a GPU with Kubernetes
+on a development workstation.
+
+## References
+
