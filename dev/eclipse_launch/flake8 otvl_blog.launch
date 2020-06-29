@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
+    <stringAttribute key="bad_container_name" value="/otvl_blo/dev/eclipse_launch"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${otvl_web_venv}/bin/flake8"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/otvl_blog}"/>
+</launchConfiguration>

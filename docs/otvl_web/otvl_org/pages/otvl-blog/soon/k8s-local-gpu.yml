@@ -1,0 +1,15 @@
+meta:
+  version: "1.0"
+  publication_date: ""
+  preview: true
+  summary_heading: "Enabling a GPU with Kubernetes for Data Science"
+  summary: |
+    This article describes how to support a GPU with Kubernetes
+    on a development workstation.
+
+content:
+  title: "Enabling a GPU with Kubernetes for Data Science"
+  heading:
+  stream_fields:
+  - type: md_file
+    file: k8s-local-gpu.emd

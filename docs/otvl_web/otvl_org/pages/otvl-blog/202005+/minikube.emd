@@ -1,0 +1,472 @@
+<div otvl-web>
+type: sf_q_img_in_card
+src: /assets/images/minikube/portVendresMk8s.jpg
+alt: Article image
+title: Vers Port Vendres mk8s
+</div>
+
+# Installing Minikube on Debian buster KVM
+
+## Introduction
+    
+As mentioned on its project's page:
+
+_Minikube implements a local Kubernetes cluster on macOS, Linux, and Windows.
+Minikube's primary goals are to be the best tool for local Kubernetes application development
+and to support all Kubernetes features that fit._
+
+Developing an application to be deployed on Kubernetes is often more efficient
+if you can rely on local computing resources.
+Thus, being able to setup a Kubernetes cluster easily and quickly is a great opportunity.
+
+This article details the various steps for the installation of Minikube
+on a development workstation under Debian 10 "buster"
+running the
+[KVM](https://wiki.debian.org/KVM)
+hypervisor, and how developers can interact with the resulting cluster.
+
+This article does not present how to use a GPU from a container.
+A dedicated
+[article](/blog/otvl-blog/k8s-local-gpu)
+on this blog will talk about it in the near future.
+
+## Components architecture
+
+### A complete development environment
+
+The following schema presents the different components of the architecture
+on which we will be working.
+
+- The host system is supposed to be a development workstation running Debian 10 "buster".
+  Other Linux distributions should work with minimal adaptation.
+- The workstation is running the Linux standard KVM hypervisor to create and execute
+  Virtual Machines. KVM is supposed to be installed and running.
+- Two executables "`minikube`" and "`kubectl`" will be installed on the workstation host.
+- The development environment is not directly the physical host system:
+  we develop for various technical stacks on distinct Virtual Machines,
+  here "Development Stack XYZ" for instance.
+  Docker is part of our development environment, as we target Kubernetes deployment.
+  We will install "`kubectl`" on the development Virtual Machine
+  to be able to interact with the Kubernetes cluster.
+- Minikube is a tool that instantiates and control a minimal Kubernetes cluster.
+  In our environment, we will direct it to create one or several Kubernetes nodes # 1 to # N,
+  each one as a KVM Virtual Machine.
+  
+Minikube makes the assumption that the development occurs directly on the Workstation.
+If this is your case, some parts of this article are useless and your resulting developer
+experience will be as good.
+
+<div otvl-web>
+type: sf_q_img_in_card
+src: /assets/images/minikube/minikube_comps_arch.png
+alt: Minikube Components architecture schema
+title: Minikube Components architecture
+class_: self_width_img
+</div>
+
+### Kubernetes and minikube
+
+A Kubernetes cluster integrates standard components,
+some of them may be distributed to enhance availability,
+some of them may be run as docker containers or not.
+We present here the components of a minimal architecture deployed by minikube.
+The first four of them are only deployed on a special node called the control plane.
+Production clusters will require a control plane with redundant nodes.
+
+- "`etcd`" is the database to store the cluster state;
+- "`kube-api-server`" is the cluster API entry point;
+- "`kube-scheduler`" is responsible to allocate resources to the containers to be run;
+- "`kube-controller-manager`" is responsible to apply requested changes on the cluster;
+- "`kubelet`" is an agent running on each node to control the state of containers;
+- "`kube-proxy`" is responsible to configure network rules to enable secured network
+  communication among the components and with external systems;
+- in the end, Kubernetes runs application components named "pods": a pod is a group
+  of containers running as the same host.  
+
+As we can see, even a minimal cluster is something rather complex to set up,
+and Minikube is here to help.
+
+## Installation steps
+
+The installation takes place on the KVM host machine.
+Make sure your system and its backups are up-to-date.
+
+In the following sections
+
+- command lines starting with `"# "` are run by root,
+- command lines starting with `"$ "` are run by the login of the developer,
+- output of commands is displayed without prefix,
+- comments are displayed with `"## "` prefix.
+
+First we install kubectl and check its installation.
+Kubectl is the main command to interact with a Kubernetes cluster. It is also required prior to Minikube installation.
+
+    :::text
+    # apt-get install curl
+    # curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    # chmod +x kubectl
+    # mv ./kubectl /usr/local/bin/kubectl
+    # kubectl version --client
+    Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.4", ..., Platform:"linux/amd64"}
+
+&nbsp;  
+Next we install minikube and check its installation.
+Minikube is an executable providing all sub-commands required to create and control a minikube cluster. 
+
+    :::text
+    # curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+        && chmod +x minikube
+    # mv ./minikube /usr/local/bin/minikube
+    # minikube version
+    minikube version: v1.11.0
+    commit: 57e2f55f47effe9ce396cea42a1e0eb4f611ebbd
+
+&nbsp;  
+If we want to access a GPU from the Kubernetes cluster,
+we need to enable
+[IOMMU](https://en.wikipedia.org/wiki/Input%E2%80%93output_memory_management_unit)
+support in the BIOS and in the Linux kernel. Type the following:
+
+    :::text
+    # virt-host-validate
+      QEMU: Checking for hardware virtualization                                 : PASS
+      ...
+      QEMU: Checking for device assignment IOMMU support                         : WARN (No ACPI DMAR table found, IOMMU either disabled in BIOS or not supported by this hardware platform)
+       LXC: Checking for Linux >= 2.6.26                                         : PASS
+       ...
+       LXC: Checking if device /sys/fs/fuse/connections exists                   : PASS    
+
+If the previous command reported IOMMU as not supported,
+we have to enable it both in the BIOS, and during the Linux boot
+by updating the GRUB boot loader configuration:
+
+    :::text
+    # vi /etc/default/grub
+    ## change the line containing GRUB_CMDLINE_LINUX_DEFAULT by adding intel_iommu
+    ## (or amd_iommu=on depending on the CPU vendor) and iommu=pt
+    GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt"
+    
+    # update-grub
+
+Next we have to reboot the system, having the opportunity to check IOMMU configuration in the BIOS.
+
+Now we may install and start a Kubernetes cluster.
+If we need to access a GPU from the Kubernetes cluster,
+we will provide the option `--kvm-gpu=true` below
+(note that GPU support is mentioned as experimental in the
+[documentation](https://minikube.sigs.k8s.io/docs/drivers/kvm2/)
+).
+
+We first check the virsh configuration, then create and launch a Kubernetes cluster,
+and finally check its state.
+The profile name (`-p` option) will also be the name of the VM.
+The execution time may be long as large Docker images must be downloaded.
+
+    :::text
+    $ virsh --connect qemu:///system version
+    $ minikube -p mk8s-test01 start --driver=kvm2 [--kvm-gpu=true]
+    outputs with emojis here...
+
+    $ minikube -p mk8s-test01 status
+    mk8s-test01
+    type: Control Plane
+    host: Running
+    kubelet: Running
+    apiserver: Running
+    kubeconfig: Configured
+
+
+&nbsp;  
+We may then stop the cluster.
+
+    :::text
+    minikube -p mk8s-test01 stop
+
+## What happened?
+
+If we check our KVM domains configuration, we will see (some default values may differ):
+
+- a new VM named "mk8s-test01" with the same hostname
+- it has 2 CPUs, 3720 MiB RAM and a virtual disk of 20GB
+- it has two NICs, one connected to the default NAT network
+  and the other to a newly created network "`minikube-net`" that is isolated
+- the virtual disk image is located in `.minikube/machines/mk8s-test01/`
+
+If we start and connect to the VM, we can see that it runs a
+"[coreboot](https://www.coreboot.org/)"
+Linux and that Docker
+is not started. We have to use "`minikube start`" to start the cluster.
+
+    :::text
+    $ virsh --connect qemu:///system start mk8s-test01
+    $ virsh --connect qemu:///system console mk8s-test01
+    Connected to domain mk8s-test01
+    Escape character is ^]
+    
+    Welcome to minikube
+    minikube login: root
+                             _             _            
+                _         _ ( )           ( )           
+      ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __  
+    /' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+    | ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+    (_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+    
+    # cat /etc/os-release 
+    NAME=Buildroot
+    VERSION=2019.02.10
+    ...
+    # docker ps
+    Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+
+&nbsp;  
+We may now shut the VM down.
+
+    :::text
+    $ virsh --connect qemu:///system shutdown mk8s-test01
+
+&nbsp;  
+If we start the cluster again using Minikube, we can see the Docker containers running
+for its support.
+There is also a
+[systemd](https://www.freedesktop.org/wiki/Software/systemd/)
+service "`kubelet.service`" (the Kubernetes Node Agent) running.
+
+    :::text
+    $ minikube -p mk8s-test01 start
+    $ virsh --connect qemu:///system console mk8s-test01
+    ...
+    mk8s-test01 login: root
+                             _             _            
+                _         _ ( )           ( )           
+      ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __  
+    /' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+    | ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+    (_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+    
+    # docker ps
+    CONTAINER ID        IMAGE                  COMMAND                  CREATED              STATUS              PORTS               NAMES
+    bb7b305b5013        67da37a9a360           "/coredns -conf /etc…"   59 seconds ago       Up 56 seconds                           k8s_coredns_coredns-66bff467f8-w2lqt_kube-system_39f8128a-537e-422e-8537-4e388b9b4d91_1
+    ecb519d2329d        4689081edb10           "/storage-provisioner"   About a minute ago   Up 57 seconds                           k8s_storage-provisioner_storage-provisioner_kube-system_556ceeb4-acac-492a-bef4-bf422760105e_1
+    f281c152bdd7        67da37a9a360           "/coredns -conf /etc…"   About a minute ago   Up 58 seconds                           k8s_coredns_coredns-66bff467f8-c29mh_kube-system_fa2d4898-c5ae-4b20-b1cb-5d5b388d5449_1
+    99ccf9eedaee        3439b7546f29           "/usr/local/bin/kube…"   About a minute ago   Up 59 seconds                           k8s_kube-proxy_kube-proxy-tb24j_kube-system_aac88721-6285-4099-8ff3-092ccc8a0b24_1
+    ...
+    2925eedb77c1        76216c34ed0c           "kube-scheduler --au…"   About a minute ago   Up About a minute                       k8s_kube-scheduler_kube-scheduler-mk8s-test01_kube-system_a8caea92c80c24c844216eb1d68fe417_1
+    006e8b6c6247        da26705ccb4b           "kube-controller-man…"   About a minute ago   Up About a minute                       k8s_kube-controller-manager_kube-controller-manager-mk8s-test01_kube-system_6188fbbe64e28a0413e239e610f71669_1
+    57c77c7d8274        7e28efa976bd           "kube-apiserver --ad…"   About a minute ago   Up About a minute                       k8s_kube-apiserver_kube-apiserver-mk8s-test01_kube-system_04c199f02b3b3295e5d552453b0d572b_1
+    cdfa5d50f2ca        303ce5db0e90           "etcd --advertise-cl…"   About a minute ago   Up About a minute                       k8s_etcd_etcd-mk8s-test01_kube-system_0a0b79d2e717ad9fe186ee9c54e9e3fe_1
+    ...
+    # systemctl | grep kubelet.service
+    kubelet.service  loaded active running   kubelet: The Kubernetes Node Agent
+
+## Profiles and further configuration
+
+Minikube profiles provide an efficient way to support several cluster configurations,
+they even enable to run several clusters in parallel.
+The cluster configuration is saved for each profile when creating the cluster or reconfiguring it,
+and it is then reused when the cluster is restarted.
+
+Note that, as profile names are also DNS host names, some characters are not allowed: typically,
+use a minus sign as separator and not an underscore.
+
+In the following example we will create a new cluster running two Kubernetes nodes,
+each of which with a 5GB disk and 2GB RAM.
+Note that multinode support in Minikube is mentioned as experimental in its
+[documentation](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
+.
+All nodes share the same configuration in terms of system resources,
+which is quite restrictive for instance if performing resources related tests.
+Moreover, it is worth noting that during my tests, a 3 nodes cluster appeared unstable after restart.
+
+    :::text
+    $ minikube -p mk8s-test02 start --nodes=2 --disk-size=5g --memory=2g
+    ...
+    $ minikube -p mk8s-test02 status
+    mk8s-test02
+    type: Control Plane
+    host: Running
+    kubelet: Running
+    apiserver: Running
+    kubeconfig: Configured
+    
+    mk8s-test02-m02
+    type: Worker
+    host: Running
+    kubelet: Running
+    
+    $ kubectl get nodes
+    NAME              STATUS   ROLES    AGE   VERSION
+    mk8s-test02       Ready    master   17m   v1.18.3
+    mk8s-test02-m02   Ready    <none>   16m   v1.18.3
+
+&nbsp;  
+Minikube profiles also create corresponding Kubernetes contexts.
+For instance if the cluster `mk8s-test01` is still running, we can address it with `kubectl`:
+
+    :::text
+    $ kubectl --context mk8s-test01 get nodes
+    NAME          STATUS   ROLES    AGE    VERSION
+    mk8s-test01   Ready    master   131m   v1.18.3
+
+&nbsp;  
+We may also note that Minikube home directory may be located elsewhere than `$HOME/.minikube` if appropriate.
+We must set the `MINIKUBE_HOME` environment variable in such a case.
+
+The developer documentation also explains how you can customize the
+[KVM image](https://minikube.sigs.k8s.io/docs/contrib/building/iso/)
+for the Virtual Machines that are launched to support the Kubernetes cluster.
+
+## Minikube addons
+
+Minikube addons are built-in applications that may be easily deployed in the cluster.
+The following lists available add-ons and then installs the `dashboard` application,
+which is the
+[default GUI](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+for managing applications on a Kubernetes cluster.
+
+The minikube "`dashboard`" subcommand is a shortcut that enables the add-on if not already done
+and creates a proxy with the deployed service and launches a browser on the corresponding URL.
+
+    :::text
+    $ minikube addons list
+    |-----------------------------|----------|--------------|
+    |         ADDON NAME          | PROFILE  |    STATUS    |
+    |-----------------------------|----------|--------------|
+    | ambassador                  | minikube | disabled     |
+    | dashboard                   | minikube | disabled     |
+    ...
+    $ minikube -p mk8s-test02 addons enable dashboard
+    $ kubectl get all --all-namespaces | grep service/ | grep dashboard
+    kubernetes-dashboard   service/dashboard-metrics-scraper   ClusterIP   10.97.100.126    <none>        8000/TCP                 106s
+    kubernetes-dashboard   service/kubernetes-dashboard        ClusterIP   10.105.101.124   <none>        80/TCP                   106s
+    $ minikube -p mk8s-test02 dashboard
+
+&nbsp;  
+Minikube also comes with addons for nginx and ambassador ingress controllers.
+
+## Interacting with the cluster
+
+Interacting with the cluster in parallel with other development tasks is rather easy
+once the previous deployment has been achieved.
+Minikube even implements
+[shortcuts](https://minikube.sigs.k8s.io/docs/handbook/pushing/)
+to make Docker images provisionning more performant.
+
+However most Minikube services make the assumption that the development takes place on the KVM host
+which is also supposed to be a Docker host.
+If we want to keep other development activities in another KVM virtual machine,
+and not to install all development tools directly on our workstation,
+we will have:
+
+- to push and pull images with the support of a Docker registry
+- to connect the development virtual machine to the isolated network "`minikube-net`" that was allocated
+  as part as our first cluster creation
+- to install a `kubectl` configuration on the development virtual machine
+- to rely on `kubectl` services and not on minikube's ones
+
+### A small demonstration application
+
+You can download the demonstration code from the git repository
+[otvl_blog](https://github.com/t-beigbeder/otvl_blog).
+In the following sections "`192.168.122.139:5000`" is the address of a private Docker registry,
+to be adapted to your context.
+
+In the following session we launch a private registry on host 192.168.122.139.
+If this registry is insecure, we must have created the Minikube cluster with the corresponding flag,
+providing for instance the CIDR network address for the registry server,
+as demonstrated below:
+
+    :::text
+    $ docker run -d -p 5000:5000 --name registry -v /path/to/local/docker/registry:/var/lib/registry registry:2
+    $ minikube -p mk8s-test02 -n=2 --insecure-registry 192.168.122.0/24 start
+
+Note this not enough to stop and start the cluster,
+you have to delete and recreate it to enable the insecure registry access.
+
+We build and push the image for the demonstration application:
+
+    :::text
+    $ cd code/minikube
+    $ docker build -t mk8s_server:1.0 .
+    $ docker image tag mk8s_server:1.0 192.168.122.139:5000/mk8s_server:1.0
+    $ docker push 192.168.122.139:5000/mk8s_server:1.0
+
+&nbsp;  
+The application is now ready for deployment.
+
+### Deploying and exposing the application in the cluster
+
+The `kubectl` context configuration is stored on the KVM host in `.kube` and `.minikube` directories.
+If we develop on a Virtual Machine and not on the KVM host, we have to remote copy those files, for
+instance if the development IP address is 192.168.122.139:
+
+    :::text
+    scp -p .kube/config 192.168.122.139:.kube/
+    scp -rp .minikube/ca.crt .minikube/profiles/ 192.168.122.139:.minikube/
+
+Check that the development Virtual Machine is also connected to the isolated network "`minikube-net`"
+that was allocated as part as our first cluster creation.
+Install `kubectl` if not already done. We can now check access to the cluster:
+
+    :::text
+    $ kubectl get all --all-namespaces
+    
+&nbsp;  
+Then deploy the application, expose it as a service and use
+[port forwarding](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#port-forward)
+from the relevant addresses of our development Virtual Machine towards the deployed service:
+
+    :::text
+    $ kubectl apply -f code/minikube/data/k8s/mk8s_server_deployment.yml
+    $ kubectl apply -f code/minikube/data/k8s/mk8s_server_service_load_balancer.yml
+    $ kubectl port-forward service/mk8s-server-service --address 192.168.122.139 8989
+
+&nbsp;  
+The application is exposed on our development environment:
+
+    :::text hl_lines="3 4 8"
+    $ kubectl get pod,svc
+    NAME                                          READY   STATUS    RESTARTS   AGE
+    pod/mk8s-server-deployment-7d4dbf8ddb-bwdmc   1/1     Running   0          114m
+    pod/mk8s-server-deployment-7d4dbf8ddb-txzm2   1/1     Running   0          114m
+    
+    NAME                          TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    service/kubernetes            ClusterIP      10.96.0.1      <none>        443/TCP          6h9m
+    service/mk8s-server-service   LoadBalancer   10.104.141.3   <pending>     8989:30302/TCP   44m
+
+    $ curl http://192.168.122.139:8989/api/hostname
+    "mk8s-server-deployment-7d4dbf8ddb-bwdmc"
+
+## Conclusion
+
+While Minikube ensures the support of "all Kubernetes features that fit" in the resulting infrastructure,
+its installation and its use over KVM remain straightforward.
+Its configuration is rather easy too and generally provides what is required,
+even if some assumptions sometimes appear as restrictive.
+
+The resulting infrastructure can host valuable data whose provisioning or backup must be ensured,
+which is not a common practice on development environments.
+Installing or reinstalling a cluster also involve the download of large datasets
+which may be relocated locally if wanted.
+So any effective Minikube deployment
+must be supplemented by the documentation and the application of related engineering operations.
+
+Important features like multinode and GPU are reported as experimental which could be a risk on some projects.
+I would not recommend using multinode support at the moment.
+
+Installing a Kubernetes cluster even without production features is not an easy process and Minikube does a great job.
+As a result, developers can learn how to use Kubernetes and test their deployments locally before going to a hosted cluster.
+Minikube is an open source project and anyone is free to
+[contribute](https://minikube.sigs.k8s.io/docs/contrib/)
+to it.
+    
+## References
+
+**Minikube**
+
+- [Project](https://github.com/kubernetes/minikube)
+- [Documentation](https://minikube.sigs.k8s.io/docs/)
+- [Installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- [KVM2 driver](https://minikube.sigs.k8s.io/docs/drivers/kvm2/)
+- [GPU support](https://minikube.sigs.k8s.io/docs/tutorials/nvidia_gpu/)
+- [KVM image](https://minikube.sigs.k8s.io/docs/contrib/building/iso/)

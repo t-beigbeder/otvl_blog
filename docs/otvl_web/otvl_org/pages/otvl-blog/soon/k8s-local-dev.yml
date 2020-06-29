@@ -7,12 +7,11 @@ meta:
     While the use of Docker and a Kubernetes orchestrator for Data Science
     become more and more standard when relying on Cloud Computing,
     two interesting questions remain open.
+    This article deals with the first one: how to work locally.
 
 content:
   title: Working locally with Kubernetes for Data Science
   heading:
-  brand:
-    no_dates: false
   stream_fields:
   - type: md_file
     file: k8s-local-dev.emd

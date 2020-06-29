@@ -17,7 +17,7 @@ of
 [Single Page Applications (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
 has been provided on this blog.
 While the SPA architecture
-provides great features to the users and the developpers,
+provides great features to the users and the developers,
 the deployment of such applications requires implementing several specific solutions,
 some of them are being discussed here.
 
@@ -177,10 +177,16 @@ template fed with some API server page data:
             {{ sf.content }}
           </div>
     {% endif %}
-    {% if sf.type == "sf_img" %}
-          <img src="{{ sf.src }}">
-            {{ sf.content }}
-          </div>
+    {% if sf.type == "sf_q_img_in_card" %}
+          <img
+            src="{{ sf.src }}"
+          {%- if 'alt' in sf %}
+            alt="{{ sf.alt }}"
+          {%- endif %}
+          {%- if 'title' in sf %}
+            title="{{ sf.title }}"
+          {%- endif %}
+          />
     {% endif %}
     {% endfor %}
         </div>
@@ -232,6 +238,7 @@ based on the Apache rewrite engine module.
     RewriteCond "%{REQUEST_URI}"  "^/assets/" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/api/" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/favicon.ico$" [OR]
+    RewriteCond "%{REQUEST_URI}"  "^/robots.txt$" [OR]
     RewriteCond "%{REQUEST_URI}"  "^/sitemap.xml$"
     RewriteRule ^ - [L]
     

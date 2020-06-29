@@ -7,36 +7,48 @@ title: Vers Port Vendres
 
 # Working locally with Kubernetes for Data Science
 
-** Preview: **
-![logo work in progess](/assets/images/common/wip.png "Logo work in progress") This is a work in progress.
+![logo work in progess](/assets/images/common/wip.png "Logo work in progress")
+
+** Preview: ** this is a work in progress.
 
 ## Introduction
 
-
-While the use of Docker and a Kubernetes orchestrator for Data Science become more and more standard when relying on Cloud Computing,
+While the use of Docker and a Kubernetes orchestrator for Data Science
+becomes more and more standard when relying on Cloud Computing,
 two interesting questions remain open:
 
-- how to work locally: this may be useful for debugging, to set-up the initial environment more quickly than when working remotely,
-or more obviously to leverage local computing resources such as a GPU for a Data Science use case;
+- how to work locally: this may be useful for debugging, to set-up the initial environment
+  more quickly than when working remotely,
+  or more obviously to leverage local computing resources such as a GPU for a Data Science use case;
 - how to deal with simple public cloud providers that don't provide you with an orchestrator
 
-Those two questions may raise a third one when users such as Data Scientists or business users with less sharp technical knowledge than developpers
-are involved in such use cases and still want to keep their autonomy.
+Those two questions may raise a third one when data scientists or business users
+wanting to keep their autonomy depend on such an environment:
+how simple is it to use without the experience of a developer?
 
-This first blog article will focus on the first question, while a second one will deal with the second. In both cases, the simplicity of the solutions will be analyzed.
+This first blog article will focus on the first question, while a second one will deal with the second.
+In both cases, the simplicity of the solutions will be analyzed.
 
-## How to work locally
+After having introduced a solution, this article details how to install it
+and how to use it on simple but representative use cases.
 
-Before choosing solutions, we will have a look at relevant use cases and their technical context.
+You will find useful references at the bottom of this page.
+
+## Use cases
 
 ## Choosing solutions
 
-## Conclusion
+## Solution setup
 
-Not yet
+## Build a container
+
+## Run a standalone job
+
+## GPU access
+
+## Airflow integration
+
+## Conclusion
 
 ## References
 
-This section provides you with useful references.
-
-Not yet.
