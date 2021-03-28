@@ -1,0 +1,166 @@
+<div otvl-web>
+type: sf-img
+src: /assets/images/spa-short-pres/spa_short_pres.jpg
+alt: Article image
+title: Single Page Application schema
+class_: v-img-header
+</div>
+
+# Single Page Application short presentation
+
+<div otvl-web>
+type: sf-page-dates
+</div>
+
+The
+[Single Page Application (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
+Architecture
+provides great features to the users and the developers.
+How does it work, and what does it change for developers?
+This article is a short presentation of this technical architecture shift.
+
+## Technical overview
+
+It is difficult to talk about SPA applications without a small amount of technical details.
+On the schema above, we can see the application users dealing with media files and application data
+by using a Web browser where this information is presented
+and the application data may be updated.
+
+The SPA architecture introduces in this general context a clear separation of concerns
+in the design of the application:
+
+- the browser is fully responsible for rendering the Graphical User Interface (GUI)
+  and handling the interactions with the user;
+- an application server, the API (Application Programming Interface) server,
+  is fully responsible for accessing and updating application data.
+
+Because the application is still a Web Application,
+some HTML files required for GUI rendering still need to be served to the browser
+by an HTTP server.
+
+When the application is first launched (see the schema below), the browser downloads a basic HTML page
+and corresponding JavaScript, CSS, images and other media files.
+Among those JavaScript files, the main JavaScript client application is downloaded and started.
+It renders the GUI by updating the browser's DOM (Document Object Model),
+using some application data requested to the API server.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/spa-short-pres/spa_short_pres_start.jpg
+alt: First Launch Schema
+title: SPA first launch schema
+class_: v-img
+</div>
+
+After this initial step, all interaction with the user is achieved under the control of the
+application running in the browser.
+More application data is downloaded on demand and is possibly updated through the API.
+
+### Benefits
+
+The SPA architecture provides great features to the users and the developers.
+
+On the user side, page transitions are smoother and network data usage is optimal.
+On the developer side, the software architecture
+and the corresponding client and server implementations are much simpler to design and to maintain.
+
+And finally, from both point of views,
+the use of graphical components libraries enable to achieve a great level of ergonomy.
+
+### Frameworks
+
+The
+[Wikipedia page](https://en.wikipedia.org/wiki/Single-page_application)
+for SPA lists several JavaScript frameworks enabling the development of such applications.
+
+[Vue.js](https://vuejs.org/),
+is a major framework among them
+with the characteristic of being incrementally adoptable.
+Despite its rich and powerful features, it remains easy to learn and to use.
+
+The
+[Quasar framework](https://quasar.dev/)
+is based among others on
+[Vue.js](https://vuejs.org/)
+and it adds a lot of high level features from a developer perspective
+to enable an efficient development of new applications.
+
+## Navigation and history
+
+### Single page with many URLs
+
+Single-page application is probably a misleading name.
+While a single ".html" page is actually downloaded from the server,
+the application nevertheless must generally manage a full set of distinct page contents.
+
+Each distinct page content must come with its specific URL
+so that the user can navigate among pages using the familiar browser's history.
+The URLs are displayed in the browser's navigation bar,
+and the user may bookmark or share them for future use.
+
+In a classical web application, the history is updated
+by successive HTTP requests from the browser to the server.
+In the case of a SPA, the browser-side application has to simulate this behavior
+by using the
+[history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API).
+It is important to note that this API is not equally supported by different
+browsers. See
+[css-tricks - Using the HTML5 History API](https://css-tricks.com/using-the-html5-history-api/)
+for example.
+
+### Routing URLs to application components
+
+Any SPA application must deal with some kind of routing.
+Vue.js comes with a dedicated [router](https://router.vuejs.org/) component,
+that helps developer to map URLs schemes to dedicated JavaScript components to handle them.
+
+The routing is generally fully achieved on the browser side,
+no interaction with the server is required
+to change the URL and the page content.
+
+However the user must have the ability to launch the application by requesting a saved URL.
+In such a case, the application still performs its standard initialization process,
+downloading the _single-page_ HTML file along with the JavaScript application,
+but the browser-side router must be invoked to map the requested URL
+to the corresponding JavaScript component to render the corresponding content and data,
+as it would do during standard navigation.
+
+The browser-side routing thus appear as a natural programming model to the developer.
+
+The Vue.js
+[router](https://router.vuejs.org/) component is as powerful,
+yet compact and simple to use as Vue.js itself.
+
+## Some constraints
+
+### Handling URL schemes on the server
+
+Even if the routing in a SPA application is achieved on the browser's side,
+the HTTP server must honor all the potential application URLs
+by providing the _single-page_ HTML file in response to HTTP requests to any of them.
+
+### Page rendering and search engines
+
+The developers must be concerned about
+how the application may be crawled by Search Engine robots:
+as those robots sometimes don't support Javascript at all,
+the rendered content must be provided in HTML to such HTTP clients.
+
+### Deploying an SPA
+
+Such deployment constraints will be addressed in a future article on this Blog:
+_[Deploying a Vue.js Single Page Application](/blog/deploy-vjs-spa)_
+
+## Useful links
+
+### Articles and guides
+
+- [mozilla - Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
+- [vue router - HTML5 History Mode](https://router.vuejs.org/guide/essentials/history-mode.html)
+
+### References
+
+- [Single Page Application (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
+- [Vue.js](https://vuejs.org/)
+- [Quasar framework](https://quasar.dev/)
+- [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API)

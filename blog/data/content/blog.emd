@@ -1,0 +1,17 @@
+<div otvl-web>
+type: sf-img
+src: /assets/images/common/picCagire.jpg
+alt: Home image
+title: Pic Cagire
+class_: v-img-header
+</div>
+
+## Welcome to otvl.org's Blog!
+
+You will find here articles in the domains of software development, data science,
+software engineering, system architecture, system deployment,
+and related methods and practices.
+
+More information in the [[/about | About]] section.
+
+Here is a list of the published articles.

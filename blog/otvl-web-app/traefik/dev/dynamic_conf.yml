@@ -1,0 +1,42 @@
+http:
+  routers:
+    to-otvl-web-app-https:
+      rule: "Host(`otvl-dev-host`)"
+      service: otvl-web-app
+      tls: {}
+
+    to-api-https:
+      rule: "Host(`otvl-dev-host`) && PathPrefix(`/api/`)"
+      service: api
+      tls: {}
+
+    to-otvl-web-dcapp-https:
+      rule: "Host(`otvl-dcdev-host`)"
+      service: otvl-web-dcapp
+      tls: {}
+
+    to-dcapi-https:
+      rule: "Host(`otvl-dcdev-host`) && PathPrefix(`/api/`)"
+      service: dcapi
+      tls: {}
+
+  services:
+    otvl-web-app:
+      loadBalancer:
+        servers:
+        - url: http://app
+
+    api:
+      loadBalancer:
+        servers:
+        - url: http://api:9090
+
+    otvl-web-dcapp:
+      loadBalancer:
+        servers:
+        - url: http://dxpydk:8081
+
+    dcapi:
+      loadBalancer:
+        servers:
+        - url: http://dxpydk:9091

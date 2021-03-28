@@ -1,0 +1,55 @@
+<div otvl-web>
+type: sf-img
+src: /assets/images/k8s-local-dev/portVendres.jpg
+alt: Article image
+title: Vers Port Vendres
+class_: v-img-header
+</div>
+
+# Working locally with Kubernetes for Data Science
+
+![logo work in progess](/assets/images/common/wip.png "Logo work in progress")
+
+** Preview: ** this is a work in progress.
+
+## Introduction
+
+While the use of Docker and a Kubernetes orchestrator for Data Science
+becomes more and more standard when relying on Cloud Computing,
+two interesting questions remain open:
+
+- how to work locally: this may be useful for debugging, to set-up the initial environment
+  more quickly than when working remotely,
+  or more obviously to leverage local computing resources such as a GPU for a Data Science use case;
+- how to deal with simple public cloud providers that don't provide you with an orchestrator
+
+Those two questions may raise a third one when data scientists or business users
+wanting to keep their autonomy depend on such an environment:
+how simple is it to use without the experience of a developer?
+
+This first blog article will focus on the first question, while a second one will deal with the second.
+In both cases, the simplicity of the solutions will be analyzed.
+
+After having introduced a solution, this article details how to install it
+and how to use it on simple but representative use cases.
+
+You will find useful references at the bottom of this page.
+
+## Use cases
+
+## Choosing solutions
+
+## Solution setup
+
+## Build a container
+
+## Run a standalone job
+
+## GPU access
+
+## Airflow integration
+
+## Conclusion
+
+## References
+

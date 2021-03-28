@@ -1,0 +1,34 @@
+version: "3.4"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: otvl-web-app/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - OTVL_WEB_SERVER_NAME=otvl-dev-host
+      - OTVL_WEB_APP_PORT=9443
+    volumes:
+      - ./data/assets:/assets
+
+  api:
+    build:
+      context: ./otvl_web/server
+    ports:
+      - "9090:9090"
+    environment:
+      - OTVL_WEB_LOGGING=DEBUG
+    volumes:
+      - ./data:/data
+
+  reverse-proxy:
+    image: traefik:v2.4
+    command: --configFile=/traefik/static_config.yml
+    ports:
+      - "9443:443"
+      - "9180:8080"
+    volumes:
+      - ./otvl-web-app/traefik/dev:/traefik
