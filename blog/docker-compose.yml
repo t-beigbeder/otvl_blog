@@ -23,6 +23,7 @@ services:
     ports:
       - "9091:9090"
     environment:
-      - OTVL_WEB_LOGGING=INFO
+      - OTVL_WEB_LOGGING=${OTVL_WEB_LOGGING:-INFO}
+      - OTVL_WEB_FULL_ACCESS_LOG=${OTVL_WEB_FULL_ACCESS_LOG:-}
     volumes:
       - ${OTVL_WEB_APP_DATA_PATH:-./data}:/data

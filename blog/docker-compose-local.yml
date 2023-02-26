@@ -21,6 +21,7 @@ services:
       - "9090:9090"
     environment:
       - OTVL_WEB_LOGGING=DEBUG
+      - OTVL_WEB_FULL_ACCESS_LOG=1
     volumes:
       - ./data:/data
 

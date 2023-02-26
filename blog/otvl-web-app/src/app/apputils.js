@@ -13,7 +13,7 @@ const apputils = {
 
   intlDate: function (isoDateStr, locale) {
     const dt = DateTime.fromISO(isoDateStr)
-    const localLocale = locale ? locale : this.defaultLocale
+    const localLocale = locale ? locale : apputils.configuration.defaultLocale
     const res = dt.setLocale(localLocale).toLocaleString(DateTime.DATE_MED)
     return res
   },
