@@ -29,6 +29,13 @@
       />
 {% endif %}
 {% endfor %}
+{% for blog in index %}
+<hr/>
+<p>{{ blog.meta.summary_heading }}</p>
+<p>{{ blog.meta.summary }}</p>
+<a href="{{ uri }}/{{ blog.name }}">More...</a>
+{% endfor %}
+
     </div>
   </body>
 </html>

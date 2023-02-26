@@ -1,5 +1,6 @@
 server:
   default_assets_url: "/assets/"
+  home_mapped_to: "blog"
   j24bots_templates:
     - uri: ".*"
       template: "page.j2"

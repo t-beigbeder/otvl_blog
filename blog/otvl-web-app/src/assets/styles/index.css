@@ -71,7 +71,7 @@
 
 .page-content a:link, .page-content a:visited, .page-content a:hover, .page-content a:active {
   text-decoration: none;
-  @apply px-1 py-1 bg-gray-200 hover:text-blue-800;
+  @apply px-1 py-1 border-gray-500 border-b border-dotted hover:bg-gray-200 hover:text-blue-800;
 }
 
 .page-content h1, .page-content h2, .page-content h3, .page-content h4, .page-content h5, .page-content h6, .page-content p {

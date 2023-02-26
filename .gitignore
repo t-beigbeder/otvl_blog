@@ -1,3 +1,9 @@
-.project
-.pydevproject
-.settings
+
+# idea
+/.idea
+/.run
+
+# eclipse
+/.settings
+/.project
+/.pydevproject

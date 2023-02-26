@@ -32,12 +32,13 @@ With the environment sample
 
 ### Vue.js app
 
+Please follow this order!
+
     cd blog/otvl_web/otvl-web-lib
     yarn install
     yarn build-lib
     cd ../../otvl-web-app
     yarn install
-    yarn build
     yarn serve
 
 ## Test the stack

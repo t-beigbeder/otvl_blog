@@ -14,7 +14,8 @@ const routes = [
   { path: '/about/:location+', component:Page },
   { path: '/err404', component: Err404, meta: { isLocal: true } },
   { path: '/err5xx', component: Err5xx, meta: { isLocal: true } },
-  { path: '/', redirect: '/blog' }
+  { path: '/', redirect: '/blog' },
+  { path: '/:pathMatch(.*)*', component: Err404, meta: { isLocal: true } }
 ]
 
 const router = createRouter({
