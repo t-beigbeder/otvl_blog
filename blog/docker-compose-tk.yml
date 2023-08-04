@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: otvl-web-app/Dockerfile
+    user: "1001:1001"
     ports:
       - "8080:80"
     environment:
