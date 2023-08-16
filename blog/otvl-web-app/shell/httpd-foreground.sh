@@ -1,3 +1,4 @@
+sed -i -e "s=@@otvl_web_assets_dir@@=${OTVL_WEB_ASSETS_DIR}=" /usr/local/apache2/conf/httpd.conf
 sed -i -e "s=default_api_server_url=https://${OTVL_WEB_SERVER_NAME}:${OTVL_WEB_APP_PORT}/api/v2=" /srv/www/site1/web/index.html
 sed -i -e "s=default_web_server_url=https://${OTVL_WEB_SERVER_NAME}:${OTVL_WEB_APP_PORT}=" /srv/www/site1/web/index.html
 sed -i -e "s=@@otvl_web_server_name@@=${OTVL_WEB_SERVER_NAME}=" /srv/www/site1/web/robots.txt

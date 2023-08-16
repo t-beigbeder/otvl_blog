@@ -12,8 +12,9 @@ services:
     environment:
       - OTVL_WEB_SERVER_NAME=otvl-dev-host
       - OTVL_WEB_APP_PORT=9443
+      - OTVL_WEB_ASSETS_DIR=/not/assets
     volumes:
-      - ./data/assets:/assets
+      - ./data/assets:/not/assets
       - ./otvl-web-app/shell:/shell
 
   api:

@@ -20,8 +20,9 @@ ADD otvl-web-app/shell/entrypoint.sh /
 
 COPY otvl-web-app/apache2/conf /usr/local/apache2/conf
 COPY otvl-web-app/apache2/web /srv/www/site1/web
-RUN chmod -R ugo+rwX /srv/www/site1/web /usr/local/apache2/logs
+RUN chmod -R ugo+rwX /srv/www/site1/web /usr/local/apache2/logs /usr/local/apache2/conf
 ENV OTVL_WEB_SERVER_NAME demo.otvl.org
 ENV OTVL_WEB_APP_PORT 443
+ENV OTVL_WEB_ASSETS_DIR /assets
 
 ENTRYPOINT /entrypoint.sh /shell/httpd-foreground.sh
