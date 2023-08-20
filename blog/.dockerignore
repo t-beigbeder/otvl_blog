@@ -11,3 +11,5 @@ doc
 **/dist
 **/node_modules
 **/Dockerfile
+*.bkp
+*.dtmp
