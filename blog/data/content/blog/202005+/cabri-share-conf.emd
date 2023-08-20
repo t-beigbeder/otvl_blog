@@ -31,14 +31,16 @@ You can also have Cabri deal with a local directory as if it were a DSS.
 And because Cabri provides an efficient synchronization tool, you can backup a local directory's content
 on a DSS located on an external drive.
 
-__Illustration here.__
+_Illustration here._
 
 Your operating system for sure already does it very well. What Cabri adds in that case is:
 
 - managing data files checksums to detect possible data corruption
 - incremental storage: successive synchronizations don't erase previous content but only add new content
-or make removed content invisible in its parent directory, anyway the full history is available
-until you explicitly delete portions of it
+or hide removed content, anyway the full history is available until you explicitly delete portions of it
+- deduplication: same content copied several times in your directory is only stored once
+- operating system neutrality: if your external drive partitioning is portable (FAT for instance)
+then the Cabri DSS can be restored from any OS where Cabri is available
 
 ## References
 
