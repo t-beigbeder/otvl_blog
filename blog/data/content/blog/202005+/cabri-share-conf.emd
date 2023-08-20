@@ -53,12 +53,41 @@ _Illustration here._
 
 You will benefit from the same services as with an external drive DSS: checksums, incremental storage and deduplication.
 But the first benefit is that your backed up data's availability is much better,
-because it is physically stored elsewhere.
+because it is physically stored elsewhere, not talking about Cloud services themselves.
 
 You could be tempted to consider that your backed up data is available from anywhere, which is almost true
 except that the DSS must be declared locally:
 this local configuration is required to connect to the Cloud Storage service,
 and also to store an index of the DSS, enabling fast access to the DSS.
+
+## Encrypting sensitive data
+
+Local data or data stored on external drive may be at risk if the device is lost or stolen.
+Data stored with Cloud Services may be at risk if their operators get unauthorized access to it.
+For these reasons and many others, sensitive data must be encrypted.
+
+Many operating systems enable encrypting data, generally relying on full-disk encryption:
+you can only read a disk's content if you are authenticated or provide a correct passphrase.
+
+Cabri also enables data encryption. As Cabri is a Data Storage System, Cabri encryption works at the data level.
+To be explicit, it must be said that the content's metadata is encrypted too.
+
+_Illustration here._
+
+## Public key encryption
+
+Another encryption feature is that a Cabri DSS can be shared by several users,
+each owning his or her personal secret to decrypt the data.
+Cabri uses public-key encryption: data producers encrypt data with other users' public keys,
+data consumers owning the corresponding private keys can decrypt the data.
+Thus different data may be visible by different sets of users.
+
+_Illustration here._
+
+## Conclusion
+
+From personal data backup to data science storage through multi-user data sharing in the cloud,
+Cabri supports many data storage use cases that you may want to implement.
 
 ## References
 
