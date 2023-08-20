@@ -1,0 +1,17 @@
+meta:
+  version: "1.0"
+  publication_date: ""
+  preview: true
+  summary_heading: "Kubernetes for dev and hosting with k3s"
+  summary: |
+    Hosting applications on Kubernetes orchestrator becomes more and more standard.
+    K3s distribution appears as a very good solution both for development
+    and for simple hosting when you want to keep things light.
+    This article provides some feedback from both perspectives.
+
+content:
+  title: Kubernetes for dev and hosting with k3s
+  heading:
+  stream_fields:
+  - type: md_file
+    file: k3s-dev-ops.emd
