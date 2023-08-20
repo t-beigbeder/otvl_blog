@@ -11,7 +11,9 @@ credit:
 
 # Using Cabri to share data with confidence
 
-## Introduction
+<div otvl-web>
+type: sf-page-dates
+</div>
 
 Cabri is a free and open source tool designed specifically to store data and synchronize it on various media,
 between different places, with the people you want.
@@ -86,8 +88,9 @@ _Illustration here._
 
 ## Conclusion
 
-From personal data backup to data science storage through multi-user data sharing in the cloud,
-Cabri supports many data storage use cases that you may want to implement.
+From personal data backup to data science storage, through multi-user data sharing in the cloud,
+Cabri supports many data storage use cases, some of them you may want to implement.
+You can evaluate if it is relevant in your case by getting started using it while reading its documentation.
 
 ## References
 
