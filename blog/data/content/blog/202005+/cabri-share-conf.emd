@@ -1,9 +1,12 @@
 <div otvl-web>
 type: sf-img
-src: /assets/images/k8s-local-dev/portVendres.jpg
+src: /assets/images/cabri-share-conf/Wild_Baby_Chamois_by_Giles_Laurent.jpg
 alt: Article image
-title: Vers Port Vendres
+title: Wild Baby Chamois Riederalp Photo by Giles Laurent
 class_: v-img-header
+credit:
+  text: Illustration above credit
+  href: https://commons.wikimedia.org/wiki/File:013_Wild_Baby_Chamois_Riederalp_Photo_by_Giles_Laurent.jpg
 </div>
 
 # Using Cabri to share data with confidence
@@ -17,5 +20,7 @@ It is both fast and secure, providing confidentiality in untrusted environments.
 
 It is mainly available as a command-line tool, but also provides an API (Golang and REST). A GUI is under development.
 It is currently in beta release.
+
+This short presentation is to show you what you could do with it.
 
 ## References
