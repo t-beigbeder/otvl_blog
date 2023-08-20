@@ -23,4 +23,23 @@ It is currently in beta release.
 
 This short presentation is to show you what you could do with it.
 
+## Backup your files on external drive
+
+Cabri manages what it calls Data Storage Systems (DSS). A DSS is a collection of data files along with their metadata:
+name and related location, size, last modification time, checksum, access rights.
+You can also have Cabri deal with a local directory as if it were a DSS.
+And because Cabri provides an efficient synchronization tool, you can backup a local directory's content
+on a DSS located on an external drive.
+
+__Illustration here.__
+
+Your operating system for sure already does it very well. What Cabri adds in that case is:
+
+- managing data files checksums to detect possible data corruption
+- incremental storage: successive synchronizations don't erase previous content but only add new content
+or make removed content invisible in its parent directory, anyway the full history is available
+until you explicitly delete portions of it
+
 ## References
+
+- [Cabri project and documentation](https://github.com/t-beigbeder/otvl_cabri)
