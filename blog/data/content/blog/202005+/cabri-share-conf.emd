@@ -15,38 +15,39 @@ credit:
 type: sf-page-dates
 </div>
 
-Cabri is a free and open source tool designed specifically to store data and synchronize it on various media,
+Cabri is a free and open source tool designed specifically to store data on various media,
+synchronize data sets one with the other,
 between different places, with the people you want.
 
 It is both fast and secure, providing confidentiality in untrusted environments.
 
 It is mainly available as a command-line tool, but also provides an API (Golang and REST). A GUI is under development.
-It is currently in beta release.
+Cabri is currently in beta release.
 
-This short presentation is to show you what you could do with it.
+This short article presents the main types of usage.
 
-## Backup your files on external drive
+## Backup files on external drive
 
-Cabri manages what it calls Data Storage Systems (DSS). A DSS is a collection of data files along with their metadata:
-name and related location, size, last modification time, checksum, access rights.
-You can also have Cabri deal with a local directory as if it were a DSS.
-And because Cabri provides an efficient synchronization tool, you can backup a local directory's content
-on a DSS located on an external drive to be restored whenever you need it.
+Cabri manages what it calls Data Storage Systems (DSS). A DSS is a collection of data files along with their properties:
+name and related location, size, last modification time, checksum and access rights.
+Cabri also can deal with files and subdirectories under a local directory as a DSS.
+As Cabri provides a synchronization tool, local directory's content can be backed up
+on a DSS located on an external drive to be restored whenever needed.
 
 _Illustration here._
 
-Your operating system for sure already does it very well. What Cabri adds in that case is:
+Most operating systems for sure already do it very well. What Cabri adds in that case is:
 
 - managing data files checksums to detect possible data corruption
 - incremental storage: successive synchronizations don't erase previous content but only add new content
-or hide removed content, anyway the full history is available until you explicitly delete portions of it
-- deduplication: same content copied several times in your directory is only stored once
-- operating system neutrality: if your external drive partitioning is portable (FAT for instance)
-then the Cabri DSS can be restored from any OS where Cabri is available
+or hide removed content, anyway the full history is available until parts of it are explicitly deleted
+- deduplication: same content copied several times in a DSS is only stored once
+- operating system neutrality: if the external drive partitioning is portable, FAT for instance,
+then the Cabri DSS can be restored on any OS where Cabri is available
 
-## Backup your files on Cloud Storage
+## Backup files on Cloud Storage
 
-Cabri also manages DSS that store their metadata and data using Cloud Storage:
+Cabri also manages DSS that store their data using Cloud Storage:
 any Cloud Storage compatible with Amazon S3 can be used, mainly Openstack Swift containers
 and Amazon aws S3 buckets.
 Extending the previous example, a local directory's content can be backed up in the cloud and restored from it.
@@ -57,10 +58,12 @@ You will benefit from the same services as with an external drive DSS: checksums
 But the first benefit is that your backed up data's availability is much better,
 because it is physically stored elsewhere, not talking about Cloud services themselves.
 
-You could be tempted to consider that your backed up data is available from anywhere, which is almost true
-except that the DSS must be declared locally:
-this local configuration is required to connect to the Cloud Storage service,
-and also to store an index of the DSS, enabling fast access to the DSS.
+## Share files between users or locations
+
+Is the backed up data available from anywhere?
+This is almost true but the DSS must be declared locally:
+this local configuration is needed to describe how to connect to the Cloud Storage service,
+and it also stores an index of the DSS, which is required to provide fast access to its content.
 
 ## Encrypting sensitive data
 
