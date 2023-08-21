@@ -81,11 +81,20 @@ While this local configuration could be copied from place to place to access sha
 this is error prone and not very practical. What is needed is remote access to the corresponding information.
 Cabri comes with a HTTP server that can be hosted on the internet to provide access to Cloud Storage DSS.
 
-_Illustration here._
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/share-obs.png
+alt: Share files between users or locations schema
+title: Share files between users or locations
+class_: v-img
+</div>
 
 The HTTP server is instructed to give access to one or several DSS at specific URLs.
 The Cabri clients at different locations can keep their view of the shared content up-to-date
 thanks to this shared service, and share new content with other users or from other locations.
+
+Note that the HTTP server could provide access to a DSS implemented as files local to the server as well,
+there is nothing specific to Cloud Storage in such a configuration.
 
 ## Encrypting sensitive data
 
