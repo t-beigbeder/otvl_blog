@@ -58,7 +58,13 @@ any Cloud Storage compatible with Amazon S3 can be used, mainly Openstack Swift 
 and Amazon S3 buckets.
 Extending the previous example, a local directory's content can be backed up in the cloud and restored from it.
 
-_Illustration here._
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-olf.png
+alt: Backup files on external drive schema
+title: Backup files on external drive
+class_: v-img
+</div>
 
 Same benefits occur as with an external drive DSS: checksums, incremental storage and deduplication.
 But the first benefit is that backed up data's availability is much better,
