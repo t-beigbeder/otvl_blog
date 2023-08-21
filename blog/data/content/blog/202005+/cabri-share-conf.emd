@@ -34,7 +34,13 @@ Cabri also can deal with files and subdirectories under a local directory as a D
 As Cabri provides a synchronization tool, local directory's content can be backed up
 on a DSS located on an external drive to be restored whenever needed.
 
-_Illustration here._
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-olf.png
+alt: Backup files on external drive schema
+title: Backup files on external drive
+class_: v-img
+</div>
 
 Most operating systems for sure already do it very well. What Cabri adds in that case is:
 
