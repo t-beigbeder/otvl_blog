@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-08-21T17:24:15.951Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="nbuyUM1OIy-MMnN6sieu" version="21.6.8" type="device" pages="3">
+<mxfile host="Electron" modified="2023-08-21T17:31:52.549Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="r6Rv-jQ-mOwYendpvKV4" version="21.6.8" type="device" pages="3">
   <diagram name="backup-olf" id="xbd1cmqakaeu0mEXUq34">
     <mxGraphModel dx="2875" dy="1558" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -144,7 +144,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="share-obs" id="sx8OcgmANvFwubPNc2va">
-    <mxGraphModel dx="2441" dy="1224" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2161" dy="1008" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="yy6KGQTbilY_yV_H9epr-0" />
         <mxCell id="yy6KGQTbilY_yV_H9epr-1" parent="yy6KGQTbilY_yV_H9epr-0" />
@@ -154,8 +154,8 @@
         <mxCell id="yy6KGQTbilY_yV_H9epr-3" value="Storage provider" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=1 1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
           <mxGeometry x="60" y="430" width="220" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="yy6KGQTbilY_yV_H9epr-4" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=1 1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
-          <mxGeometry x="-360" y="270" width="260" height="350" as="geometry" />
+        <mxCell id="yy6KGQTbilY_yV_H9epr-4" value="User A" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=1 1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
+          <mxGeometry x="-360" y="270" width="260" height="320" as="geometry" />
         </mxCell>
         <mxCell id="yy6KGQTbilY_yV_H9epr-5" value="local disk" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8.310344827586107;fillColor=#ffcd28;strokeColor=#d79b00;verticalAlign=top;gradientColor=#ffa500;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
           <mxGeometry x="-340" y="400" width="90" height="140" as="geometry" />
@@ -230,8 +230,8 @@
         <mxCell id="pWHZCzvWgMRVU5YxI87Z-0" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;gradientColor=#b3b3b3;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
           <mxGeometry x="180" y="390" width="80" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="pWHZCzvWgMRVU5YxI87Z-2" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=1 1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
-          <mxGeometry x="425" y="270" width="260" height="350" as="geometry" />
+        <mxCell id="pWHZCzvWgMRVU5YxI87Z-2" value="User B" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=1 1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
+          <mxGeometry x="420" y="270" width="260" height="320" as="geometry" />
         </mxCell>
         <mxCell id="pWHZCzvWgMRVU5YxI87Z-3" value="local disk" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8.310344827586107;fillColor=#ffcd28;strokeColor=#d79b00;verticalAlign=top;gradientColor=#ffa500;" vertex="1" parent="yy6KGQTbilY_yV_H9epr-1">
           <mxGeometry x="570" y="384" width="90" height="140" as="geometry" />
