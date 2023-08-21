@@ -99,7 +99,7 @@ Cabri uses public-key encryption: data producers encrypt data with other users' 
 data consumers owning the corresponding private keys can decrypt the data.
 No secret need to be shared among users, and distinct data sets can be made visible to different sets of users.
 
-In case you're interested, the underlying technology is `age` see reference at the page bottom.
+In case you're interested, the underlying technology is `age`, see reference at the page bottom.
 
 _Illustration here._
 
@@ -107,6 +107,18 @@ One very important property here is that the remotely shared hosted service, and
 the whole data set on Cloud Storage, are fully encrypted,
 the decryption being only available to the users owning the private keys on their client local positions.
 So even in case of any security breach occuring on hosted services, no confidential data is never exposed.
+
+## Data engineering API
+
+All DSS data access services are available through a simple local REST API, in complement to the native golang API.
+
+That means that data engineering and data science pipelines can easily store, protect, share and retrieve data,
+wherever it is stored on local drives, network drives or Cloud Storage, encrypted or not,
+at any time back in the history.
+
+_Illustration here._
+
+In complement, synchronization services can extract data sets from one DSS to another for convenience.
 
 ## Conclusion
 
@@ -118,4 +130,4 @@ You can evaluate if it is relevant in your case by getting started using it whil
 ## References
 
 - [Cabri project and documentation](https://github.com/t-beigbeder/otvl_cabri)
-- [Age - A simple, modern and secure encryption tool](https://age-encryption.org/)
+- [Age](https://age-encryption.org/) - A simple, modern and secure encryption tool
