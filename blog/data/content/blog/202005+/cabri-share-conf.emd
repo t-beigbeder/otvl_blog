@@ -60,9 +60,9 @@ Extending the previous example, a local directory's content can be backed up in 
 
 <div otvl-web>
 type: sf-img
-src: /assets/images/cabri-share-conf/backup-olf.png
-alt: Backup files on external drive schema
-title: Backup files on external drive
+src: /assets/images/cabri-share-conf/backup-obs.png
+alt: Backup files on Cloud Storage schema
+title: Backup files on Cloud Storage
 class_: v-img
 </div>
 
