@@ -49,52 +49,73 @@ then the Cabri DSS can be restored on any OS where Cabri is available
 
 Cabri also manages DSS that store their data using Cloud Storage:
 any Cloud Storage compatible with Amazon S3 can be used, mainly Openstack Swift containers
-and Amazon aws S3 buckets.
+and Amazon S3 buckets.
 Extending the previous example, a local directory's content can be backed up in the cloud and restored from it.
 
 _Illustration here._
 
-You will benefit from the same services as with an external drive DSS: checksums, incremental storage and deduplication.
-But the first benefit is that your backed up data's availability is much better,
+Same benefits occur as with an external drive DSS: checksums, incremental storage and deduplication.
+But the first benefit is that backed up data's availability is much better,
 because it is physically stored elsewhere, not talking about Cloud services themselves.
 
 ## Share files between users or locations
 
 Is the backed up data available from anywhere?
-This is almost true but the DSS must be declared locally:
+This is almost true but the DSS still must be declared locally:
 this local configuration is needed to describe how to connect to the Cloud Storage service,
 and it also stores an index of the DSS, which is required to provide fast access to its content.
+
+While this local configuration could be copied from place to place to access shared content,
+this is error prone and not very practical. What is needed is remote access to the corresponding information.
+Cabri comes with a HTTP server that can be hosted on the internet to provide access to Cloud Storage DSS.
+
+_Illustration here._
+
+The HTTP server is instructed to give access to one or several DSS at specific URLs.
+The Cabri clients at different locations can keep their view of the shared content up-to-date
+thanks to this shared service, and share new content with other users or from other locations.
 
 ## Encrypting sensitive data
 
 Local data or data stored on external drive may be at risk if the device is lost or stolen.
-Data stored with Cloud Services may be at risk if their operators get unauthorized access to it.
+Data stored with Cloud Services may be at risk if some operator get unauthorized access to it.
 For these reasons and many others, sensitive data must be encrypted.
 
 Many operating systems enable encrypting data, generally relying on full-disk encryption:
 you can only read a disk's content if you are authenticated or provide a correct passphrase.
 
-Cabri also enables data encryption. As Cabri is a Data Storage System, Cabri encryption works at the data level.
-To be explicit, it must be said that the content's metadata is encrypted too.
+Similarly, some Cloud Storage services come with encryption features,
+the most easy to use being to use a secret managed by the Cloud provider for encrypting a full data set.
+
+Cabri also enables data encryption. As Cabri is a Data Storage System, encryption works at the data level.
+Encryption keys are fully under the control of the users, and data is only decrypted once retrieved as local files.
 
 _Illustration here._
 
-## Public key encryption
+## Share sensitive data with public key encryption
 
-Another encryption feature is that a Cabri DSS can be shared by several users,
-each owning his or her personal secret to decrypt the data.
+When an encrypted Cabri DSS is shared by several users, each user owns his or her personal secret to decrypt the data.
 Cabri uses public-key encryption: data producers encrypt data with other users' public keys,
 data consumers owning the corresponding private keys can decrypt the data.
-Thus different data may be visible by different sets of users.
+No secret need to be shared among users, and distinct data sets can be made visible to different sets of users.
+
+In case you're interested, the underlying technology is `age` see reference at the page bottom.
 
 _Illustration here._
+
+One very important property here is that the remotely shared hosted service, and as seen above,
+the whole data set on Cloud Storage, are fully encrypted,
+the decryption being only available to the users owning the private keys on their client local positions.
+So even in case of any security breach occuring on hosted services, no confidential data is never exposed.
 
 ## Conclusion
 
 From personal data backup to data science storage, through multi-user data sharing in the cloud,
+encrypted or not,
 Cabri supports many data storage use cases, some of them you may want to implement.
 You can evaluate if it is relevant in your case by getting started using it while reading its documentation.
 
 ## References
 
 - [Cabri project and documentation](https://github.com/t-beigbeder/otvl_cabri)
+- [Age - A simple, modern and secure encryption tool](https://age-encryption.org/)
