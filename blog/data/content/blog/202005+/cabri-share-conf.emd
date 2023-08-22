@@ -156,13 +156,19 @@ That means that data engineering and data science pipelines can easily store, pr
 wherever it is stored on local drives, network drives or Cloud Storage, encrypted or not,
 at any time back in the history.
 
-_Illustration here._
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/pipeline.png
+alt: Share sensitive data with public key encryption schema
+title: Share sensitive data with public key encryption
+class_: v-img
+</div>
 
-In complement, synchronization services can extract data sets from one DSS to another for convenience.
+In addition, synchronization services can extract data sets from one DSS to another for convenience.
 
 ## Conclusion
 
-From personal data backup to data science storage, through multi-user data sharing in the cloud,
+From personal data backup to data pipelines storage, through multi-user data sharing in the cloud,
 encrypted or not,
 Cabri supports many data storage use cases, some of them you may want to implement.
 You can evaluate if it is relevant in your case by getting started using it while reading its documentation.
