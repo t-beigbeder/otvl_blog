@@ -79,7 +79,8 @@ and it also stores an index of the DSS, which is required to provide fast access
 
 While this local configuration could be copied from place to place to access shared content,
 this is error prone and not very practical. What is needed is remote access to the corresponding information.
-Cabri comes with a HTTP server that can be hosted on the internet to provide access to Cloud Storage DSS.
+Cabri comes with a HTTP server that can be hosted on the internet
+to provide access in this case to the Cloud Storage DSS.
 
 <div otvl-web>
 type: sf-img
@@ -106,12 +107,20 @@ Many operating systems enable encrypting data, generally relying on full-disk en
 you can only read a disk's content if you are authenticated or provide a correct passphrase.
 
 Similarly, some Cloud Storage services come with encryption features,
-the most easy to use being to use a secret managed by the Cloud provider for encrypting a full data set.
+the most easy to use being a secret managed by the Cloud provider for encrypting a full data set.
 
 Cabri also enables data encryption. As Cabri is a Data Storage System, encryption works at the data level.
-Encryption keys are fully under the control of the users, and data is only decrypted once retrieved as local files.
 
-_Illustration here._
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-xolf.png
+alt: Encrypting sensitive data schema
+title: Encrypting sensitive data
+class_: v-img
+</div>
+
+Encryption keys are fully under the control of the users,
+and the data is only decrypted once retrieved as local files when the user has provided a relevant key.
 
 ## Share sensitive data with public key encryption
 
@@ -120,9 +129,19 @@ Cabri uses public-key encryption: data producers encrypt data with other users' 
 data consumers owning the corresponding private keys can decrypt the data.
 No secret need to be shared among users, and distinct data sets can be made visible to different sets of users.
 
-In case you're interested, the underlying technology is `age`, see reference at the page bottom.
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/share-xobs.png
+alt: Share sensitive data with public key encryption schema
+title: Share sensitive data with public key encryption
+class_: v-img
+</div>
 
-_Illustration here._
+During the interaction illustrated above, User A only needs to know the public key of User B
+to encrypt some data for him or her.
+Only User B owns the corresponding private key to be able to decrypt the corresponding data.
+
+In case you're interested, the underlying technology is `age`, see reference at the page bottom for more information.
 
 One very important property here is that the remotely shared hosted service, and as seen above,
 the whole data set on Cloud Storage, are fully encrypted,
