@@ -159,8 +159,8 @@ at any time back in the history.
 <div otvl-web>
 type: sf-img
 src: /assets/images/cabri-share-conf/pipeline.png
-alt: Share sensitive data with public key encryption schema
-title: Share sensitive data with public key encryption
+alt: Data engineering API schema
+title: Data engineering API
 class_: v-img
 </div>
 
