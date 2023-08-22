@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-08-22T10:13:42.124Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="vVHF1IBrcLXTwZsN54Us" version="21.6.8" type="device" pages="5">
+<mxfile host="Electron" modified="2023-08-22T10:28:47.400Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="KGCc_54iZNSnw_C-dnx2" version="21.6.8" type="device" pages="6">
   <diagram name="backup-olf" id="xbd1cmqakaeu0mEXUq34">
     <mxGraphModel dx="1964" dy="857" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -536,6 +536,20 @@
         </mxCell>
         <mxCell id="ZAOQv7nGwKlHA3W37M72-4" value="" style="sketch=0;outlineConnect=0;fillColor=#996185;strokeColor=#996185;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.encrypted_data;gradientColor=none;" vertex="1" parent="WY_MBr3BptknE8vxDL19-1">
           <mxGeometry x="220" y="446.13" width="30" height="37.74" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="XKelMD5sUbJ9LWYwbqDJ" name="pipeline">
+    <mxGraphModel dx="2161" dy="1008" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1X6nE5wGppyhwJ5ozZP1-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="-435" y="240" width="1200" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="Q9WQSzrofZz6aV5qzB3B-1" value="" style="verticalAlign=top;verticalLabelPosition=bottom;labelPosition=center;align=center;html=1;outlineConnect=0;fillColor=#ffcd28;strokeColor=#d79b00;gradientColor=#ffa500;gradientDirection=north;strokeWidth=2;shape=mxgraph.networks.server_storage;" vertex="1" parent="1">
+          <mxGeometry x="80" y="540" width="105" height="105" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
