@@ -153,7 +153,7 @@ So even in case of any security breach occuring on hosted services, no confident
 All DSS data access services are available through a simple local REST API, in complement to the native golang API.
 
 That means that data engineering and data science pipelines can easily store, protect, share and retrieve data,
-wherever it is stored on local drives, network drives or Cloud Storage, encrypted or not,
+whenever it is stored on local drives, Network or Cloud Storage, encrypted or not,
 at any time back in the history.
 
 <div otvl-web>
@@ -171,7 +171,8 @@ In addition, synchronization services can extract data sets from one DSS to anot
 From personal data backup to data pipelines storage, through multi-user data sharing in the cloud,
 encrypted or not,
 Cabri supports many data storage use cases, some of them you may want to implement.
-You can evaluate if it is relevant in your case by getting started using it while reading its documentation.
+You can evaluate if it is relevant in your case by getting started using it while reading its documentation,
+as referenced below.
 
 ## References
 
