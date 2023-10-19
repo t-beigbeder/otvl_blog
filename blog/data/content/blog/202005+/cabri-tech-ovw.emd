@@ -1,0 +1,180 @@
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/Wild_Baby_Chamois_by_Giles_Laurent.jpg
+alt: Article image
+title: Wild Baby Chamois Riederalp Photo by Giles Laurent
+class_: v-img-header
+credit:
+  text: Illustration above credit
+  href: https://commons.wikimedia.org/wiki/File:013_Wild_Baby_Chamois_Riederalp_Photo_by_Giles_Laurent.jpg
+</div>
+
+# Using Cabri to share data with confidence
+
+<div otvl-web>
+type: sf-page-dates
+</div>
+
+Cabri is a free and open source tool designed specifically to store data on various media,
+synchronize data sets one with the other,
+between different places, with the people you want.
+
+It is both fast and secure, providing confidentiality in untrusted environments.
+
+It is mainly available as a command-line tool, but also provides an API (Golang and REST). A GUI is under development.
+Cabri is currently in beta release.
+
+This short article presents the main types of usage.
+
+## Backup files on external drive
+
+Cabri manages what it calls Data Storage Systems (DSS). A DSS is a collection of data files along with their properties:
+name and related location, size, last modification time, checksum and access rights.
+Cabri also can deal with files and subdirectories under a local directory as a DSS.
+As Cabri provides a synchronization tool, local directory's content can be backed up
+on a DSS located on an external drive to be restored whenever needed.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-olf.png
+alt: Backup files on external drive schema
+title: Backup files on external drive
+class_: v-img
+</div>
+
+Most operating systems for sure already do it very well. What Cabri adds in that case is:
+
+- managing data files checksums to detect possible data corruption
+- incremental storage: successive synchronizations don't erase previous content but only add new content
+or hide removed content, anyway the full history is available until parts of it are explicitly deleted
+- deduplication: same content copied several times in a DSS is only stored once
+- operating system neutrality: if the external drive partitioning is portable, FAT for instance,
+then the Cabri DSS can be restored on any OS where Cabri is available
+
+## Backup files on Cloud Storage
+
+Cabri also manages DSS that store their data using Cloud Storage:
+any Cloud Storage compatible with Amazon S3 can be used, mainly Openstack Swift containers
+and Amazon S3 buckets.
+Extending the previous example, a local directory's content can be backed up in the cloud and restored from it.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-obs.png
+alt: Backup files on Cloud Storage schema
+title: Backup files on Cloud Storage
+class_: v-img
+</div>
+
+Same benefits occur as with an external drive DSS: checksums, incremental storage and deduplication.
+But the first benefit is that backed up data's availability is much better,
+because it is physically stored elsewhere, not talking about Cloud services themselves.
+
+## Share files between users or locations
+
+Is the backed up data available from anywhere?
+This is almost true but the DSS still must be declared locally:
+this local configuration is needed to describe how to connect to the Cloud Storage service,
+and it also stores an index of the DSS, which is required to provide fast access to its content.
+
+While this local configuration could be copied from place to place to access shared content,
+this is error prone and not very practical. What is needed is remote access to the corresponding information.
+Cabri comes with a HTTP server that can be hosted on the internet
+to provide access in this case to the Cloud Storage DSS.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/share-obs.png
+alt: Share files between users or locations schema
+title: Share files between users or locations
+class_: v-img
+</div>
+
+The HTTP server is instructed to give access to one or several DSS at specific URLs.
+The Cabri clients at different locations can keep their view of the shared content up-to-date
+thanks to this shared service, and share new content with other users or from other locations.
+
+Note that the HTTP server could provide access to a DSS implemented as files local to the server as well,
+there is nothing specific to Cloud Storage in such a configuration.
+
+## Encrypting sensitive data
+
+Local data or data stored on external drive may be at risk if the device is lost or stolen.
+Data stored with Cloud Services may be at risk if some operator get unauthorized access to it.
+For these reasons and many others, sensitive data must be encrypted.
+
+Many operating systems enable encrypting data, generally relying on full-disk encryption:
+you can only read a disk's content if you are authenticated or provide a correct passphrase.
+
+Similarly, some Cloud Storage services come with encryption features,
+the most easy to use being a secret managed by the Cloud provider for encrypting a full data set.
+
+Cabri also enables data encryption. As Cabri is a Data Storage System, encryption works at the data level.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/backup-xolf.png
+alt: Encrypting sensitive data schema
+title: Encrypting sensitive data
+class_: v-img
+</div>
+
+Encryption keys are fully under the control of the users,
+and the data is only decrypted once retrieved as local files when the user has provided a relevant key.
+
+## Share sensitive data with public key encryption
+
+When an encrypted Cabri DSS is shared by several users, each user owns his or her personal secret to decrypt the data.
+Cabri uses public-key encryption: data producers encrypt data with other users' public keys,
+data consumers owning the corresponding private keys can decrypt the data.
+No secret need to be shared among users, and distinct data sets can be made visible to different sets of users.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/share-xobs.png
+alt: Share sensitive data with public key encryption schema
+title: Share sensitive data with public key encryption
+class_: v-img
+</div>
+
+During the interaction illustrated above, User A only needs to know the public key of User B
+to encrypt some data for him or her.
+Only User B owns the corresponding private key to be able to decrypt the corresponding data.
+
+In case you're interested, the underlying technology is `age`, see reference at the page bottom for more information.
+
+One very important property here is that the remotely shared hosted service, and as seen above,
+the whole data set on Cloud Storage, are fully encrypted,
+the decryption being only available to the users owning the private keys on their client local positions.
+So even in case of any security breach occuring on hosted services, no confidential data is never exposed.
+
+## Data engineering API
+
+All DSS data access services are available through a simple local REST API, in complement to the native golang API.
+
+That means that data engineering and data science pipelines can easily store, protect, share and retrieve data,
+whenever it is stored on local drives, Network or Cloud Storage, encrypted or not,
+at any time back in the history.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/pipeline.png
+alt: Data engineering API schema
+title: Data engineering API
+class_: v-img
+</div>
+
+In addition, synchronization services can extract data sets from one DSS to another for convenience.
+
+## Conclusion
+
+From personal data backup to data pipelines storage, through multi-user data sharing in the cloud,
+encrypted or not,
+Cabri supports many data storage use cases, some of them you may want to implement.
+You can evaluate if it is relevant in your case by getting started using it while reading its documentation,
+as referenced below.
+
+## References
+
+- [Cabri project and documentation](https://github.com/t-beigbeder/otvl_cabri)
+- [Age](https://age-encryption.org/) - A simple, modern and secure encryption tool

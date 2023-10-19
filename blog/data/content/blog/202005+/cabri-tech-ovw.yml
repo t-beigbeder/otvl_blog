@@ -1,0 +1,15 @@
+meta:
+  version: "1.0"
+  publication_date: "20231031"
+  summary_heading: "Cabri technical overview"
+  summary: |
+    Cabri enables fast and secure data synchronization
+    between people, medias and places.
+    This article presents some of its internal...
+
+content:
+  title: Cabri technical overview
+  heading:
+  stream_fields:
+  - type: md_file
+    file: cabri-tech-ovw.emd
