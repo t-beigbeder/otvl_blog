@@ -5,7 +5,8 @@ meta:
   summary: |
     Cabri enables fast and secure data synchronization
     between people, medias and places.
-    This article presents some of its internal...
+    This article provides information on its implementation
+    to better understand how this is supported.
 
 content:
   title: Cabri technical overview
