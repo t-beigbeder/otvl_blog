@@ -118,6 +118,14 @@ data read from the DSS may be written to a local file as soon as decrypted data 
 
 ### Indexes
 
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/index.png
+alt: Index of DSS metadata schema
+title: Index of DSS metadata
+class_: v-img
+</div>
+
 Indexing the DSS content metadata is necessary for several reasons:
 
 - DSS metadata on Object Storage cannot be scanned efficiently,
@@ -125,17 +133,36 @@ so an index of what is stored in the Cloud must be maintained locally
 - DSS content history remains available, meaning that the full namespace hierarchy of each entry
 has to be inspected at access time in order to check if it is visible or hidden
 - the same kind of concern applies to the check of access control rules
-- so even in the case of a `olf` DSS whose data is accessed locally, the number of I/O required to grant access
+- so even in the case of a DSS whose data is stored locally, the number of I/O required to grant access
 may become too important
 - the access to encrypted data, which is specifically detailed later in this article
 
+So in the end almost all DSS are indexed, and, as a consequence,
+the evaluation of the need to synchronize content between too large datasets is very fast,
+at least on the DSS side.
+
+### Indexes and remote access
+
+Indexes play an important role concerning multi-user access through a remote DSS.
+As described on the following schema, and explained in the already mentioned
+[previous article](/blog/cabri-share-conf),
+a DSS is set up on a remote HTTP server for enabling different users to share their local data.
+
 <div otvl-web>
 type: sf-img
-src: /assets/images/cabri-tech-ovw/index.png
-alt: Index of remote metadata schema
-title: Index of remote metadata
+src: /assets/images/cabri-tech-ovw/index-remote.png
+alt: Client index of remote metadata schema
+title: Client index of remote metadata
 class_: v-img
 </div>
+
+From the DSS access perspective, the Cabri HTTP server acts as any other Cabri utility accessing a DSS,
+and so maintains an index of the DSS metadata locally.
+But in that case, the DSS content may be updated by the HTTP server
+in response to any of its clients requests.
+
+On the client user's side, a client index is set up and kept up-to-date
+with the index data coming from the server.
 
 ## Cabri is secured
 
