@@ -49,7 +49,8 @@ title: Backup files on external drive
 class_: v-img
 </div>
 
-When the Cabri DSS is initially empty, all local files will be copied to it, requiring a large amount I/O operations,
+When the Cabri DSS is initially empty, all local files will be copied to it,
+requiring a large amount of I/O operations,
 both for reading the local files content and for writing it to the DSS.
 Depending on the storage devices technology, this may be slow or fast, but in the second case,
 as most computing hardware is able to parallelize processing,
@@ -86,6 +87,15 @@ for instance if Cabri is launched as a Cloud service,
 but limiting its capacity may be wanted if network errors occur.
 For instance, network resources appear more available and efficient on Linux systems than on Windows Home OS,
 from my personal experience.
+
+### Other uses of parallelization
+
+Parallel processing is used as well by almost all Cabri features implementation.
+Its use appear very valuable in the following situations:
+
+- listing local files or DSS recursively, because it requires many I/O operations,
+- computing checksums on a full directory's content, to evaluate the need for synchronization,
+- auditing DSS content, rebuilding their index, because it requires a full scan of the DSS
 
 ### Flow processing
 
