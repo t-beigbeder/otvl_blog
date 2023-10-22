@@ -59,8 +59,33 @@ so that the processing is as fast as the technology permits.
 To be more explicit:
 
 - a directory's content entries may be processed in parallel
-- subdirectories may be processed in parallel
+- different subdirectories may be processed in parallel
 - a workload reducer controls that system resources usage remains limited, it is configurable
+- there is always a significant number of I/O operations pending, so that they start execution
+as soon as the corresponding device is ready
+
+The reducer may be limited as much as wanted, and even processing may be fully serialized
+in case the system has limited resources.
+In the case the target is a slow USB key, the result may even be globally faster than if parallelized.
+
+The following diagram shows the synchronization of a local directory with a Cabri DSS providing cloud storage.
+In that case, writing to the DSS requires massive network uploads.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/parallel-obs.png
+alt: Backup files on external drive schema
+title: Backup files on external drive
+class_: v-img
+</div>
+
+While the Cloud storage providers generally support a large amount of parallel I/O operations,
+the limitation will rather come from the available network bandwidth and local system resources.
+Using the default reducer configuration will perform fast if the system supports it,
+for instance if Cabri is launched as a Cloud service,
+but limiting its capacity may be wanted if network errors occur.
+For instance, network resources appear more available and efficient on Linux systems than on Windows Home OS,
+from my personal experience.
 
 ### Flow processing
 
