@@ -1,10 +1,10 @@
-<mxfile host="Electron" modified="2023-10-22T12:34:59.139Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="UZnPKGhx5kUHPyDiKc_L" version="21.7.5" type="device" pages="6">
+<mxfile host="Electron" modified="2023-10-22T13:10:49.869Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="YEkb5VAy-Gq8D3Pd4WoE" version="21.7.5" type="device" pages="6">
   <diagram name="parallel" id="xbd1cmqakaeu0mEXUq34">
-    <mxGraphModel dx="2023" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2243" dy="1069" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="HlPi_A0TnI8v9f5cpEIh-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#36393d;" parent="1" vertex="1">
+        <mxCell id="HlPi_A0TnI8v9f5cpEIh-1" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="-750" y="280" width="1200" height="370" as="geometry" />
         </mxCell>
         <mxCell id="HlPi_A0TnI8v9f5cpEIh-9" value="" style="endArrow=none;html=1;rounded=0;exitX=1.002;exitY=0.374;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.733;entryY=0.222;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=2;strokeColor=#996185;dashed=1;dashPattern=1 1;" parent="1" source="HlPi_A0TnI8v9f5cpEIh-4" target="NjEROdZfGvhlIsb-5Q5I-1" edge="1">

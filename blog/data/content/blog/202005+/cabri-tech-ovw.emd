@@ -43,7 +43,7 @@ The following diagram shows the synchronization of a local directory with a loca
 
 <div otvl-web>
 type: sf-img
-src: /assets/images/cabri-share-conf/parallel.png
+src: /assets/images/cabri-tech-ovw/parallel.png
 alt: Backup files on external drive schema
 title: Backup files on external drive
 class_: v-img
