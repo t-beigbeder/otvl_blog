@@ -74,8 +74,8 @@ In that case, writing to the DSS requires massive network uploads.
 <div otvl-web>
 type: sf-img
 src: /assets/images/cabri-tech-ovw/parallel-obs.png
-alt: Backup files on external drive schema
-title: Backup files on external drive
+alt: Backup files with cloud storage schema
+title: Backup files with cloud storage
 class_: v-img
 </div>
 
