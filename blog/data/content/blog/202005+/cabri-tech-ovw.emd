@@ -21,11 +21,46 @@ enables fast and secure data synchronization between people, medias and places.
 While a [previous article](/blog/cabri-share-conf)
 presented its main features from a user's perspective,
 this one provides some information on its implementation
-to better understand how efficiency and security are supported.
+to help understanding how efficiency and security are supported.
 
 ## Cabri is fast
 
+As seen in the previous article, Cabri enables storing and synchronizing data
+either on a local drive or using Cloud Storage,
+but in any case providing at the same time full data historization and possible encryption.
+
+Such features require fast access to the actual data and its corresponding metadata:
+size, modification time and access rights,
+but also the ability to read and write large amount of data either on local devices
+or using cloud services over internet.
+
+This section details the main supporting mechanisms.
+
 ### Parallel processing
+
+Cabri's most resource intensive use concerns the synchronization of large amount of data.
+The following diagram shows the synchronization of a local directory with a local Cabri DSS.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-share-conf/parallel.png
+alt: Backup files on external drive schema
+title: Backup files on external drive
+class_: v-img
+</div>
+
+When the Cabri DSS is initially empty, all local files will be copied to it, requiring a large amount I/O operations,
+both for reading the local files content and for writing it to the DSS.
+Depending on the storage devices technology, this may be slow or fast, but in the second case,
+as most computing hardware is able to parallelize processing,
+Cabri takes care of launching several synchronization operations in parallel,
+so that the processing is as fast as the technology permits.
+
+To be more explicit:
+
+- a directory's content entries may be processed in parallel
+- subdirectories may be processed in parallel
+- a workload reducer controls that system resources usage remains limited, it is configurable
 
 ### Flow processing
 
