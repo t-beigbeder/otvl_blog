@@ -99,7 +99,43 @@ Its use appear very valuable in the following situations:
 
 ### Flow processing
 
+The underlying encryption technology is [`age`](https://age-encryption.org/)
+and it provides the ability to encrypt and decrypt data as a flow.
+The following diagram shows data synchronization back and forth
+between local files and an encrypted local DSS.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/flow.png
+alt: Flow processing schema
+title: Flow processing storage
+class_: v-img
+</div>
+
+In such a scenario, data sent to the DSS may be written as soon as encrypted data chunks are available.
+On the other direction,
+data read from the DSS may be written to a local file as soon as decrypted data chunks are available.
+
 ### Indexes
+
+Indexing the DSS content metadata is necessary for several reasons:
+
+- DSS metadata on Object Storage cannot be scanned efficiently,
+so an index of what is stored in the Cloud must be maintained locally 
+- DSS content history remains available, meaning that the full namespace hierarchy of each entry
+has to be inspected at access time in order to check if it is visible or hidden
+- the same kind of concern applies to the check of access control rules
+- so even in the case of a `olf` DSS whose data is accessed locally, the number of I/O required to grant access
+may become too important
+- the access to encrypted data, which is specifically detailed later in this article
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/index.png
+alt: Index of remote metadata schema
+title: Index of remote metadata
+class_: v-img
+</div>
 
 ## Cabri is secured
 
