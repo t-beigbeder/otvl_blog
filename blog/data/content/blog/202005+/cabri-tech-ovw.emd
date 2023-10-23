@@ -23,6 +23,10 @@ presented its main features from a user's perspective,
 this one provides some information on its implementation
 to help understanding how efficiency and security are supported.
 
+Even if you are not interested in knowing how Cabri is designed,
+some information on the use of indexes and encryption
+is important for the operation and the security of DSS.
+
 ## Cabri is fast
 
 As seen in the previous article, Cabri enables storing and synchronizing data
@@ -137,7 +141,7 @@ has to be inspected, taking into account the history and the access rights at ea
 
 So in the end almost all DSS are indexed, and, as a consequence,
 the evaluation of the need to synchronize content between too large datasets is very fast,
-at least on the DSS side.
+at least on the DSS side in case the other side is barely made of local files.
 
 ### Indexes and remote access
 
@@ -161,9 +165,10 @@ in response to any of its clients requests.
 
 On the client user's side, a client index is set up and kept up-to-date
 with the index data coming from the server:
-each new connexion from a client refresh its index if needed from the server index.
+each new connexion from a client refreshes its index if needed from the server index.
 The first time a client connects to a server, the full server index is downloaded by the client,
-which may delay the response.
+which may delay the response. After that, all access to DSS metadata is performed locally on the client index,
+which is again very fast/
 
 ## Cabri is secured
 
@@ -183,13 +188,88 @@ Cloud storage availability is generally excellent but even then, additional back
 
 The remaining sections provide some explanations on Cabri's design for these security aspects.
 
-### End-to-end data-level encryption
+### Metadata and data-level encryption
 
-### Is remote access secure?
+Encrypted DSS store all the data: metadata and content encrypted.
+The encryption uses public keys, and only the owners of the encryption keys can decrypt the content
+by using their private keys.
 
-### Are indexes secure?
+Apart from encryption, the DSS data architecture remains the same, with each entry stored as metadata and content
+files or cloud object storage. The encryption is achieved at the data level: each entry can be made visible
+to a specific set of user's public keys by encrypting the files or objects with those keys.
 
-### Distributed meta-data
+As the access to actual data content requires reading corresponding entry and parent namespaces metadata in the DSS,
+this metadata has to be accessed decrypted in an index.
+
+The following schema explains how this is implemented.
+In that example, an encrypted DSS stored on an USB key is used to restore confidential files to decrypted local storage.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/e2e-enc.png
+alt: Client index for encrypted metadata schema
+title: Client index for encrypted metadata
+class_: v-img
+</div>
+
+The DSS data architecture for encrypted DSS is similar to what is implemented for remote access,
+with the addition of encryption concerns.
+The DSS maintains an index of its metadata, in that case encrypted metadata.
+On the client user's side, a client index is set up and kept up-to-date
+with the index data coming from the encrypted DSS.
+As the client's intent is to access to decrypted data, the client index decrypts the DSS metadata as well.
+All DSS metadata that the client can decrypt with the private key(s) it owns
+will be stored decrypted in the client index.
+
+As a result, local access to encrypted DSS is both secured and fast.
+The metadata and the data are only decrypted on local storage and in client index with the user private key(s)
+and under his or her control.
+
+### End-to-end encryption for data sharing
+
+Based on the previous explanations the following schema shows how several users
+can share their local confidential data through a remote encrypted DSS.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/cabri-tech-ovw/remote-enc.png
+alt: Encrypted data sharing schema
+title: Encrypted data sharing
+class_: v-img
+</div>
+
+In that case, the Cabri HTTP server is responsible to maintain the index of encrypted metadata.
+The server has no access at all to any user's private key, so even in the case a security breach is exploited
+on the hosting infrastructure, confidential data is never exposed.
+The Cabri HTTP server just transfers and stores opaque encrypted metadata and data,
+and indexes the encrypted metadata for the sole purpose of communicating updates to the clients.
+
+The clients receive the server encrypted metadata, decrypt it and refresh their local index.
+Apart the fact that the access to the DSS is remote through a Cabri HTTP server,
+the access to the encrypted data is the same as if the DSS were local.
+
+Remote access to encrypted DSS has the same benefits as local access, being both fast and secure.
+
+### Distributed meta-data and content
+
+As briefly mentioned above, the DSS data architecture is distributed,
+as metadata and content is stored either as local files or as cloud storage objects,
+depending on the chosen technology.
+
+As Cabri performance highly relies on the use of indexes,
+the integrity of those indexes with respect to the distributed storage is crucial for proper operation.
+
+Anyway the distributed nature of storage makes the DSS structure resilient to system failure:
+
+- if some metadata of content file is missing or corrupted, it can be removed, the DSS remains consistent
+- if the index is missing, corrupted or not consistent with the distributed storage,
+it can be rebuilt by scanning the DSS data
+- as the synchronization operation is idempotent, it may be run again after target DSS maintenance
+to restore a fully consistent dataset
+
+In the case the data is encrypted, the index rebuild operation first occur on the encrypted content,
+then provides the consistent encrypted index to the client for proper decryption.
+The client is only able to reindex the data for the private keys it owns.
 
 ## Conclusion
 
@@ -211,4 +291,4 @@ you manage the encryption secret keys securely.
 ## References
 
 - [Cabri project source-code and documentation](https://github.com/t-beigbeder/otvl_cabri)
-- [Age](https://age-encryption.org/) - A simple, modern and secure encryption tool
+- [age](https://age-encryption.org/) - A simple, modern and secure encryption tool
