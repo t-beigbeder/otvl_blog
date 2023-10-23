@@ -165,10 +165,10 @@ in response to any of its clients requests.
 
 On the client user's side, a client index is set up and kept up-to-date
 with the index data coming from the server:
-each new connexion from a client refreshes its index if needed from the server index.
+each new connection from a client refreshes its index if needed from the server index.
 The first time a client connects to a server, the full server index is downloaded by the client,
 which may delay the response. After that, all access to DSS metadata is performed locally on the client index,
-which is again very fast/
+which is again very fast.
 
 ## Cabri is secured
 
@@ -259,7 +259,7 @@ depending on the chosen technology.
 As Cabri performance highly relies on the use of indexes,
 the integrity of those indexes with respect to the distributed storage is crucial for proper operation.
 
-Anyway the distributed nature of storage makes the DSS structure resilient to system failure:
+Anyway the distributed nature of storage makes the DSS structure resistant to system failure:
 
 - if some metadata of content file is missing or corrupted, it can be removed, the DSS remains consistent
 - if the index is missing, corrupted or not consistent with the distributed storage,
