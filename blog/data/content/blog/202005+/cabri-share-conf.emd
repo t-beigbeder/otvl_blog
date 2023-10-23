@@ -15,7 +15,8 @@ credit:
 type: sf-page-dates
 </div>
 
-Cabri is a free and open source tool designed specifically to store data on various media,
+Cabri is a [free and open source tool](https://github.com/t-beigbeder/otvl_cabri)
+designed specifically to store data on various media,
 synchronize data sets one with the other,
 between different places, with the people you want.
 
@@ -177,4 +178,4 @@ as referenced below.
 ## References
 
 - [Cabri project and documentation](https://github.com/t-beigbeder/otvl_cabri)
-- [Age](https://age-encryption.org/) - A simple, modern and secure encryption tool
+- [age](https://age-encryption.org/) - A simple, modern and secure encryption tool
