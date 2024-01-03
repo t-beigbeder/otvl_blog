@@ -74,7 +74,7 @@ in a `SQLite` database, but could leverage `etcd` as well.
 
 <div otvl-web>
 type: sf-img
-src: /assets/images/k3s-loc-sp/architecture.jpg
+src: /assets/images/k3s-loc-sp/architecture.png
 alt: Deployed architecture schema
 title: K3s deployed architecture
 class_: v-img
