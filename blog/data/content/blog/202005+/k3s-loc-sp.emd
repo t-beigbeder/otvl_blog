@@ -58,8 +58,12 @@ Depending on system and network resources,
 this single command will take a few dozens of seconds and deploy a fully operational
 Kubernetes cluster as detailed below.
 
-The cluster will restart happily after its host shutdown and restart,
-which of course doesn't prevent application pods to take care of their data by themselves.
+It is worth mentioning that the resulting cluster
+will restart happily after a K3s host restart,
+making the solution convenient when the development environment is stopped.
+
+That being said,
+this of course doesn't prevent application pods to take care of their data by themselves.
 
 ### Analyzing the K3s architecture
 
@@ -280,6 +284,6 @@ How to host a registry.
 - [K3s project](https://github.com/k3s-io/k3s/)
 - [K3s documentation](https://docs.k3s.io/)
 - [Containerd project](https://github.com/containerd/containerd)
-- [Nerdctl](https://github.com/containerd/nerdctl)
 - [Traefik documentation](https://doc.traefik.io/traefik/)
+- [Nerdctl](https://github.com/containerd/nerdctl)
 - [BuildKit](https://github.com/moby/buildkit)
