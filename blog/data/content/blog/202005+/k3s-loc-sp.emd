@@ -33,12 +33,12 @@ and simple production.
 
 ## Installing K3s for development
 
-### Kubernetes control plane
+### Kubernetes control plane installation
 
 Depending on your way of working and preference,
 you can install K3s either directly on the development host if it is running Linux,
 or on a separate Linux Virtual Machine that you will access remotely with `kubectl`.
-Unless you want to test multi-node specific use-cases in development,
+Unless you want to test multi-nodes specific use-cases in development,
 the default installation with all the components on a single node
 is all what you need.
 
@@ -54,9 +54,15 @@ When ready, connect to the target host and run:
     :::text
     # curl -sfL https://get.k3s.io | sh -
 
+Depending on system and network resources,
+this single command will take a few dozens of seconds and deploy a fully operational
+Kubernetes cluster as detailed below.
+
+### Analyzing the K3s architecture
+
 Having a look at the [architecture document](https://docs.k3s.io/architecture),
 it means that we run the K3s server components on the installed host,
-and there is no K3s agent node.
+and there is no additional K3s agent node.
 
 We find on this document the following familiar Kubernetes components:
 
@@ -82,7 +88,7 @@ class_: v-img
 
 What is specific to K3s is that those components are packaged and run
 in a single Linux process,
-making the most efficient usage of CPU, memory and network resources.
+making the most efficient use of CPU, memory and network resources.
 Other Kubernetes distributions
 typically run them as individual containers and Linux system services.
 
@@ -110,8 +116,18 @@ A few containers are also deployed for the control plane:
     traefik-8c645c69c-xrrcr                   1/1     Running     0          4h47m
     metrics-server-67c658944b-rlrzk           1/1     Running     0          4h50m
 
+Among those, [traefik](https://doc.traefik.io/traefik/)
+is a reverse proxy and load balancer
+that in our case is also able to play the role of a Kubernetes
+[Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/).
+Traefik can use an ACME provider such as Let's Encrypt to request and renew TLS certificates
+corresponding to the DNS of the hosted applications services
+as declared in Kubernetes
+[Ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/).
+
 ## References
 
 - [K3s project](https://github.com/k3s-io/k3s/)
 - [K3s documentation](https://docs.k3s.io/)
 - [Containerd project](https://github.com/containerd/containerd)
+- [Traefik documentation](https://doc.traefik.io/traefik/)
