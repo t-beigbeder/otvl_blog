@@ -58,6 +58,9 @@ Depending on system and network resources,
 this single command will take a few dozens of seconds and deploy a fully operational
 Kubernetes cluster as detailed below.
 
+The cluster will restart happily after its host shutdown and restart,
+which of course doesn't prevent application pods to take care of their data by themselves.
+
 ### Analyzing the K3s architecture
 
 Having a look at the [architecture document](https://docs.k3s.io/architecture),
@@ -135,9 +138,12 @@ Here are some installation steps to be performed on the K3s server.
 ### Meet Nerdcrl
 
 First thing is to install a user-friendly command line tool to work with containers.
-This tool is open source too and is called [`Nerdctl`](https://github.com/containerd/nerdctl)
+This tool is open source too and is called [`Nerdctl`](https://github.com/containerd/nerdctl).
+Is it for nerds? Sure, but not only. It is firstly to control contai-nerd.
 
-You can find uses of `ctr` and `crictl` tools too but they are meant
+You can find uses of `ctr` and `crictl` tools too,
+and they are installed with K3s,
+but they are meant
 for low-level interactions with containers as explained
 [here](https://github.com/containerd/nerdctl/blob/main/docs/faq.md#how-is-nerdctl-different-from-ctr-and-crictl-).
 
@@ -216,6 +222,22 @@ An ansible role for doing that is available
 Now you are ready to use the `nerdctl build` subcommand for building new Docker images.
 
 The images are available locally for direct use by Kubernetes Pod containers.
+
+### Kubectl configuration
+
+To access the K3s cluster with `kubectl` from a remote or non-root position
+just copy the file `/etc/rancher/k3s/k3s.yaml`
+into the local file `$HOME/.kube/config`
+change the server url
+    :::text
+    server: https://127.0.0.1:6443
+with the name of the K3s server
+    :::text
+    server: https://<k3s-server-name>:6443
+
+## Prod
+
+### registry
 
 ## References
 
