@@ -1,6 +1,6 @@
 <div otvl-web>
 type: sf-img
-src: /assets/images/minikube/versEtangDeSoulcem.jpg
+src: /assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
 alt: Article image
 title: Vers l'étang de Soulcem
 class_: v-img-header
@@ -33,11 +33,13 @@ and simple production.
 
 ## Installing K3s for development
 
+### Kubernetes control plane
+
 Depending on your way of working, you can install K3s either directly on the development host
 or on a separate virtual machine that you will access remotely with `kubectl`.
 Unless you want to test multi-node specific use-cases in development,
 the default installation with all the components on a single node
-is all what you need:
+is all what you need. Connect to the target host and run:
 
     :::text
     # curl -sfL https://get.k3s.io | sh -
@@ -45,6 +47,18 @@ is all what you need:
 Having a look at the [architecture document](https://docs.k3s.io/architecture),
 this means we run the K3s server components on the installed host,
 and there is no K3s agent node.
+
+    :::text
+    # curl -sfL https://get.k3s.io | sh -
+    # systemctl status k3s.service
+    ● k3s.service - Lightweight Kubernetes
+         Loaded: loaded (/etc/systemd/system/k3s.service; enabled; preset: enabled)
+         Active: active (running) since Wed 2024-01-03 09:21:54 CET; 3h 10min ago
+           Docs: https://k3s.io
+       Main PID: 2570 (k3s-server)
+          Tasks: 213
+         Memory: 1.7G
+            CPU: 26min 24.955s
 
 ## References
 
