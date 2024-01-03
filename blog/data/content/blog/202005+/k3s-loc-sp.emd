@@ -116,7 +116,7 @@ A few containers are also deployed for the control plane:
     traefik-8c645c69c-xrrcr                   1/1     Running     0          4h47m
     metrics-server-67c658944b-rlrzk           1/1     Running     0          4h50m
 
-Among those, [traefik](https://doc.traefik.io/traefik/)
+Among those, [Traefik](https://doc.traefik.io/traefik/)
 is a reverse proxy and load balancer
 that in our case is also able to play the role of a Kubernetes
 [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/).
@@ -125,9 +125,103 @@ corresponding to the DNS of the hosted applications services
 as declared in Kubernetes
 [Ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
+## Switching from Docker to Containerd
+
+If you chose to use the default container runtime installation of K3s,
+things are a little bit less easy then with using the perfectly packaged Docker product.
+
+Here are some installation steps to be performed on the K3s server.
+
+### Meet Nerdcrl
+
+First thing is to install a user-friendly command line tool to work with containers.
+This tool is open source too and is called [`Nerdctl`](https://github.com/containerd/nerdctl)
+
+You can find uses of `ctr` and `crictl` tools too but they are meant
+for low-level interactions with containers as explained
+[here](https://github.com/containerd/nerdctl/blob/main/docs/faq.md#how-is-nerdctl-different-from-ctr-and-crictl-).
+
+A minimal installation is enough in the case K3s is already installed.
+The rootless mode is not necessary either when you don't have specific security constraints.
+So just download the
+[binary](https://github.com/containerd/nerdctl/releases)
+and install it in the PATH environment
+for instance `/usr/local/bin`.
+
+Nerdctl must be configured to use the K3s containerd installation:
+
+    :::text
+    # vi /etc/nerdctl/nerdctl.toml
+    address        = "/run/k3s/containerd/containerd.sock"
+    namespace      = "k8s.io"
+
+An ansible role for doing that is available
+[here](https://github.com/t-beigbeder/otvl_ansible/tree/master/src/ansible/playbooks/otvl_service/otvl_nerdctl).
+
+Nerdctl provides a
+[CLI](https://github.com/containerd/nerdctl/blob/main/docs/command-reference.md)
+mostly compatible with Docker's one, just change `docker` with `nerdctl`,
+which makes the switch as smooth as possible.
+You can control images and containers as usual.
+You can even launch docker compose stacks.
+But you cannot build new images yet.
+
+### Meet BuildKit
+
+Nerdctl is able to build docker images with the familiar `nerdctl build` sub-command
+as soon as [BuildKit](https://github.com/moby/buildkit) is installed.
+
+Download BuildKit binaries from the project
+[releases](https://github.com/moby/buildkit/releases)
+and install them in the PATH environment
+for instance `/usr/local/bin`.
+
+BuildKit must be configured to use the K3s containerd installation:
+
+    :::text
+    # vi /etc/buildkit/buildkitd.toml
+    [worker.oci]
+      enabled = false
+
+    [worker.containerd]
+      enabled = true
+      address = "/run/k3s/containerd/containerd.sock"
+      namespace = "k8s.io"
+
+The buildkitd daemon must be installed as a systemd service:
+
+    :::text
+    # vi /etc/systemd/system/buildkit.service
+    [Unit]
+    Description=BuildKit
+    Documentation=https://github.com/moby/buildkit
+
+    [Service]
+    Type=simple
+    TimeoutStartSec=10
+    Restart=always
+    RestartSec=10
+    ExecStart=/usr/local/bin/buildkitd
+
+    [Install]
+    WantedBy=multi-user.target
+
+    # systemctl daemon-reload
+    # systemctl enable buildkit.service
+    # systemctl start buildkit.service
+
+An ansible role for doing that is available
+[here](https://github.com/t-beigbeder/otvl_ansible/tree/master/src/ansible/playbooks/otvl_service/otvl_buildkit).
+
+Now you are ready to use the `nerdctl build` subcommand for building new Docker images.
+
+The images are available locally for direct use by Kubernetes Pod containers.
+
 ## References
 
 - [K3s project](https://github.com/k3s-io/k3s/)
 - [K3s documentation](https://docs.k3s.io/)
 - [Containerd project](https://github.com/containerd/containerd)
+- [Nerdctl](https://github.com/containerd/nerdctl)
 - [Traefik documentation](https://doc.traefik.io/traefik/)
+- [BuildKit](https://github.com/moby/buildkit)
