@@ -227,17 +227,53 @@ The images are available locally for direct use by Kubernetes Pod containers.
 
 To access the K3s cluster with `kubectl` from a remote or non-root position
 just copy the file `/etc/rancher/k3s/k3s.yaml`
-into the local file `$HOME/.kube/config`
-change the server url
+into the local file `$HOME/.kube/config`,
+then change the server url
+
     :::text
     server: https://127.0.0.1:6443
+
 with the name of the K3s server
+
     :::text
     server: https://<k3s-server-name>:6443
 
-## Prod
+### Ready for development
 
-### registry
+The Kubernetes environment is now fully operational for the development activities:
+
+- building container images
+- deploying Kubernetes workloads and related resources
+- accessing hosted workloads through the Ingress Controller and other gateway services
+
+As K3s is production-ready, could the previous kind of deployment be used
+for hosting production workloads?
+
+## Simple hosting for production
+
+### Introduction
+
+Many deployment scenarios require a high level of availability.
+While K3s provides all the required features for
+[supporting](https://docs.k3s.io/architecture#high-availability-k3s)
+it,
+this is obviously not the case of this simple deployment,
+as there are those two main single points of failure:
+
+- the server node for the K3S server and user-plane workloads
+- the SQLite database for storing the cluster configuration and state
+
+Anyway, high availability does not necessarily mean _always available_,
+and even this simple deployment can provide a very good availability level
+as soon as it is effectively backed with automatic deployment.
+And as the deployment is lightweight like we saw it, the recovery time can be pretty low.
+
+We could say that the lack of redundancy is compensated
+with the simplicity of what is to be deployed.
+
+### TBC registry
+
+How to host a registry.
 
 ## References
 
