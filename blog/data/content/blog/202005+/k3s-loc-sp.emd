@@ -35,21 +35,58 @@ and simple production.
 
 ### Kubernetes control plane
 
-Depending on your way of working, you can install K3s either directly on the development host
-or on a separate virtual machine that you will access remotely with `kubectl`.
+Depending on your way of working and preference,
+you can install K3s either directly on the development host if it is running Linux,
+or on a separate Linux Virtual Machine that you will access remotely with `kubectl`.
 Unless you want to test multi-node specific use-cases in development,
 the default installation with all the components on a single node
-is all what you need. Connect to the target host and run:
+is all what you need.
+
+K3s installs the container runtime `[containerd](https://github.com/containerd/containerd)`
+for running Docker-compatible containers, and that is a strong system requirement.
+If you are already running Docker on the host, install K3s on a separate Virtual Machine,
+or configure the installer to
+[leverage](https://docs.k3s.io/advanced#using-docker-as-the-container-runtime)
+it.
+
+When ready, connect to the target host and run:
 
     :::text
     # curl -sfL https://get.k3s.io | sh -
 
 Having a look at the [architecture document](https://docs.k3s.io/architecture),
-this means we run the K3s server components on the installed host,
+it means that we run the K3s server components on the installed host,
 and there is no K3s agent node.
 
+We find on this document the following familiar Kubernetes components:
+
+- "`api-server`" is the cluster API entry point;
+- "`scheduler`" is responsible to allocate resources to the containers to be run;
+- "`controller-manager`" is responsible to apply requested changes on the cluster;
+- "`kubelet`" is an agent running on each node to control the state of containers;
+- "`kube-proxy`" is responsible to configure network rules to enable secured network
+  communication among the components and with external systems;
+
+We also find the "`kine`" component that,
+in this default installation,
+enables the K3s server to store the cluster configuration and state
+in a `SQLite` database, but could leverage `etcd` as well.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/k3s-loc-sp/architecture.jpg
+alt: Deployed architecture schema
+title: K3s deployed architecture
+class_: v-img
+</div>
+
+What is specific to K3s is that those components are packaged and run
+in a single Linux process,
+making the most efficient usage of CPU, memory and network resources.
+Other Kubernetes distributions
+typically run them as individual containers and Linux system services.
+
     :::text
-    # curl -sfL https://get.k3s.io | sh -
     # systemctl status k3s.service
     ● k3s.service - Lightweight Kubernetes
          Loaded: loaded (/etc/systemd/system/k3s.service; enabled; preset: enabled)
@@ -60,7 +97,21 @@ and there is no K3s agent node.
          Memory: 1.7G
             CPU: 26min 24.955s
 
+A few containers are also deployed for the control plane:
+
+    :::text
+    # kubectl get pods -n kube-system
+    NAME                                      READY   STATUS      RESTARTS   AGE
+    local-path-provisioner-84db5d44d9-72qfw   1/1     Running     0          4h50m
+    helm-install-traefik-crd-w7fs6            0/1     Completed   0          4h50m
+    coredns-6799fbcd5-bctpp                   1/1     Running     0          4h50m
+    helm-install-traefik-6lmt2                0/1     Completed   1          4h50m
+    svclb-traefik-e23bb5a4-4zrcl              2/2     Running     0          4h47m
+    traefik-8c645c69c-xrrcr                   1/1     Running     0          4h47m
+    metrics-server-67c658944b-rlrzk           1/1     Running     0          4h50m
+
 ## References
 
 - [K3s project](https://github.com/k3s-io/k3s/)
 - [K3s documentation](https://docs.k3s.io/)
+- [Containerd project](https://github.com/containerd/containerd)
