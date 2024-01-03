@@ -1,0 +1,52 @@
+<div otvl-web>
+type: sf-img
+src: /assets/images/minikube/versEtangDeSoulcem.jpg
+alt: Article image
+title: Vers l'étang de Soulcem
+class_: v-img-header
+</div>
+
+# Developing and simple hosting with K3s
+
+<div otvl-web>
+type: sf-page-dates
+</div>
+
+## Introduction
+
+[K3s](https://k3s.io/) is a lightweight yet very effective
+[Kubernetes](https://kubernetes.io/) open source distribution.
+
+While Docker and the Kubernetes orchestrator are leveraged more and more often
+for hosting application components,
+two interesting questions often remain open:
+
+- how to work locally as a developer:
+this is useful to set up, test and debug
+the deployment more efficiently than if working remotely,
+but also to leverage local computing resources
+- how to orchestrate application containers in production environments
+where there is no managed Kubernetes solution, or no cost-effective one either
+
+This article provides feedback for deploying and using K3s for development
+and simple production.
+
+## Installing K3s for development
+
+Depending on your way of working, you can install K3s either directly on the development host
+or on a separate virtual machine that you will access remotely with `kubectl`.
+Unless you want to test multi-node specific use-cases in development,
+the default installation with all the components on a single node
+is all what you need:
+
+    :::text
+    # curl -sfL https://get.k3s.io | sh -
+
+Having a look at the [architecture document](https://docs.k3s.io/architecture),
+this means we run the K3s server components on the installed host,
+and there is no K3s agent node.
+
+## References
+
+- [K3s project](https://github.com/k3s-io/k3s/)
+- [K3s documentation](https://docs.k3s.io/)
