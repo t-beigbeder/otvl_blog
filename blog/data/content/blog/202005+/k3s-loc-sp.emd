@@ -279,6 +279,14 @@ with the simplicity of what is to be deployed.
 
 How to host a registry.
 
+see this: https://distribution.github.io/distribution/about/deploying/
+
+### TBC Traefik configuration
+
+See this: https://github.com/traefik/traefik-helm-chart/blob/master/traefik/VALUES.md
+
+from this: https://docs.k3s.io/networking#traefik-ingress-controller
+
 ## References
 
 - [K3s project](https://github.com/k3s-io/k3s/)
