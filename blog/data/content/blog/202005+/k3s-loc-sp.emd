@@ -28,8 +28,8 @@ but also to leverage local computing resources
 - how to orchestrate application containers in production environments
 where there is no managed Kubernetes solution, or no cost-effective one either
 
-This article provides feedback for deploying and using K3s for development
-and simple production.
+This article provides feedback for deploying and using K3s
+in the context of development but also simple production.
 
 ## Installing K3s for development
 
@@ -42,11 +42,11 @@ Unless you want to test multi-nodes specific use-cases in development,
 the default installation with all the components on a single node
 is all what you need.
 
-K3s installs the container runtime `[containerd](https://github.com/containerd/containerd)`
+K3s installs the container runtime [containerd](https://github.com/containerd/containerd)
 for running Docker-compatible containers, and that is a strong system requirement.
 If you are already running Docker on the host, install K3s on a separate Virtual Machine,
 or configure the installer to
-[leverage](https://docs.k3s.io/advanced#using-docker-as-the-container-runtime)
+[use](https://docs.k3s.io/advanced#using-docker-as-the-container-runtime)
 it.
 
 When ready, connect to the target host and run:
@@ -63,12 +63,12 @@ will restart happily after a K3s host restart,
 making the solution convenient when the development environment is stopped.
 
 That being said,
-this of course doesn't prevent application pods to take care of their data by themselves.
+this doesn't prevent obviously the application pods to take care of their data by themselves.
 
 ### Analyzing the K3s architecture
 
 Having a look at the [architecture document](https://docs.k3s.io/architecture),
-it means that we run the K3s server components on the installed host,
+this simple deployment means that we run the K3s server components on the installed host,
 and there is no additional K3s agent node.
 
 We find on this document the following familiar Kubernetes components:
@@ -83,7 +83,7 @@ We find on this document the following familiar Kubernetes components:
 We also find the "`kine`" component that,
 in this default installation,
 enables the K3s server to store the cluster configuration and state
-in a `SQLite` database, but could leverage `etcd` as well.
+in a `SQLite` database, but could handle `etcd` as well.
 
 <div otvl-web>
 type: sf-img
@@ -94,8 +94,8 @@ class_: v-img
 </div>
 
 What is specific to K3s is that those components are packaged and run
-in a single Linux process,
-making the most efficient use of CPU, memory and network resources.
+in a single Linux process, the `k3s` service on the previous schema,
+making the use of CPU, memory and network resources as efficient as possible.
 Other Kubernetes distributions
 typically run them as individual containers and Linux system services.
 
@@ -135,15 +135,17 @@ as declared in Kubernetes
 ## Switching from Docker to Containerd
 
 If you chose to use the default container runtime installation of K3s,
-things are a little bit less easy then with using the perfectly packaged Docker product.
+things are a little bit less easy then when using the Docker product
+that comes packaged with its full featured command line interface.
 
 Here are some installation steps to be performed on the K3s server.
 
-### Meet Nerdcrl
+### Introducing Nerdcrl
 
 First thing is to install a user-friendly command line tool to work with containers.
 This tool is open source too and is called [`Nerdctl`](https://github.com/containerd/nerdctl).
-Is it for nerds? Sure, but not only. It is firstly to control contai-nerd.
+Is it for nerds? Sure, but not only.
+It is firstly meant to control the contai-nerd runtime as Docker CLI does for Docker runtime.
 
 You can find uses of `ctr` and `crictl` tools too,
 and they are installed with K3s,
@@ -176,10 +178,16 @@ You can control images and containers as usual.
 You can even launch docker compose stacks.
 But you cannot build new images yet.
 
-### Meet BuildKit
+### Introducing BuildKit
 
 Nerdctl is able to build docker images with the familiar `nerdctl build` sub-command
 as soon as [BuildKit](https://github.com/moby/buildkit) is installed.
+
+BuildKit is the new backend for building Docker images.
+It is also packaged with recent releases of Docker,
+so you may have already used it in this context.
+Compared to the legacy Docker builder, it provides much better performance
+through various optimizations.
 
 Download BuildKit binaries from the project
 [releases](https://github.com/moby/buildkit/releases)
@@ -247,7 +255,8 @@ with the name of the K3s server
 The Kubernetes environment is now fully operational for the development activities:
 
 - building container images
-- deploying Kubernetes workloads and related resources
+- deploying Kubernetes workloads as Pods using those images,
+- deploying related resources such as services and ingresses,
 - accessing hosted workloads through the Ingress Controller and other gateway services
 
 As K3s is production-ready, could the previous kind of deployment be used
