@@ -233,7 +233,8 @@ An ansible role for doing that is available
 
 Now you are ready to use the `nerdctl build` subcommand for building new Docker images.
 
-The images are available locally for direct use by Kubernetes Pod containers.
+The images are available locally for direct use by Kubernetes Pod containers,
+so there is no need for a Docker images registry in this context.
 
 ### Kubectl configuration
 
@@ -259,7 +260,7 @@ The Kubernetes environment is now fully operational for the development activiti
 - deploying related resources such as services and ingresses,
 - accessing hosted workloads through the Ingress Controller and other gateway services
 
-As K3s is production-ready, could the previous kind of deployment be used
+As K3s is production-ready, can the previous kind of deployment be used
 for hosting production workloads?
 
 ## Simple hosting for production
@@ -280,11 +281,28 @@ Anyway, high availability does not necessarily mean _always available_,
 and even this simple deployment can provide a very good availability level
 as soon as it is effectively backed with automatic deployment.
 And as the deployment is lightweight like we saw it, the recovery time can be pretty low.
-
 We could say that the lack of redundancy is compensated
-with the simplicity of what is to be deployed.
+by the simplicity of what is to be deployed.
 
-### TBC registry
+If we want to apply this solution for production workloads,
+we can either build the application Docker images
+on the K3s server using continuous deployment scripts,
+or to improve the global reliability,
+we can rather build those images using continuous integration scripts
+that push them in a registry.
+
+The following schema describes the deployment for both solutions,
+with a registry hosted as a Kubernetes Pod on the K3s cluster.
+
+<div otvl-web>
+type: sf-img
+src: /assets/images/k3s-loc-sp/deployment.png
+alt: Production simple deployment schema
+title: K3s production simple deployment
+class_: v-img
+</div>
+
+### Deploy a docker images registry on K3s
 
 How to host a registry.
 
