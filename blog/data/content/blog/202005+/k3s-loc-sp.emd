@@ -236,6 +236,7 @@ The buildkitd daemon must be installed as a systemd service:
 
 Let us test the installation:
 
+    :::text
     # cat > Dockerfile <<EOF
     from nginx
     RUN echo "that's it" > message.txt
@@ -399,17 +400,8 @@ We want to provide a secure transport with HTTPS and authenticate accesses:
 - the Traefik Ingress Controller will provide TLS termination for HTTPS,
 forwarding traffic over HTTP to the hosted registry
 - a second Traefik instance will play the role of reverse proxy,
-providing
-
-How to host a registry.
-
-see this: https://distribution.github.io/distribution/about/deploying/#importantrequired-http-headers
-
-### TBC Traefik configuration
-
-See this: https://github.com/traefik/traefik-helm-chart/blob/master/traefik/VALUES.md
-
-from this: https://docs.k3s.io/networking#traefik-ingress-controller
+providing authentication and HTTP headers setting, as mentioned
+[here](https://distribution.github.io/distribution/about/deploying/#importantrequired-http-headers)
 
 ### Additional notes
 
