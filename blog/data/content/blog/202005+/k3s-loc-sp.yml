@@ -1,6 +1,6 @@
 meta:
   version: "1.0"
-  publication_date: "20240103"
+  publication_date: "20240106"
   summary_heading: "Developing and simple hosting with K3s"
   summary: |
     K3s is a lightweight yet very effective Kubernetes distribution.
