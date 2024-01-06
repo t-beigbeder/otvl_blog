@@ -561,6 +561,34 @@ while this is very unlikely. More on this [here](https://letsencrypt.org/docs/ra
 
 ## Conclusion
 
+Except if you want to deploy a Containers Registry,
+the deployment of a simple K3s cluster for development or for production
+as seen above is simple enough to be achieved manually.
+Build and deployment automation can reduce the time for failure recovery,
+but more often for infrastructure upgrade,
+and ansible roles and playbooks for doing that are available in the following
+[git repository](https://github.com/t-beigbeder/otvl_ansible).
+
+K3s is really a great solution for developing and for simple hosting on Kubernetes.
+I personally use it for both activities,
+and concerning the production, the K3s cluster is hosting, no talking about the control plane
+
+- 5 web sites with low activity, totalling
+- 17 pods
+- 27 lightweight containers (using Apache, Traefik,
+[Cabri](https://github.com/t-beigbeder/otvl_cabri)
+and Python for APIs)
+
+all running on a 2 vCores / 4 GB RAM Virtual Machine.
+I guess this can be called no bullshit Green IT, with all due respect to cows and bulls.
+
+Such simple hosting can be of great interest for SOHO self-hosting.
+
+Finally, such an article cannot be closed without sending a big thank you
+to all Kubernetes communities, providing real open source solutions
+with the support of so many individuals and often backed by fair companies.
+Such projects cannot succeed without them, and they are a lot of ways to support them.
+
 ## References
 
 - [K3s project](https://github.com/k3s-io/k3s/)
