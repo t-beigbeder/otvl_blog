@@ -17,8 +17,8 @@ type: sf-page-dates
 [K3s](https://k3s.io/) is a lightweight yet very effective
 [Kubernetes](https://kubernetes.io/) open source distribution.
 
-While Docker and the Kubernetes orchestrator are leveraged more and more often
-for hosting application components,
+While Docker and the Kubernetes orchestrator
+are among the most popular hosting solutions for application components,
 two interesting questions often remain open:
 
 - how to work locally as a developer:
@@ -248,7 +248,7 @@ Let us test the installation:
      => => naming to docker.io/library/nginx-custo:0.1                                                              0.0s
      => => unpacking to docker.io/library/nginx-custo:0.1                                                           0.0s
 
-An ansible role for doing that is available
+An ansible role for deploying BuildKit as above is available
 [here](https://github.com/t-beigbeder/otvl_ansible/tree/master/src/ansible/playbooks/otvl_service/otvl_buildkit).
 
 Now you are ready to use the `nerdctl build` subcommand for building new Docker images.
@@ -384,10 +384,17 @@ This is a mix of Helm and Traefik-like configuration, from which the main inform
 - redirect HTTP traffic to HTTPS
 - use the Let's Encrypt ACME resolver to generate certificates for the cluster ingresses
 
+The ACME-generated certificates are kept persistent in a Kubernetes physical volume
+generated on local storage by the Helm template.
+
 It is worth knowing that this configuration does not scale well:
 on a multi-node control plane, the distributed Traefik ingress controllers
 will each communicate with the ACME provider without coordination,
 eventually failing to get a correct certificate.
+
+A collection of ansible roles for deploying K3s and the Traefik Ingress Controller
+as described previously are available
+[here](https://github.com/t-beigbeder/otvl_ansible/tree/master/src/ansible/playbooks/otvl_service/k3s).
 
 ### Deploy a Container Registry on K3s
 
@@ -395,19 +402,162 @@ The open source Container Registry
 [distribution](https://distribution.github.io/distribution)
 is lightweight and simple to configure for hosting.
 
-We want to provide a secure transport with HTTPS and authenticate accesses:
+We want to provide a secure transport with HTTPS and to authenticate accesses:
 
 - the Traefik Ingress Controller will provide TLS termination for HTTPS,
-forwarding traffic over HTTP to the hosted registry
+forwarding traffic over HTTP to the hosted registry,
+a thing that was detailed in the previous section,
 - a second Traefik instance will play the role of reverse proxy,
 providing authentication and HTTP headers setting, as mentioned
 [here](https://distribution.github.io/distribution/about/deploying/#importantrequired-http-headers)
+
+We could have for instance the containers registry deployed as a Pod and exposed with a Service:
+
+    :::text
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: ctr-reg
+      labels:
+        app.kubernetes.io/name: ctr-reg
+    spec:
+      ...
+      containers:
+        - name: ctr-reg
+          image: registry:2
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: "ctr-vol"
+              mountPath: /var/lib/registry
+            - name: "ctr-vcf"
+              mountPath: /etc/docker/registry/config.yml
+      volumes:
+        ...
+      restartPolicy: OnFailure
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: "ctr-reg"
+    spec:
+      selector:
+        app.kubernetes.io/name: "ctr-reg"
+      ports:
+        - name: "reg-port"
+          port: 5000
+          protocol: TCP
+
+And deploy a Traefik reverse proxy for authentication and HTTP protocol settings:
+
+    :::text
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: ctr-router
+      labels:
+        app.kubernetes.io/name: ctr-router
+    spec:
+      ...
+      containers:
+        - name: ctr-router
+          image: "traefik:v2.10"
+          command: ["/usr/local/bin/traefik"]
+          args: ["--configFile=/traefik/static_config.yml"]
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            ...
+      volumes:
+        ...
+      restartPolicy: OnFailure
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: "ctr-router"
+    spec:
+      selector:
+        app.kubernetes.io/name: "ctr-router"
+      ports:
+        - name: "router-port"
+          port: 5000
+          protocol: TCP
+    ---
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: "ctr-router"
+    spec:
+      rules:
+        - host: "<your DNS>"
+          http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name:  "ctr-router"
+                    port:
+                      number: 5000
+
+While the Traefik reverse proxy simply communicates over HTTP with the registry,
+it is necessary to tell the registry that the origin protocol is HTTPS.
+
+Thus from /traefik/static_config.yml:
+
+    :::text
+    providers:
+      file:
+        filename: /traefik/dynamic_conf.yml
+        watch: true
+    entryPoints:
+      web:
+        address: ':5000'
+
+to /traefik/dynamic_conf.yml:
+
+    :::text
+    http:
+      routers:
+        to-app:
+          rule: "PathPrefix(`/`)"
+          priority: 1
+          middlewares:
+            - basic-auth
+            - https-header
+          service: reg
+      middlewares:
+        "basic-auth":
+          basicAuth:
+            users:
+              - "<user>:$apr1$<password>"
+        https-header:
+          headers:
+            customRequestHeaders:
+              X-Forwarded-Proto: "https"
+      services:
+        "reg":
+          loadBalancer:
+            servers:
+              - url: "http://ctr-reg:5000"
+
+A collection of ansible roles for deploying the Distribution registry as detailed above
+are available
+[here](https://github.com/t-beigbeder/otvl_ansible/tree/master/src/ansible/playbooks/otvl_service/otvl_ctr).
 
 ### Additional notes
 
 When dealing with failure recovery, the cluster may have to be redeployed from scratch,
 including the hosted Pods.
-This require each hosted Pod
+This require each hosted Pod to take the responsibility to backup its data in a safe place,
+and then to restore it at installation time.
+Various cloud storage solutions can be used for such a need.
+
+Concerning the Let's Encrypt ACME provider,
+the number of certificates generated for a given DNS zone is limited in time.
+So repeated failure recoveries could lead to reach this limit,
+while this is very unlikely. More on this [here](https://letsencrypt.org/docs/rate-limits/).
 
 ## Conclusion
 
