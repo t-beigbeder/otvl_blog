@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-sample-otvl
+  labels:
+    app.kubernetes.io/name: web-sample-otvl
+spec:
+  containers:
+    - name: web-server
+      image: nginx:stable
+      ports:
+        - containerPort: 80
