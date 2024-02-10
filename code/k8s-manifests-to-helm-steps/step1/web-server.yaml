@@ -6,11 +6,37 @@ metadata:
   labels:
     app.kubernetes.io/name: web-sample-otvl
 spec:
+  securityContext:
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
   containers:
     - name: web-server
       image: nginxinc/nginx-unprivileged:latest
       ports:
         - containerPort: 8080
+      volumeMounts:
+        - name: workdir
+          subPath: code/k8s-manifests-to-helm-steps/html
+          mountPath: /usr/share/nginx/html
+  initContainers:
+    - name: install
+      image: bitnami/git
+      command:
+        - git
+        - clone
+        - --single-branch
+        - --branch
+        - bdev4
+        - --
+        - https://github.com/t-beigbeder/otvl_blog
+        - /workdir
+      volumeMounts:
+        - name: workdir
+          mountPath: /workdir
+  volumes:
+    - name: workdir
+      emptyDir: {}
 
 ---
 apiVersion: v1
