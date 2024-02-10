@@ -1,0 +1,17 @@
+replicaCount: 2
+images:
+  nginx: nginxinc/nginx-unprivileged:latest
+  git: bitnami/git
+git_repo:
+  url: https://github.com/t-beigbeder/otvl_blog
+  branch: bdev4
+resources:
+  requests:
+    cpu: "0.25"
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+ingress:
+  enabled: true
+  # host: web-sample-otvl.example.com, defaults to <release-name>.example.com
