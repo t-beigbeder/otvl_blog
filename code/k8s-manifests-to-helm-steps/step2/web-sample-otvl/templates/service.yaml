@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-sample-otvl
+  name: {{ .Release.Name }}
 spec:
   selector:
-    app.kubernetes.io/name: web-sample-otvl
+    app.kubernetes.io/name: {{ .Release.Name }}
   ports:
     - name: "wev-port"
       port: 8080

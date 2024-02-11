@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-sample-otvl
+  name: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: web-sample-otvl
+      app.kubernetes.io/name: {{ .Release.Name }}
   replicas: 2
   template:
     metadata:
-      name: web-sample-otvl
+      name: {{ .Release.Name }}
       labels:
-        app.kubernetes.io/name: web-sample-otvl
+        app.kubernetes.io/name: {{ .Release.Name }}
     spec:
       securityContext:
         # share nginx-unprivileged identity with initContainer git-installer
@@ -24,7 +24,7 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app.kubernetes.io/name: web-sample-otvl
+              app.kubernetes.io/name: {{ .Release.Name }}
       containers:
         - name: web-server
           image: nginxinc/nginx-unprivileged:latest
