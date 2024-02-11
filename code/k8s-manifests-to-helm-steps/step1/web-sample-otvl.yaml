@@ -41,11 +41,12 @@ spec:
           livenessProbe:
             periodSeconds: 60
             httpGet:
-              path: /health.txt
+              path: /liveness.txt
               port: 8080
           readinessProbe:
+            periodSeconds: 60
             httpGet:
-              path: /health.txt
+              path: /readiness.txt
               port: 8080
           volumeMounts:
             - name: workdir
