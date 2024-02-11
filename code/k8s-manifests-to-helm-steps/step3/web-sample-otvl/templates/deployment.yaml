@@ -32,6 +32,16 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
             - containerPort: 8080
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /liveness.txt
+              port: 8080
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /readiness.txt
+              port: 8080
           volumeMounts:
             - name: workdir
               subPath: code/k8s-manifests-to-helm-steps/html

@@ -30,13 +30,23 @@ spec:
           image: nginxinc/nginx-unprivileged:latest
           resources:
             requests:
-              cpu: 0.25
+              cpu: "0.25"
               memory: 128Mi
             limits:
-              cpu: 0.5
+              cpu: "0.5"
               memory: 256Mi
           ports:
             - containerPort: 8080
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /liveness.txt
+              port: 8080
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /readiness.txt
+              port: 8080
           volumeMounts:
             - name: workdir
               subPath: code/k8s-manifests-to-helm-steps/html
