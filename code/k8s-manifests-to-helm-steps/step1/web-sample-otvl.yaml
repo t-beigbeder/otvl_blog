@@ -38,6 +38,15 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 8080
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /health.txt
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /health.txt
+              port: 8080
           volumeMounts:
             - name: workdir
               subPath: code/k8s-manifests-to-helm-steps/html
