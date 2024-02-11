@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -7,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - {{ .Release.Name }}.example.com
+        - {{ include "web-sample-otvl-ingress-hostname" . }}
       secretName: {{ .Release.Name }}
   rules:
-    - host: {{ .Release.Name }}.example.com
+    - host: {{ include "web-sample-otvl-ingress-hostname" . }}
       http:
         paths:
           - path: /
@@ -20,3 +21,4 @@ spec:
                 name:  {{ .Release.Name }}
                 port:
                   number: 8080
+{{- end }}
