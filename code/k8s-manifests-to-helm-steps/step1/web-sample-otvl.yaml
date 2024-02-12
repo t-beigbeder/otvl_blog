@@ -60,7 +60,7 @@ spec:
             - clone
             - --single-branch
             - --branch
-            - bdev4
+            - master
             - --
             - https://github.com/t-beigbeder/otvl_blog
             - /workdir

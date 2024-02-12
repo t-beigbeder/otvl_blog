@@ -4,7 +4,7 @@ images:
   git: bitnami/git
 git_repo:
   url: https://github.com/t-beigbeder/otvl_blog
-  branch: bdev4
+  branch: master
 resources:
   requests:
     cpu: "0.25"
