@@ -44,20 +44,18 @@ spec:
               port: 8080
           volumeMounts:
             - name: workdir
-              subPath: code/k8s-manifests-to-helm-steps/html
+              subPath: clone/code/k8s-manifests-to-helm-steps/html
               mountPath: /usr/share/nginx/html
       initContainers:
+        - name: clean-state
+          image: {{ .Values.images.busybox }}
+          command: ["rm", "-rf", "/workdir/clone"]
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
         - name: git-installer
           image: {{ .Values.images.git }}
-          command:
-            - git
-            - clone
-            - --single-branch
-            - --branch
-            - {{ .Values.git_repo.branch }}
-            - --
-            - {{ .Values.git_repo.url }}
-            - /workdir
+          command: ["git", "clone", "--single-branch", "--branch", {{ .Values.git_repo.branch | quote }}, "--", {{ .Values.git_repo.url | quote }}, "/workdir/clone"]
           resources:
             requests:
               cpu: 0.25
