@@ -1,0 +1,21 @@
+site_name: otvl blog
+site_url: https://blog.otvl.org/
+theme:
+  name: material
+  palette:
+    primary: white
+  logo: images/logo.png
+  favicon: images/favicon.ico
+  extra_css:
+    - css/extra.css
+  font: false
+  custom_dir: overrides
+  markdown_extensions:
+    - attr_list
+    - md_in_html
+  plugins:
+    search:
+      enable: false
+    blog:
+      blog_toc: true
+      archive_date_format: MMMM yyyy

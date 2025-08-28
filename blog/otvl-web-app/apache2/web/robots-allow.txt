@@ -1,3 +1,0 @@
-Sitemap: https://@@otvl_web_server_name@@/sitemap.xml
-User-agent: *
-Disallow:

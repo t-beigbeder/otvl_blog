@@ -1,9 +1,1 @@
-
-# idea
-/.idea
-/.run
-
-# eclipse
-/.settings
-/.project
-/.pydevproject
+site/
