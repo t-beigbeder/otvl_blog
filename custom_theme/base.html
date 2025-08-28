@@ -90,20 +90,20 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                         {%- for nav_item in nav %}
-                        {%- if nav_item.children %}
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle{% if nav_item.active %} active" aria-current="page{% endif %}" role="button" data-bs-toggle="dropdown"  aria-expanded="false">{{ nav_item.title }}</a>
-                                <ul class="dropdown-menu">
-                                {%- for nav_item in nav_item.children %}
-                                    {% include "nav-sub.html" %}
-                                {%- endfor %}
-                                </ul>
-                            </li>
-                        {%- else %}
-                            <li class="nav-item">
-                                <a href="{{ nav_item.url|url }}" class="nav-link{% if nav_item.active %} active" aria-current="page{% endif %}">{{ nav_item.title }}</a>
-                            </li>
-                        {%- endif %}
+                            {%- if nav_item.children %}
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle{% if nav_item.active %} active" aria-current="page{% endif %}" role="button" data-bs-toggle="dropdown"  aria-expanded="false">{{ nav_item.title }}</a>
+                                    <ul class="dropdown-menu">
+                                    {%- for nav_item in nav_item.children %}
+                                        {% include "nav-sub.html" %}
+                                    {%- endfor %}
+                                    </ul>
+                                </li>
+                            {%- else %}
+                                <li class="nav-item">
+                                    <a href="{{ nav_item.url|url }}" class="nav-link{% if nav_item.active %} active" aria-current="page{% endif %}">{{ nav_item.title }}</a>
+                                </li>
+                            {%- endif %}
                         {%- endfor %}
                         </ul>
                     {%- endif %}
@@ -125,14 +125,23 @@
                 {%- endblock %}
             </div>
         </div>
+        {%- if page and page.meta.blog_index %}
+        <div class="container">
+            <div class="row">
+                <ul>
+                    {% for file in pages %}
+                    <li>page {{ file.page }} ({{ file.page.meta }})</li>
+                    {% endfor %}
+                    <li>current {{ page.meta }}</li>
+                </ul>
+            </div>
+        </div>
+        {%- endif %}
 
         <footer class="col-md-12">
           {%- block footer %}
             <hr>
-            {%- if config.copyright %}
-                <p>{{ config.copyright }}</p>
-            {%- endif %}
-            <p>{% trans mkdocs_link='<a href="https://www.mkdocs.org/">MkDocs</a>' %}Documentation built with {{ mkdocs_link }}.{% endtrans %}</p>
+            <p><a href="legal-policies">Legal policies</a></p>
           {%- endblock %}
         </footer>
 
