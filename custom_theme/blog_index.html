@@ -2,11 +2,25 @@
 
 {%- block blog_index %}
     <div class="col-md-12">
-        <ul>
-            {% for file in pages %}
-            <li>page {{ file.page }} ({{ file.page.meta }})</li>
-            {% endfor %}
-            <li>current {{ page.meta }}</li>
-        </ul>
+        {% set articles = pages|selectattr("page.meta.ow_article")|sort(reverse=true, attribute="page.meta.publication_date") %}
+        {% for file in articles %}
+        <div class="row">
+            <hr/>
+            <div class="col-md-8">
+                <h5>{{ file.page.meta.summary_heading }}</h5>
+            </div>
+            <div class="col-md-4 justify-content-end d-flex">
+               <small>Published on {{ file.page.meta.publication_date }}</small>
+            </div>
+            <div class="col-md-8">
+                {{ file.page.meta.summary }}
+            </div>
+            <div class="col-md-4 justify-content-end d-flex">
+               <a href="{{ file.page.url }}">Read more...</a>
+            </div>
+        </div>
+        {% endfor %}
+
+
     </div>
 {% endblock %}

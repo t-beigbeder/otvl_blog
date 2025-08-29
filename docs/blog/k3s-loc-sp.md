@@ -1,5 +1,5 @@
 ---
-site_nav: true
+ow_article: true
 title: "Developing and simple hosting with K3s"
 version: "1.0"
 publication_date: "20240106"

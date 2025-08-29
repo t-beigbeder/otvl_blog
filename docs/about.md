@@ -1,5 +1,5 @@
 ---
-site_nav: true
+title: About
 ---
 
 # About

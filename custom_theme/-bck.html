@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{%- block blog_index %}
+    <div class="col-md-12">
+        <p>pages</p>
+        <ul>
+            {% for file in pages|selectattr("page.meta.ow_article") %}
+            <li>page {{ file.page }} ({{ file.page.meta }})</li>
+            {% endfor %}
+        </ul>
+        {% set articles = pages|selectattr("page.meta.ow_article")|sort(reverse=true, attribute="page.meta.publication_date") %}
+        <p>articles {{ articles }}</p>
+        <ul>
+            {% for file in articles %}
+            <li>page {{ file.page }} ({{ file.page.meta }})</li>
+            {% endfor %}
+        </ul>
+
+        <p>meta</p>
+        <ul>
+            {% for meta in pages|selectattr("page.meta.ow_article")|map(attribute="page.meta") %}
+            <li>meta {{ meta }})</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}

@@ -1,5 +1,5 @@
 ---
-site_nav: true
+ow_article: true
 title: "Using Cabri to share data with confidence"
 version: "1.0"
 publication_date: "20230822"

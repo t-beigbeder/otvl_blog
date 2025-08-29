@@ -1,7 +1,6 @@
 ---
 template: blog_index.html
 title: Home
-site_nav: true
 ---
 
 # Welcome to otvl.org's Blog!
