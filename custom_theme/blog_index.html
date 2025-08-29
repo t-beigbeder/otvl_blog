@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{%- block blog_index %}
+    <div class="col-md-12">
+        <ul>
+            {% for file in pages %}
+            <li>page {{ file.page }} ({{ file.page.meta }})</li>
+            {% endfor %}
+            <li>current {{ page.meta }}</li>
+        </ul>
+    </div>
+{% endblock %}

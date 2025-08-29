@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{%- block search_button %} {% endblock %}
+
+{%- block next_prev %} {% endblock %}
+
+{%- block repo %} {% endblock %}
+
+{%- block content %}
+    <div class="col-md-12" role="main">{% include "content.html" %}</div>
+    {%- block blog_index %}{% endblock %}
+{%- endblock %}
+
+{%- block footer %}
+<hr>
+<p><a href="legal-policies">Legal policies</a></p>
+{%- endblock %}

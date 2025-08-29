@@ -1,3 +1,15 @@
+---
+site_nav: true
+title: "Developing and simple hosting with K3s"
+version: "1.0"
+publication_date: "20240106"
+summary_heading: "Developing and simple hosting with K3s"
+summary: |
+    K3s is a lightweight yet very effective Kubernetes distribution.
+    This article provides feedback for deploying and using K3s
+    in the context of development but also simple production.
+---
+
 <div otvl-web>
 type: sf-img
 src: /assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
@@ -51,8 +63,9 @@ it.
 
 When ready, connect to the target host and run:
 
-    :::text
-    # curl -sfL https://get.k3s.io | sh -
+```shell
+# curl -sfL https://get.k3s.io | sh -
+```
 
 Depending on system and network resources,
 this single command will take a few dozens of seconds and deploy a fully operational

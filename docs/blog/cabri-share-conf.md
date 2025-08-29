@@ -1,3 +1,15 @@
+---
+site_nav: true
+title: "Using Cabri to share data with confidence"
+version: "1.0"
+publication_date: "20230822"
+summary_heading: "Using Cabri to share data with confidence"
+summary: |
+    Cabri is free software designed specifically to store data and synchronize it on various media,
+    between different places, with the people you want.
+    This short presentation shows you what you could do with it.
+---
+
 <div otvl-web>
 type: sf-img
 src: /assets/images/cabri-share-conf/Wild_Baby_Chamois_by_Giles_Laurent.jpg
