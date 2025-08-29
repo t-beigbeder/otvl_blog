@@ -1,5 +1,6 @@
 ---
 ow_article: true
+template: article.html
 title: "Developing and simple hosting with K3s"
 version: "1.0"
 publication_date: "20240106"
@@ -8,21 +9,9 @@ summary: |
     K3s is a lightweight yet very effective Kubernetes distribution.
     This article provides feedback for deploying and using K3s
     in the context of development but also simple production.
+head_image: /assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
+head_img_title: Vers l'étang de Soulcem
 ---
-
-<div otvl-web>
-type: sf-img
-src: /assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
-alt: Article image
-title: Vers l'étang de Soulcem
-class_: v-img-header
-</div>
-
-# Developing and simple hosting with K3s
-
-<div otvl-web>
-type: sf-page-dates
-</div>
 
 ## Introduction
 
@@ -98,13 +87,7 @@ in this default installation,
 enables the K3s server to store the cluster configuration and state
 in a `SQLite` database, but could handle `etcd` as well.
 
-<div otvl-web>
-type: sf-img
-src: /assets/images/k3s-loc-sp/architecture.png
-alt: Deployed architecture schema
-title: K3s deployed architecture
-class_: v-img
-</div>
+<img markdown="1" src=/assets/images/k3s-loc-sp/architecture.png title="K3s deployed architecture" alt="Deployed architecture schema" class="img-fluid">
 
 What is specific to K3s is that those components are packaged and run
 in a single Linux process, the `k3s` service on the previous schema,
@@ -112,7 +95,6 @@ making the use of CPU, memory and network resources as efficient as possible.
 Other Kubernetes distributions
 typically run them as individual containers and Linux system services.
 
-    :::text
     # systemctl status k3s.service
     ● k3s.service - Lightweight Kubernetes
          Loaded: loaded (/etc/systemd/system/k3s.service; enabled; preset: enabled)
@@ -125,7 +107,6 @@ typically run them as individual containers and Linux system services.
 
 A few containers are also deployed for the control plane:
 
-    :::text
     # kubectl get pods -n kube-system
     NAME                                      READY   STATUS      RESTARTS   AGE
     local-path-provisioner-84db5d44d9-72qfw   1/1     Running     0          4h50m
@@ -173,7 +154,6 @@ for instance `/usr/local/bin`.
 
 Nerdctl must be configured to use the K3s containerd installation:
 
-    :::text
     # vi /etc/nerdctl/nerdctl.toml
     address        = "/run/k3s/containerd/containerd.sock"
     namespace      = "k8s.io"
@@ -215,7 +195,6 @@ for instance `/usr/local/bin`.
 
 BuildKit must be configured to use the K3s containerd installation:
 
-    :::text
     # vi /etc/buildkit/buildkitd.toml
     [worker.oci]
       enabled = false
@@ -227,7 +206,6 @@ BuildKit must be configured to use the K3s containerd installation:
 
 The buildkitd daemon must be installed as a systemd service:
 
-    :::text
     # vi /etc/systemd/system/buildkit.service
     [Unit]
     Description=BuildKit
@@ -249,7 +227,6 @@ The buildkitd daemon must be installed as a systemd service:
 
 Let us test the installation:
 
-    :::text
     # cat > Dockerfile <<EOF
     from nginx
     RUN echo "that's it" > message.txt
@@ -276,12 +253,10 @@ just copy the file `/etc/rancher/k3s/k3s.yaml`
 into the local file `$HOME/.kube/config`,
 then change the server url
 
-    :::text
     server: https://127.0.0.1:6443
 
 with the name of the K3s server
 
-    :::text
     server: https://<k3s-server-name>:6443
 
 ### Ready for development
@@ -328,13 +303,7 @@ from where they can be pulled at deployment time.
 The following schema describes the deployment for both solutions,
 with a registry hosted as a Kubernetes Pod on the K3s cluster.
 
-<div otvl-web>
-type: sf-img
-src: /assets/images/k3s-loc-sp/deployment.png
-alt: Production simple deployment schema
-title: K3s production simple deployment
-class_: v-img
-</div>
+<img markdown="1" src=/assets/images/k3s-loc-sp/deployment.png title="K3s production simple deployment" alt="Production simple deployment schema" class="img-fluid">
 
 Two topics require some attention:
 
@@ -360,7 +329,6 @@ This redirects to the Traefik Helm
 
 In our case, we will provide the following configuration to K3s:
 
-    :::text
     # vi /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
     apiVersion: helm.cattle.io/v1
     kind: HelmChartConfig
@@ -426,7 +394,6 @@ providing authentication and HTTP headers setting, as mentioned
 
 We could have for instance the containers registry deployed as a Pod and exposed with a Service:
 
-    :::text
     apiVersion: v1
     kind: Pod
     metadata:
@@ -463,7 +430,6 @@ We could have for instance the containers registry deployed as a Pod and exposed
 
 And deploy a Traefik reverse proxy for authentication and HTTP protocol settings:
 
-    :::text
     apiVersion: v1
     kind: Pod
     metadata:
@@ -519,7 +485,6 @@ it is necessary to tell the registry that the origin protocol is HTTPS.
 
 Thus from /traefik/static_config.yml:
 
-    :::text
     providers:
       file:
         filename: /traefik/dynamic_conf.yml
@@ -530,7 +495,6 @@ Thus from /traefik/static_config.yml:
 
 to /traefik/dynamic_conf.yml:
 
-    :::text
     http:
       routers:
         to-app:

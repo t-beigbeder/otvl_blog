@@ -1,9 +1,11 @@
-site_name: Otvl Blog
+site_name: Blog
+site_favicon: images/favicon.ico
 nav:
   - index.md
   - about.md
 theme:
   name: mkdocs
+  nav_style: light
   custom_dir: custom_theme/
   markdown_extensions:
     - attr_list

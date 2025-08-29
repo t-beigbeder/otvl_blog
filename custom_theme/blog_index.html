@@ -5,17 +5,17 @@
         {% set articles = pages|selectattr("page.meta.ow_article")|sort(reverse=true, attribute="page.meta.publication_date") %}
         {% for file in articles %}
         <div class="row">
-            <hr/>
+            <hr class="mt-4"/>
             <div class="col-md-8">
-                <h5>{{ file.page.meta.summary_heading }}</h5>
+                <p><strong>{{ file.page.meta.summary_heading }}</strong></p>
             </div>
             <div class="col-md-4 justify-content-end d-flex">
                <small>Published on {{ file.page.meta.publication_date }}</small>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 {{ file.page.meta.summary }}
             </div>
-            <div class="col-md-4 justify-content-end d-flex">
+            <div class="col-md-3 justify-content-end d-flex">
                <a href="{{ file.page.url }}">Read more...</a>
             </div>
         </div>
