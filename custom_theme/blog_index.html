@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {%- block blog_index %}
-    <div class="col-md-12">
+    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
         {% set articles = pages|selectattr("page.meta.ow_article")|sort(reverse=true, attribute="page.meta.publication_date") %}
         {% for file in articles %}
         <div class="row">
