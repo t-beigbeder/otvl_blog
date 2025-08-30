@@ -71,7 +71,7 @@ This is the ingress controller that handle communication between the load balanc
 To give more context about the role of ingresses in relation with TLS certificates,
 the following figure is an example of the routing capability provided by ingress resources:
 
-<img markdown="1" src/assets/images/le-k3s-ingresses/ingress-routes.png title="Ingresses and related routes" alt="Ingresses and related routes schema" class="img-fluid">
+<img markdown="1" src=/assets/images/le-k3s-ingresses/ingress-routes.png title="Ingresses and related routes" alt="Ingresses and related routes schema" class="img-fluid">
 
 Two distinct DNS entries are exposed by the external load balancer to be routed to the ingress controller.
 The application ingress declares one route for each DNS
