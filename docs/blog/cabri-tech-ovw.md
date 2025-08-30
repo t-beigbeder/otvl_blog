@@ -10,7 +10,7 @@ summary: |
     between people, medias and places.
     This article provides information on its implementation
     to help understanding how this is supported.
-head_image: /assets/images/cabri-tech-ovw/Wild_Baby_Alpine_Chamois_Creux_by_Giles_Laurent.jpg
+head_image: ../../assets/images/cabri-tech-ovw/Wild_Baby_Alpine_Chamois_Creux_by_Giles_Laurent.jpg
 head_img_title: Wild baby alpine chamois and Swiss alps at Creux du van with sunset colors and snow Photo by Giles Laurent
 head_img_credit: Illustration above credit
 head_img_href: https://commons.wikimedia.org/wiki/File:006_Wild_Baby_Alpine_Chamois_Creux_du_Van_and_Swiss_Alps_Sunset_colors_Photo_by_Giles_Laurent.jpg
@@ -19,7 +19,7 @@ head_img_href: https://commons.wikimedia.org/wiki/File:006_Wild_Baby_Alpine_Cham
 [Cabri](https://github.com/t-beigbeder/otvl_cabri)
 enables fast and secure data synchronization between people, medias and places.
 
-While a [previous article](/blog/cabri-share-conf)
+While a [previous article](../cabri-share-conf)
 presented its main features from a user's perspective,
 this one provides some information on its implementation
 to help understanding how efficiency and security are supported.
@@ -46,7 +46,7 @@ This section details the main supporting mechanisms.
 Cabri's most resource intensive use concerns the synchronization of large amount of data.
 The following diagram shows the synchronization of a local directory with a local Cabri DSS.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/parallel.png title="Backup files on external drive" alt="Backup files on external drive schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/parallel.png title="Backup files on external drive" alt="Backup files on external drive schema" class="img-fluid">
 
 When the Cabri DSS is initially empty, all local files will be copied to it,
 requiring a large amount of I/O operations,
@@ -71,7 +71,7 @@ In the case the target is a slow USB key, the result may even be globally faster
 The following diagram shows the synchronization of a local directory with a Cabri DSS providing cloud storage.
 In that case, writing to the DSS requires massive network uploads.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/parallel-obs.png title="Backup files with cloud storage" alt="Backup files with cloud storage schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/parallel-obs.png title="Backup files with cloud storage" alt="Backup files with cloud storage schema" class="img-fluid">
 
 While the Cloud storage providers generally support a large amount of parallel I/O operations,
 the limitation will rather come from the available network bandwidth and local system resources.
@@ -97,7 +97,7 @@ and it provides the ability to encrypt and decrypt data as a flow.
 The following diagram shows data synchronization back and forth
 between local files and an encrypted local DSS.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/flow.png title="Flow processing storage" alt="Flow processing storage schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/flow.png title="Flow processing storage" alt="Flow processing storage schema" class="img-fluid">
 
 In such a scenario, data sent to the DSS may be written as soon as encrypted data chunks are available.
 On the other direction,
@@ -105,7 +105,7 @@ data read from the DSS may be written to a local file as soon as decrypted data 
 
 ### Indexes
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/index.png title="Index of DSS metadata" alt="Index of DSS metadata schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/index.png title="Index of DSS metadata" alt="Index of DSS metadata schema" class="img-fluid">
 
 Indexing the DSS content metadata is necessary for several reasons:
 
@@ -124,10 +124,10 @@ at least on the DSS side in case the other side is barely made of local files.
 
 Indexes play an important role concerning multi-user access through a remote DSS.
 As described on the following schema, and explained in the 
-[previous article](/blog/cabri-share-conf),
+[previous article](../cabri-share-conf),
 a DSS is set up on a remote HTTP server for enabling different users to share their local data.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/index-remote.png title="Client index of remote metadata" alt="Client index of remote metadata schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/index-remote.png title="Client index of remote metadata" alt="Client index of remote metadata schema" class="img-fluid">
 
 From the DSS access perspective, the Cabri HTTP server acts as any other Cabri utility accessing a DSS,
 and so maintains an index of the DSS metadata locally.
@@ -175,7 +175,7 @@ this metadata has to be accessed decrypted in an index.
 The following schema explains how this is implemented.
 In that example, an encrypted DSS stored on an USB key is used to restore confidential files to decrypted local storage.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/e2e-enc.png title="Client index for encrypted metadata" alt="Client index for encrypted metadata schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/e2e-enc.png title="Client index for encrypted metadata" alt="Client index for encrypted metadata schema" class="img-fluid">
 
 The DSS data architecture for encrypted DSS is similar to what is implemented for remote access,
 with the addition of encryption concerns.
@@ -195,7 +195,7 @@ and under his or her control.
 Based on the previous explanations the following schema shows how several users
 can share their local confidential data through a remote encrypted DSS.
 
-<img markdown="1" src=/assets/images/cabri-tech-ovw/remote-enc.png title="Encrypted data sharing" alt="Encrypted data sharing schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-tech-ovw/remote-enc.png title="Encrypted data sharing" alt="Encrypted data sharing schema" class="img-fluid">
 
 In that case, the Cabri HTTP server is responsible to maintain the index of encrypted metadata.
 The server has no access at all to any user's private key, so even in the case a security breach is exploited

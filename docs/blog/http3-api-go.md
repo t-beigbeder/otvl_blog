@@ -10,7 +10,7 @@ summary: |
 
     These are simply the slides of the talk given on 2024/11/16
     at the Capitole du Libre event in Toulouse, France.
-head_image: /assets/images/http3-api-go/http3.png
+head_image: ../../assets/images/http3-api-go/http3.png
 head_img_title: Comparaison des couches réseau HTTP/2 et HTTP/3
 
 ---
@@ -23,6 +23,6 @@ donnée le 16 novembre 2024 lors de l'événement
 [Capitole du Libre](https://capitoledulibre.org/).
 
 Le contenu de la présentation est disponible
-[ici](/assets/documents/http3/20241116-http3-cdl.pdf),
+[ici](../../assets/documents/http3/20241116-http3-cdl.pdf),
 avec une liste de liens très intéressants à la dernière page.
 

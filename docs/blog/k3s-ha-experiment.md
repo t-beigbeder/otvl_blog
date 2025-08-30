@@ -9,13 +9,13 @@ summary: |
     This article describes an experiment to deploy a K3s high-availability cluster on AWS,
     from solution to implementation.
     The solution leverages standard K3s components and remains cloud-agnostic as much as possible.
-head_image: /assets/images/k3s-ha-experiment/mimosasABlagnac.jpg
+head_image: ../../assets/images/k3s-ha-experiment/mimosasABlagnac.jpg
 head_img_title: Mimosas, pin et nuages au printemps à Blagnac
 ---
 
 ## Introduction
 
-A [previous article](/blog/k3s-loc-sp) presented the
+A [previous article](../k3s-loc-sp) presented the
 [K3s](https://k3s.io/)
 Kubernetes open source distribution
 and how it could be used for development or simple application hosting on a single node.
@@ -68,14 +68,14 @@ To allow any TCP-based protocol to be balanced, an AWS Network Load Balancer mus
 The solution demonstrates the use of those components by deploying a simple Nginx static Web Server
 accessed over HTTPS with a Let's Encrypt certificate.
 
-As detailed in a [previous article](/blog/le-k3s-ingresses), cert-manager is required for certificates provisioning
+As detailed in a [previous article](../le-k3s-ingresses), cert-manager is required for certificates provisioning
 in the case of a multi-node cluster.
 
 Those components and their interactions are summarized on the following schema.
 Kubernetes workloads are distributed on the distinct nodes of the cluster
 according to their respective deployment specifications and the current state of the cluster.
 
-<img markdown="1" src=/assets/images/k3s-ha-experiment/solution.png title="K3s High Availability solution" alt="K3s High Availability solution schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-ha-experiment/solution.png title="K3s High Availability solution" alt="K3s High Availability solution schema" class="img-fluid">
 
 The AWS Network Load Balancer distributes network requests to the Traefik ingress controller service,
 which is responsible to route them to the different deployed ingresses.
@@ -110,7 +110,7 @@ and obviously a Git remote repository, GitHub in our case.
 
 In summary, the following schema describes the hosting infrastructure that is set up for this experiment.
 
-<img markdown="1" src=/assets/images/k3s-ha-experiment/hosting.png title="K3s High Availability hosting" alt="K3s High Availability hosting schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-ha-experiment/hosting.png title="K3s High Availability hosting" alt="K3s High Availability hosting schema" class="img-fluid">
 
 To keep it simple, default subnets are used in the VPC
 but strict firewall rules are setup thanks to security groups.
@@ -126,7 +126,7 @@ The initial cluster set up is straightforward using K3s installation tool:
 - install the two other server nodes with the secret and the first node URL to join the initialized cluster
 
 Once the cluster is up and running, install the cert-manager components,
-some explanations on its architecture being provided in a [previous article](/blog/le-k3s-ingresses).
+some explanations on its architecture being provided in a [previous article](../le-k3s-ingresses).
 
 The load-balancing solution requires another component to be deployed in the cluster,
 which is detailed now.
@@ -149,7 +149,7 @@ To make its deployment easier, we prefer using Kubernetes itself, and the design
 
 This is summarized on the schema below:
 
-<img markdown="1" src=/assets/images/k3s-ha-experiment/lb-failure.png title="Load balancer failure detection mechanism" alt="Load balancer failure detection mechanism schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-ha-experiment/lb-failure.png title="Load balancer failure detection mechanism" alt="Load balancer failure detection mechanism schema" class="img-fluid">
 
 Once a node being qualified as healthy, HTTP and HTTPS traffic (in our case)
 will be forwarded to the Kubernetes network service

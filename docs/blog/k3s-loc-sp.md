@@ -9,7 +9,7 @@ summary: |
     K3s is a lightweight yet very effective Kubernetes distribution.
     This article provides feedback for deploying and using K3s
     in the context of development but also simple production.
-head_image: /assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
+head_image: ../../assets/images/k3s-loc-sp/versEtangDeSoulcem.jpg
 head_img_title: Vers l'étang de Soulcem
 ---
 
@@ -87,7 +87,7 @@ in this default installation,
 enables the K3s server to store the cluster configuration and state
 in a `SQLite` database, but could handle `etcd` as well.
 
-<img markdown="1" src=/assets/images/k3s-loc-sp/architecture.png title="K3s deployed architecture" alt="Deployed architecture schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-loc-sp/architecture.png title="K3s deployed architecture" alt="Deployed architecture schema" class="img-fluid">
 
 What is specific to K3s is that those components are packaged and run
 in a single Linux process, the `k3s` service on the previous schema,
@@ -303,7 +303,7 @@ from where they can be pulled at deployment time.
 The following schema describes the deployment for both solutions,
 with a registry hosted as a Kubernetes Pod on the K3s cluster.
 
-<img markdown="1" src=/assets/images/k3s-loc-sp/deployment.png title="K3s production simple deployment" alt="Production simple deployment schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-loc-sp/deployment.png title="K3s production simple deployment" alt="Production simple deployment schema" class="img-fluid">
 
 Two topics require some attention:
 

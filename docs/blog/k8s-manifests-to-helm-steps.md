@@ -8,7 +8,7 @@ summary_heading: From Kubernetes manifests to Helm charts
 summary: |
     A few simple steps to get started with Helm
     leveraging existing Kubernetes manifests.
-head_image: /assets/images/k8s-manifests-to-helm-steps/soulcem.jpg
+head_image: ../../assets/images/k8s-manifests-to-helm-steps/soulcem.jpg
 head_img_title: Étang de Soulcem
 ---
 
@@ -49,7 +49,7 @@ Helm charts can be downloaded from registries, but also directly accessed as loc
 which is necessary during the development and testing phase.
 This is what will be demonstrated in this article.
 
-<img markdown="1" src=/assets/images/k8s-manifests-to-helm-steps/archi-overview.png title="Helm architecture overview" alt="Helm architecture overview schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k8s-manifests-to-helm-steps/archi-overview.png title="Helm architecture overview" alt="Helm architecture overview schema" class="img-fluid">
 
 Deploying a package on Kubernetes has differences with deploying a package on an Operating System:
 in both cases, programs and data must be downloaded, installed and configured, and later upgraded for maintenance.
@@ -62,7 +62,7 @@ A deployed instance of a chart is called a _Release_.
 The configuration that is specific to a Release, like the server name of a Web server,
 is provided to Helm using values. The status of each Release, including those values, is recorded by Helm.
 
-<img markdown="1" src=/assets/images/k8s-manifests-to-helm-steps/helm-releases.png title="Helm releases" alt="Helm releases schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k8s-manifests-to-helm-steps/helm-releases.png title="Helm releases" alt="Helm releases schema" class="img-fluid">
 
 Technically, Helm uses the Kubernetes API with the well-known yaml manifest format
 for the various resources deployed during a Release installation.
@@ -84,7 +84,7 @@ repository and to install the `helm` binary somewhere in the PATH.
 
 Then we may want to check that the installation is correct.
 On a K3s cluster
-(see [this](/blog/k3s-loc-sp) for instance)
+(see [this](../k3s-loc-sp) for instance)
 using the standard Traefik ingress controller,
 we can list what Helm was told to install during K3s installation:
 
@@ -101,7 +101,7 @@ Without Helm, we deploy Kubernetes resources by applying manifests files, such a
 [here](https://github.com/t-beigbeder/otvl_blog/blob/master/code/k8s-manifests-to-helm-steps/step1/web-sample-otvl.yaml).
 This one would deploy the resources colored in blue on the following diagram:
 
-<img markdown="1" src=/assets/images/k8s-manifests-to-helm-steps/web-sample.png title="Web sample resources to be deployed" alt="Web sample resources to be deployed schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k8s-manifests-to-helm-steps/web-sample.png title="Web sample resources to be deployed" alt="Web sample resources to be deployed schema" class="img-fluid">
 
 The following Kubernetes resources are deployed:
 
@@ -111,7 +111,7 @@ The following Kubernetes resources are deployed:
 - a Service for accessing the Pods
 - an Ingress for exposing the Service on an External Load Balancer with a Let's Encrypt certificate
 (for explanations on the last point see for instance a
-[previous article](/blog/le-k3s-ingresses))
+[previous article](../le-k3s-ingresses))
 
 Developing a Helm chart that does the same is straightforward and is provided
 [here](https://github.com/t-beigbeder/otvl_blog/tree/master/code/k8s-manifests-to-helm-steps/step1/web-sample-otvl).
