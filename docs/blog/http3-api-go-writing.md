@@ -3,7 +3,7 @@ ow_article: true
 template: article.html
 title: Developing and deploying an HTTP/3 API in Go
 version: "1.0"
-publication_date: "20250114"
+publication_date: "2025/01/14"
 summary_heading: "Developing and deploying an HTTP/3 API in Go"
 summary: |
     While the HTTP/3 protocol is already used by cloud giants for delivering web content,
@@ -328,46 +328,50 @@ Switching from HTTP/1.1 to HTTP/3 is thus very simple and limited to the connect
 
 On the client side:
 
-    import (
-        "net/http"
-        "github.com/quic-go/quic-go"
-        "github.com/quic-go/quic-go/http3"
-    )
-    // ...
-        if isHttp3 {
-            // a RoundTripper is the view of a Transport protocol dedicated to HTTP needs
-            roundTripper := &http3.RoundTripper{
-                TLSClientConfig: tc,
-                QUICConfig:      &quic.Config{},
-            }
-            hc = &http.Client{
-                Transport: roundTripper,
-            }
-        } else {
-            hc = &http.Client{
-                Transport: &http.Transport{
-                    TLSClientConfig: tc,
-                },
-            }
+```golang
+import (
+    "net/http"
+    "github.com/quic-go/quic-go"
+    "github.com/quic-go/quic-go/http3"
+)
+// ...
+    if isHttp3 {
+        // a RoundTripper is the view of a Transport protocol dedicated to HTTP needs
+        roundTripper := &http3.RoundTripper{
+            TLSClientConfig: tc,
+            QUICConfig:      &quic.Config{},
         }
-        // same HTTP API
-        hc.Post(url, "application/octet-stream", data)
+        hc = &http.Client{
+            Transport: roundTripper,
+        }
+    } else {
+        hc = &http.Client{
+            Transport: &http.Transport{
+                TLSClientConfig: tc,
+            },
+        }
+    }
+    // same HTTP API
+    hc.Post(url, "application/octet-stream", data)
+```
 
 On the server side:
 
-    func RunServer(config *Config, logger *slog.Logger) error {
-      // a Mux maps URL paths to functions handling the requests
-      mux := http.NewServeMux()
-      mux.HandleFunc("/",
-        func(writer http.ResponseWriter, request *http.Request) {
-            bytesRead, err := io.Copy(io.Discard, request.Body)
-            // ...
-      // ...
-      if isHttp3 {
-        err = http3.ListenAndServeQUIC(addr, config.CertFile, config.KeyFile, mux)
-      } else {
-        err = http.ListenAndServeTLS(addr, config.CertFile, config.KeyFile, mux)
-      }
+```golang
+func RunServer(config *Config, logger *slog.Logger) error {
+  // a Mux maps URL paths to functions handling the requests
+  mux := http.NewServeMux()
+  mux.HandleFunc("/",
+    func(writer http.ResponseWriter, request *http.Request) {
+        bytesRead, err := io.Copy(io.Discard, request.Body)
+        // ...
+  // ...
+  if isHttp3 {
+    err = http3.ListenAndServeQUIC(addr, config.CertFile, config.KeyFile, mux)
+  } else {
+    err = http.ListenAndServeTLS(addr, config.CertFile, config.KeyFile, mux)
+  }
+```
 
 The tests results on a WAN with 60ms latency and 1 Mbps average bandwidth is following:
 

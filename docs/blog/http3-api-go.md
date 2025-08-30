@@ -3,7 +3,7 @@ ow_article: true
 template: article.html
 title: Développer et déployer une API HTTP/3 en Go
 version: "1.0"
-publication_date: "20241117"
+publication_date: "2024/11/17"
 summary_heading: "Développer et déployer une API HTTP/3 en Go"
 summary: |
     For this time in French, Capitole du Libre oblige!

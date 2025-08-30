@@ -3,7 +3,7 @@ ow_article: true
 template: article.html
 title: "Developing and simple hosting with K3s"
 version: "1.0"
-publication_date: "20240106"
+publication_date: "2024/01/06"
 summary_heading: "Developing and simple hosting with K3s"
 summary: |
     K3s is a lightweight yet very effective Kubernetes distribution.

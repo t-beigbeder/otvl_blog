@@ -2,7 +2,7 @@
 title: About
 ---
 
-# About
+<h2 class="fw-bold mt-4">About</h2>
 
 ### What
 
@@ -16,14 +16,22 @@ but in first place thanks to the works and help of so many other people.
 
 ### Who
 
-This site's articles are written and published by **Thierry Beigbeder**
+I am Thierry Beigbeder, I write and publish this site's articles.
+Feedback through these networks
 [ [![Image LinkedIn](images/linkedin-logo-24.png "LinkedIn")](https://www.linkedin.com/in/thierry-beigbeder-358169/) ]
 [ [![Image GitHub](images/github-logo-24.png "github")](https://github.com/t-beigbeder) ]
 [ [![Image Mastodon](images/mastodon-logo-24.png "mastodon")](https://mastodon.iriseden.eu/@thierry_b) ]
-. Feedback through these networks is appreciated.
+is appreciated.
 
-The articles are written in English in the hope they will be helpful to more people,
-but as my native language is French, please forgive any errors and ungraceful content.
+The articles are written in English in the hope they may be helpful to more people.
+As my native language is French, please forgive any errors and ungraceful content.
+
+### How
+
+The site's content is produced with [mkdocs](https://www.mkdocs.org/)
+based on a customized mkdocs [theme](https://www.mkdocs.org/user-guide/choosing-your-theme/#mkdocs).
+
+Thanks to this great community.
 
 ### Use and reuse
 

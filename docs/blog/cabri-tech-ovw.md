@@ -1,0 +1,253 @@
+---
+ow_article: true
+template: article.html
+title: Cabri technical overview
+version: "1.0"
+publication_date: "2023/10/23"
+summary_heading: "Cabri technical overview"
+summary: |
+    Cabri enables fast and secure data synchronization
+    between people, medias and places.
+    This article provides information on its implementation
+    to help understanding how this is supported.
+head_image: /assets/images/cabri-tech-ovw/Wild_Baby_Alpine_Chamois_Creux_by_Giles_Laurent.jpg
+head_img_title: Wild baby alpine chamois and Swiss alps at Creux du van with sunset colors and snow Photo by Giles Laurent
+head_img_credit: Illustration above credit
+head_img_href: https://commons.wikimedia.org/wiki/File:006_Wild_Baby_Alpine_Chamois_Creux_du_Van_and_Swiss_Alps_Sunset_colors_Photo_by_Giles_Laurent.jpg
+---
+
+[Cabri](https://github.com/t-beigbeder/otvl_cabri)
+enables fast and secure data synchronization between people, medias and places.
+
+While a [previous article](/blog/cabri-share-conf)
+presented its main features from a user's perspective,
+this one provides some information on its implementation
+to help understanding how efficiency and security are supported.
+
+Even if you are not interested in knowing how Cabri is designed,
+some information on the use of indexes and encryption
+is important for the operation and the security of DSS.
+
+## Cabri is fast
+
+As seen in the previous article, Cabri enables storing and synchronizing data
+either on a local drive or using Cloud Storage,
+but in any case providing at the same time full data historization and possible encryption.
+
+Such features require fast access to the actual data and its corresponding metadata:
+size, modification time and access rights,
+but also the ability to read and write large amount of data either on local devices
+or using cloud services over internet.
+
+This section details the main supporting mechanisms.
+
+### Parallel processing
+
+Cabri's most resource intensive use concerns the synchronization of large amount of data.
+The following diagram shows the synchronization of a local directory with a local Cabri DSS.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/parallel.png title="Backup files on external drive" alt="Backup files on external drive schema" class="img-fluid">
+
+When the Cabri DSS is initially empty, all local files will be copied to it,
+requiring a large amount of I/O operations,
+both for reading the local files content and for writing it to the DSS.
+Depending on the storage devices technology, this may be slow or fast, but in the second case,
+as most computing hardware is able to parallelize processing,
+Cabri takes care of launching several synchronization operations in parallel,
+so that the processing is as fast as the technology permits.
+
+To be more explicit:
+
+- a directory's content entries may be processed in parallel
+- different subdirectories may be processed in parallel
+- a workload reducer controls that system resources usage remains limited, it is configurable
+- there is always a significant number of I/O operations pending, so that they start execution
+as soon as the corresponding device is ready
+
+The reducer may be limited as much as wanted, and even processing may be fully serialized
+in case the system has limited resources.
+In the case the target is a slow USB key, the result may even be globally faster than if parallelized.
+
+The following diagram shows the synchronization of a local directory with a Cabri DSS providing cloud storage.
+In that case, writing to the DSS requires massive network uploads.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/parallel-obs.png title="Backup files with cloud storage" alt="Backup files with cloud storage schema" class="img-fluid">
+
+While the Cloud storage providers generally support a large amount of parallel I/O operations,
+the limitation will rather come from the available network bandwidth and local system resources.
+Using the default reducer configuration will perform fast if the system supports it,
+for instance if Cabri is launched as a Cloud service,
+but limiting its capacity may be wanted if network errors occur.
+For instance, network resources appear more available and efficient on Linux systems than on Windows Home OS,
+from my personal experience.
+
+### Other uses of parallelization
+
+Parallel processing is used as well by almost all Cabri features implementation.
+Its use appear very valuable in the following situations:
+
+- listing local files or DSS recursively, because it requires many I/O operations,
+- computing checksums on a full directory's content, to evaluate the need for synchronization,
+- auditing DSS content, rebuilding their index, because it requires a full scan of the DSS
+
+### Flow processing
+
+The underlying encryption technology is [`age`](https://age-encryption.org/)
+and it provides the ability to encrypt and decrypt data as a flow.
+The following diagram shows data synchronization back and forth
+between local files and an encrypted local DSS.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/flow.png title="Flow processing storage" alt="Flow processing storage schema" class="img-fluid">
+
+In such a scenario, data sent to the DSS may be written as soon as encrypted data chunks are available.
+On the other direction,
+data read from the DSS may be written to a local file as soon as decrypted data chunks are available.
+
+### Indexes
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/index.png title="Index of DSS metadata" alt="Index of DSS metadata schema" class="img-fluid">
+
+Indexing the DSS content metadata is necessary for several reasons:
+
+- DSS metadata on Object Storage cannot be scanned efficiently,
+so an index of what is stored in the Cloud must be maintained locally 
+- even in the case of a DSS whose data is stored on a local device, the number of I/O required
+to retrieve an entry's metadata can become too important: this is because the namespace hierarchy leading to the entry
+has to be inspected, taking into account the history and the access rights at each level
+- the access to encrypted data, which is specifically detailed later in this article, requires the use of an index
+
+So in the end almost all DSS are indexed, and, as a consequence,
+the evaluation of the need to synchronize content between too large datasets is very fast,
+at least on the DSS side in case the other side is barely made of local files.
+
+### Indexes and remote access
+
+Indexes play an important role concerning multi-user access through a remote DSS.
+As described on the following schema, and explained in the 
+[previous article](/blog/cabri-share-conf),
+a DSS is set up on a remote HTTP server for enabling different users to share their local data.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/index-remote.png title="Client index of remote metadata" alt="Client index of remote metadata schema" class="img-fluid">
+
+From the DSS access perspective, the Cabri HTTP server acts as any other Cabri utility accessing a DSS,
+and so maintains an index of the DSS metadata locally.
+But in that case, the DSS content can be updated by the HTTP server
+in response to any of its clients requests.
+
+On the client user's side, a client index is set up and kept up-to-date
+with the index data coming from the server:
+each new connection from a client refreshes its index if needed from the server index.
+The first time a client connects to a server, the full server index is downloaded by the client,
+which may delay the response. After that, all access to DSS metadata is performed locally on the client index,
+which is again very fast.
+
+## Cabri is secured
+
+Data security covers different aspects, the most important of which from Cabri's perspective
+are confidentiality, integrity and to some extent availability.
+
+- The confidentiality is the first concern of Cabri's design.
+In the case the data is encrypted, the decryption only occurs on client position and under user's control.
+- The integrity is provided by the use of checksums.
+- The availability is provided by a set of administration tools that can scan the DSS content, audit it,
+and rebuild indexes in case they are corrupted: indeed the entries metadata and content
+are distributed as local files or cloud storage objects.
+
+Of course in complement to this design and tooling, appropriate system level security must be applied, such as
+backup of keys and local DSS data files if applicable.
+Cloud storage availability is generally excellent but even then, additional backup may be wanted in case of disaster.
+
+The remaining sections provide some explanations on Cabri's design for these security aspects.
+
+### Metadata and data-level encryption
+
+Encrypted DSS store all the data: metadata and content encrypted.
+The encryption uses public keys, and only the owners of the encryption keys can decrypt the content
+by using their private keys.
+
+Apart from encryption, the DSS data architecture remains the same, with each entry stored as metadata and content
+files or cloud object storage. The encryption is achieved at the data level: each entry can be made visible
+to a specific set of user's public keys by encrypting the files or objects with those keys.
+
+As the access to actual data content requires reading corresponding entry and parent namespaces metadata in the DSS,
+this metadata has to be accessed decrypted in an index.
+
+The following schema explains how this is implemented.
+In that example, an encrypted DSS stored on an USB key is used to restore confidential files to decrypted local storage.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/e2e-enc.png title="Client index for encrypted metadata" alt="Client index for encrypted metadata schema" class="img-fluid">
+
+The DSS data architecture for encrypted DSS is similar to what is implemented for remote access,
+with the addition of encryption concerns.
+The DSS maintains an index of its metadata, in that case encrypted metadata.
+On the client user's side, a client index is set up and kept up-to-date
+with the index data coming from the encrypted DSS.
+As the client's intent is to access to decrypted data, the client index decrypts the DSS metadata as well.
+All DSS metadata that the client can decrypt with the private key(s) it owns
+will be stored decrypted in the client index.
+
+As a result, local access to encrypted DSS is both secured and fast.
+The metadata and the data are only decrypted on local storage and in client index with the user private key(s)
+and under his or her control.
+
+### End-to-end encryption for data sharing
+
+Based on the previous explanations the following schema shows how several users
+can share their local confidential data through a remote encrypted DSS.
+
+<img markdown="1" src=/assets/images/cabri-tech-ovw/remote-enc.png title="Encrypted data sharing" alt="Encrypted data sharing schema" class="img-fluid">
+
+In that case, the Cabri HTTP server is responsible to maintain the index of encrypted metadata.
+The server has no access at all to any user's private key, so even in the case a security breach is exploited
+on the hosting infrastructure, confidential data is never exposed.
+The Cabri HTTP server just transfers and stores opaque encrypted metadata and data,
+and indexes the encrypted metadata for the sole purpose of communicating updates to the clients.
+
+The clients receive the server encrypted metadata, decrypt it and refresh their local index.
+Apart the fact that the access to the DSS is remote through a Cabri HTTP server,
+the access to the encrypted data is the same as if the DSS were local.
+
+Remote access to encrypted DSS has the same benefits as local access, being both fast and secure.
+
+### Distributed meta-data and content
+
+As briefly mentioned above, the DSS data architecture is distributed,
+as metadata and content is stored either as local files or as cloud storage objects,
+depending on the chosen technology.
+
+As Cabri performance highly relies on the use of indexes,
+the integrity of those indexes with respect to the distributed storage is crucial for proper operation.
+
+Anyway the distributed nature of storage makes the DSS structure resistant to system failure:
+
+- if some metadata of content file is missing or corrupted, it can be removed, the DSS remains consistent
+- if the index is missing, corrupted or not consistent with the distributed storage,
+it can be rebuilt by scanning the DSS data
+- as the synchronization operation is idempotent, it may be run again after target DSS maintenance
+to restore a fully consistent dataset
+
+In the case the data is encrypted, the index rebuild operation first occur on the encrypted content,
+then provides the consistent encrypted index to the client for proper decryption.
+The client is only able to reindex the data for the private keys it owns.
+
+## Conclusion
+
+Confidentiality of the data processed and stored in unsecured environments
+was the first concern when designing the Cabri solution.
+I hope this article made you confident with it,
+anyway this is open-source, you can verify it!
+
+The cost of security is not necessarily the loss of performance:
+for sure encryption and decryption require larger computing power
+than bare data transfer, anyway the solution remains as fast as possible
+by using parallel processing.
+
+Finally, the data stored on local drives or using cloud storage may be easily
+scanned and reindexed after any kind of system crash.
+In the case of encrypted data this is obviously only under the condition
+you manage the encryption secret keys securely.
+
+## References
+
+- [Cabri project source-code and documentation](https://github.com/t-beigbeder/otvl_cabri)
+- [age](https://age-encryption.org/) - A simple, modern and secure encryption tool
