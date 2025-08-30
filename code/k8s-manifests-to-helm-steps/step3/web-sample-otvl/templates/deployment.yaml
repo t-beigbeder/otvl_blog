@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      securityContext:
+        # share nginx-unprivileged identity with initContainer git-installer
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ .Release.Name }}
+      containers:
+        - name: web-server
+          image: {{ .Values.images.nginx }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /liveness.txt
+              port: 8080
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /readiness.txt
+              port: 8080
+          volumeMounts:
+            - name: workdir
+              subPath: clone/code/k8s-manifests-to-helm-steps/html
+              mountPath: /usr/share/nginx/html
+      initContainers:
+        - name: clean-state
+          image: {{ .Values.images.busybox }}
+          command: ["rm", "-rf", "/workdir/clone"]
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+        - name: git-installer
+          image: {{ .Values.images.git }}
+          command: ["git", "clone", "--single-branch", "--branch", {{ .Values.git_repo.branch | quote }}, "--", {{ .Values.git_repo.url | quote }}, "/workdir/clone"]
+          resources:
+            requests:
+              cpu: 0.25
+              memory: 128Mi
+            limits:
+              cpu: 0.5
+              memory: 256Mi
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+      volumes:
+        - name: workdir
+          emptyDir: {}

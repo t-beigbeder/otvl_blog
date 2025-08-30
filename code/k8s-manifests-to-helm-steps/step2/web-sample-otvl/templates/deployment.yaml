@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+  replicas: 2
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      securityContext:
+        # share nginx-unprivileged identity with initContainer git-installer
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ .Release.Name }}
+      containers:
+        - name: web-server
+          image: nginxinc/nginx-unprivileged:1.25.3
+          resources:
+            requests:
+              cpu: "0.25"
+              memory: 128Mi
+            limits:
+              cpu: "0.5"
+              memory: 256Mi
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /liveness.txt
+              port: 8080
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /readiness.txt
+              port: 8080
+          volumeMounts:
+            - name: workdir
+              subPath: code/k8s-manifests-to-helm-steps/html
+              mountPath: /usr/share/nginx/html
+      initContainers:
+        - name: clean-state
+          image: busybox:1.36.1
+          command: ["rm", "-rf", "/workdir/clone"]
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+        - name: git-installer
+          image: bitnami/git:2.43.1
+          command:
+            - git
+            - clone
+            - --single-branch
+            - --branch
+            - master
+            - --
+            - https://github.com/t-beigbeder/otvl_blog
+            - /workdir
+          resources:
+            requests:
+              cpu: 0.25
+              memory: 128Mi
+            limits:
+              cpu: 0.5
+              memory: 256Mi
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+      volumes:
+        - name: workdir
+          emptyDir: {}

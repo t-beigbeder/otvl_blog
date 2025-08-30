@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-sample-otvl
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+    - hosts:
+        - web-sample-otvl.example.com
+      secretName: web-sample-otvl
+  rules:
+    - host: web-sample-otvl.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  web-sample-otvl
+                port:
+                  number: 8080
