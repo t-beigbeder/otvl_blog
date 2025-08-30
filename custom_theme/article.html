@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{%- block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2 mt-2">
+            <img src={{ page.meta.head_image }} title="{{ page.meta.head_img_title }}" alt="Article image" class="img-fluid">
+            <p class="text-center"><small><a href="{{ page.meta.head_img_href }}">{{ page.meta.head_img_credit }}</a></small></p>
+        </div>
+    </div>
+    <h2 class="fw-bold mt-4">{{ page.meta.title }}</h2>
+    <p><small>Published on {{ page.meta.publication_date }}</small></p>
+
+    <div class="col-md-12" role="main">{% include "content.html" %}</div>
+{%- endblock %}

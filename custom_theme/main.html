@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{%- block site_name %}
+<img class="rounded-pill img-fluid" style="height: 32px" src="/images/logo.png">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="navbar-brand" href="{{ nav.homepage.url|url }}">{{ config.site_name }}</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+{%- endblock %}
+
+{%- block search_button %} {% endblock %}
+
+{%- block next_prev %} {% endblock %}
+
+{%- block repo %} {% endblock %}
+
+{%- block content %}
+    <div class="col-12 mt-2" role="main">{% include "content.html" %}</div>
+    {%- block blog_index %}{% endblock %}
+{%- endblock %}
+
+{%- block footer %}
+<hr>
+<p><a href="/legal-policies">Legal policies</a></p>
+{%- endblock %}
