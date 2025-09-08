@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- for file in pages %}
+    {%- if not file.page.meta.no_index %}
     <url>
          <loc>https://ows_ingress_host/{{ file.page.url }}</loc>
-         {% if file.page.update_date %}<lastmod>{{file.page.update_date}}</lastmod>{%- endif %}
+         {%- if file.page.meta.update_date %}
+         <lastmod>{{file.page.meta.update_date}}</lastmod>
+         {%- endif %}
+         {%- if not file.page.meta.update_date and file.page.update_date %}
+         <lastmod>{{file.page.update_date}}</lastmod>
+         {%- endif %}
     </url>
+    {%- endif %}
 {%- endfor %}
 </urlset>
