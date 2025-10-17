@@ -9,7 +9,7 @@ summary: |
     While the HTTP/3 protocol is already used by cloud giants for delivering web content,
     this article explores how it could be leveraged in the case of an API,
     giving all relevant context.
-head_image: /assets/images/http3-api-go/karinesCard2.png
+head_image: ../../assets/images/http3-api-go/karinesCard2.png
 head_img_title: Karine Beigbeder's card
 head_img_credit: Collage, encre et aquarelle, Karine Beigbeder (tous droits réservés)
 head_img_href: "#"
@@ -52,7 +52,7 @@ or servers (such as an Apache Web Server),
 and relying on a Layer 4 "transport" services, which are responsible to transport data between
 two machines connected to the internet. Internet protocols use a shortcut between Layer 7 and Layer 4.
 
-<img markdown="1" src=/assets/images/http3-api-go/continuity.png title=" HTTP/3 compatibility" alt=" HTTP/3 compatibility schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/continuity.png title=" HTTP/3 compatibility" alt=" HTTP/3 compatibility schema" class="img-fluid">
 
 The HTTP protocol defines various entities very well known by the web developers such as:
 
@@ -75,7 +75,7 @@ The Internet defines the two widely used transport protocols:
 [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) and
 [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol).
 
-<img markdown="1" src=/assets/images/http3-api-go/disruption.png title=" HTTP/3 disruption" alt=" HTTP/3 disruption schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/disruption.png title=" HTTP/3 disruption" alt=" HTTP/3 disruption schema" class="img-fluid">
 
 TCP provides to the L7 protocols some features that are almost always wanted such as
 reliability: no data is lost,
@@ -129,7 +129,7 @@ sitting upon a L4 protocol such as TCP.
 
 Here is how a TCP and related TLS security connections take place between two peers wanting to communicate:
 
-<img markdown="1" src=/assets/images/http3-api-go/tcp-tls.png title="TCP and TLS connection setup" alt="TCP and TLS connection schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/tcp-tls.png title="TCP and TLS connection setup" alt="TCP and TLS connection schema" class="img-fluid">
 
 TCP requires a 3 way handshake, after which TLS adds 2 round-trip security-related data exchanges.
 Only then can the application data exchange occur.
@@ -163,7 +163,7 @@ The venerable HTTP/1.1 implemented TCP keepalive in the late 90's and is still w
 appeared in 2015, so somewhat in parallel with HTTP/3, with several important features, among which
 requests multiplexing and prioritization, server push and headers compression.
 
-<img markdown="1" src=/assets/images/http3-api-go/http2.png title="HTTP/2 HOL blocking" alt="HTTP/2 HOL blocking schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/http2.png title="HTTP/2 HOL blocking" alt="HTTP/2 HOL blocking schema" class="img-fluid">
 
 Multiplexing requests is supposed to limit the effect of HOL blocking at the application level.
 However, they are not (yet) widely implemented, moreover HOL blocking still occurs at the TCP level.
@@ -171,7 +171,7 @@ However, they are not (yet) widely implemented, moreover HOL blocking still occu
 Concerning the prioritization of requests, it is not easy for a web browser to apply general hints
 that would enable at least initial information to be displayed to the user:
 
-<img markdown="1" src=/assets/images/http3-api-go/web-page.png title="Web page resources dependencies" alt="Web page resources dependencies schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/web-page.png title="Web page resources dependencies" alt="Web page resources dependencies schema" class="img-fluid">
 
 On the schema above, the three kinds of resources depend on each other,
 as soon as JavaScript reads the CSSOM before updating the DOM.
@@ -189,7 +189,7 @@ Given all those restrictions and limitations, the benefits of HTTP/2 on poor qua
 
 As said before, QUIC provides HTTP/3 with transport services that are equivalent to their TCP counterpart:
 
-<img markdown="1" src=/assets/images/http3-api-go/quic.png title="HTTP over TCP or QUIC" alt="HTTP over TCP or QUIC schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/quic.png title="HTTP over TCP or QUIC" alt="HTTP over TCP or QUIC schema" class="img-fluid">
 
 As we can see, QUIC provides even more with the definition of streams at the transport layer that can be multiplexed.
 Thus HTTP/3 will be able to provide the same features as HTTP/2 did,
@@ -256,7 +256,7 @@ Before looking at the hosting topics, we must understand if the benefits of the 
 The case where the API requests come from a script loaded by the browser is specific,
 because the HTTP/3 connection is managed by the later:
 
-<img markdown="1" src=/assets/images/http3-api-go/api-nav.png title="HTTP/3 API from the browser" alt="HTTP/3 API from the browser schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/api-nav.png title="HTTP/3 API from the browser" alt="HTTP/3 API from the browser schema" class="img-fluid">
 
 We typically host Web resources and Web APIs on separate platforms behind some kind of reverse proxy
 (reverse simply meaning it sits in front of the servers and not in front of the clients internet access).
@@ -281,7 +281,7 @@ or obviously when we want to use HTTP/3 specific features.
 
 For the same reason but also the same exceptions, a backend API won't generally benefit from HTTP/3.
 
-<img markdown="1" src=/assets/images/http3-api-go/backend-api.png title="Backend HTTP/3 API" alt="Backend HTTP/3 API schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/backend-api.png title="Backend HTTP/3 API" alt="Backend HTTP/3 API schema" class="img-fluid">
 
 On the previous schema, the backend API is called by a frontend API which,
 in case they both share the same datacenter network, won't generally gain any performance when using HTTP/3.
@@ -293,7 +293,7 @@ but HTTP ability to deal with WAN latencies is also appreciated for such archite
 In my case the need occurred while deploying
 the [Cabri](https://github.com/t-beigbeder/otvl_cabri) tool for remote files synchronization:
 
-<img markdown="1" src=/assets/images/http3-api-go/cabri.png title="Cabri file synchronization" alt="Cabri file synchronization schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/cabri.png title="Cabri file synchronization" alt="Cabri file synchronization schema" class="img-fluid">
 
 Cabri provides among others the same kind of service as [rsync](https://linux.die.net/man/1/rsync) does,
 but over HTTP instead of SSH.
@@ -309,7 +309,7 @@ As my deployment was suffering from sparse errors, I was wondering if HTTP/3 cou
 Before implementation and possible migration,
 I built a mockup to reproduce this kind of workload and being able to analyze it:
 
-<img markdown="1" src=/assets/images/http3-api-go/mockup.png title="HTTP/3 API mockup" alt="HTTP/3 API mockup schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/mockup.png title="HTTP/3 API mockup" alt="HTTP/3 API mockup schema" class="img-fluid">
 
 The
 [mockup](https://github.com/t-beigbeder/otvl_devops_tools/tree/main/src/go/ht3mock)
@@ -400,11 +400,11 @@ The hosting of an API must answer to several distinct but linked requirements an
 
 This would involve the basic building blocks if using HTTP version 1.1 or version 2:
 
-<img markdown="1" src=/assets/images/http3-api-go/reverse-proxy.png title="HTTP 1.1 or 2 deployment" alt="HTTP 1.1 or 2 deployment schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/reverse-proxy.png title="HTTP 1.1 or 2 deployment" alt="HTTP 1.1 or 2 deployment schema" class="img-fluid">
 
 With those standard components, switching to HTTP/3 is rather challenging:
 
-<img markdown="1" src=/assets/images/http3-api-go/reverse-proxy-3.png title="HTTP 3 deployment" alt="HTTP 3 deployment schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/reverse-proxy-3.png title="HTTP 3 deployment" alt="HTTP 3 deployment schema" class="img-fluid">
 
 First, UDP/443 traffic must be authorized both on the internet proxy for outgoing flows,
 not easy on many corporate infrastructures,
@@ -443,7 +443,7 @@ In the Kubernetes landscape, things are handled differently,
 with a high focus on availability when supported by protocols and applications,
 so rather working at L7 level than L4.
 
-<img markdown="1" src=/assets/images/http3-api-go/k8s.png title="HTTP Kubernetes deployment" alt=" HTTP Kubernetes deployment schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/http3-api-go/k8s.png title="HTTP Kubernetes deployment" alt=" HTTP Kubernetes deployment schema" class="img-fluid">
 
 Depending on the infrastructure and on deployment choices, the HTTP connection may end
 either on the External Load Balancer or on the Ingress Controller.

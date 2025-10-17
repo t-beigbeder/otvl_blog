@@ -9,7 +9,7 @@ summary: |
     Cabri is free software designed specifically to store data and synchronize it on various media,
     between different places, with the people you want.
     This short presentation shows you what you could do with it.
-head_image: /assets/images/cabri-share-conf/Wild_Baby_Chamois_by_Giles_Laurent.jpg
+head_image: ../../assets/images/cabri-share-conf/Wild_Baby_Chamois_by_Giles_Laurent.jpg
 head_img_title: Wild Baby Chamois Riederalp Photo by Giles Laurent
 head_img_credit: Illustration above credit
 head_img_href: "https://commons.wikimedia.org/wiki/File:013_Wild_Baby_Chamois_Riederalp_Photo_by_Giles_Laurent.jpg"
@@ -35,7 +35,7 @@ Cabri also can deal with files and subdirectories under a local directory as a D
 As Cabri provides a synchronization tool, local directory's content can be backed up
 on a DSS located on an external drive to be restored whenever needed.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/backup-olf.png title="Backup files on external drive" alt="Backup files on external drive schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/backup-olf.png title="Backup files on external drive" alt="Backup files on external drive schema" class="img-fluid">
 
 Most operating systems for sure already do it very well. What Cabri adds in that case is:
 
@@ -53,7 +53,7 @@ any Cloud Storage compatible with Amazon S3 can be used, mainly Openstack Swift 
 and Amazon S3 buckets.
 Extending the previous example, a local directory's content can be backed up in the cloud and restored from it.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/backup-obs.png title="Backup files on Cloud Storage" alt="Backup files on Cloud Storage schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/backup-obs.png title="Backup files on Cloud Storage" alt="Backup files on Cloud Storage schema" class="img-fluid">
 
 Same benefits occur as with an external drive DSS: checksums, incremental storage and deduplication.
 But the first benefit is that backed up data's availability is much better,
@@ -71,7 +71,7 @@ this is error prone and not very practical. What is needed is remote access to t
 Cabri comes with a HTTP server that can be hosted on the internet
 to provide access in this case to the Cloud Storage DSS.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/share-obs.png title="Share files between users or locations" alt="Share files between users or locations schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/share-obs.png title="Share files between users or locations" alt="Share files between users or locations schema" class="img-fluid">
 
 The HTTP server is instructed to give access to one or several DSS at specific URLs.
 The Cabri clients at different locations can keep their view of the shared content up-to-date
@@ -94,7 +94,7 @@ the most easy to use being a secret managed by the Cloud provider for encrypting
 
 Cabri also enables data encryption. As Cabri is a Data Storage System, encryption works at the data level.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/backup-xolf.png title="Encrypting sensitive data " alt="Encrypting sensitive data schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/backup-xolf.png title="Encrypting sensitive data " alt="Encrypting sensitive data schema" class="img-fluid">
 
 Encryption keys are fully under the control of the users,
 and the data is only decrypted once retrieved as local files when the user has provided a relevant key.
@@ -106,7 +106,7 @@ Cabri uses public-key encryption: data producers encrypt data with other users' 
 data consumers owning the corresponding private keys can decrypt the data.
 No secret need to be shared among users, and distinct data sets can be made visible to different sets of users.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/share-xobs.png title="Share sensitive data with public key encryption" alt="Share sensitive data with public key encryption schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/share-xobs.png title="Share sensitive data with public key encryption" alt="Share sensitive data with public key encryption schema" class="img-fluid">
 
 During the interaction illustrated above, User A only needs to know the public key of User B
 to encrypt some data for him or her.
@@ -127,7 +127,7 @@ That means that data engineering and data science pipelines can easily store, pr
 whenever it is stored on local drives, Network or Cloud Storage, encrypted or not,
 at any time back in the history.
 
-<img markdown="1" src=/assets/images/cabri-share-conf/pipeline.png title="Data engineering API" alt="Data engineering API schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/cabri-share-conf/pipeline.png title="Data engineering API" alt="Data engineering API schema" class="img-fluid">
 
 In addition, synchronization services can extract data sets from one DSS to another for convenience.
 

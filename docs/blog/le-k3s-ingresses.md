@@ -8,13 +8,13 @@ summary_heading: "Let’s encrypt K3s ingresses"
 summary: |
     How to generate "Let's encrypt" certificates with Cert-manager
     on a K3s kubernetes cluster.
-head_image: /assets/images/le-k3s-ingresses/voilierAPortVendres.jpg
+head_image: ../../assets/images/le-k3s-ingresses/voilierAPortVendres.jpg
 head_img_title: Voilier à Port-Vendres
 ---
 
 ## Introduction
 
-A [previous article](/blog/k3s-loc-sp) presented the
+A [previous article](../k3s-loc-sp) presented the
 [K3s](https://k3s.io/)
 kubernetes open source distribution
 and how it could be used for simple and efficient application hosting.
@@ -40,7 +40,7 @@ Useful links are provided at the bottom of this page.
 From Web Clients to the Kubernetes Pods implementing the Web Services,
 several steps are involved that are detailed here.
 
-<img markdown="1" src=/assets/images/le-k3s-ingresses/ingress.png title="Ingresses and the Ingress Controller" alt="Ingresses and the Ingress Controller schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/le-k3s-ingresses/ingress.png title="Ingresses and the Ingress Controller" alt="Ingresses and the Ingress Controller schema" class="img-fluid">
 
 Network ports exposed by pods can be made available at the cluster level
 by using kubernetes [Services](https://kubernetes.io/docs/concepts/services-networking/service/)
@@ -71,7 +71,7 @@ This is the ingress controller that handle communication between the load balanc
 To give more context about the role of ingresses in relation with TLS certificates,
 the following figure is an example of the routing capability provided by ingress resources:
 
-<img markdown="1" src/assets/images/le-k3s-ingresses/ingress-routes.png title="Ingresses and related routes" alt="Ingresses and related routes schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/le-k3s-ingresses/ingress-routes.png title="Ingresses and related routes" alt="Ingresses and related routes schema" class="img-fluid">
 
 Two distinct DNS entries are exposed by the external load balancer to be routed to the ingress controller.
 The application ingress declares one route for each DNS
@@ -145,7 +145,7 @@ and provides all options for customization.
 Without being fully accurate, the following schema explains the roles of the
 cert-manager resources and components that are deployed during the installation:
 
-<img markdown="1" src=/assets/images/le-k3s-ingresses/architecture.png title="Cert-Manager addon main components" alt="Cert-Manager addon main components schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/le-k3s-ingresses/architecture.png title="Cert-Manager addon main components" alt="Cert-Manager addon main components schema" class="img-fluid">
 
 - the controller watches ingresses that request cert-manager services to manage their certificates
 - ingresses' configurations refer to an Issuer that is a custom resource
@@ -252,7 +252,7 @@ The ACME server will issue a trusted certificate and send it to the requester.
 
 The diagram below extends the previous one in the context of the ACME issuer.
 
-<img markdown="1" src=/assets/images/le-k3s-ingresses/acme.png title="Cert-Manager acme issuer" alt="Cert-Manager acme issuer schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/le-k3s-ingresses/acme.png title="Cert-Manager acme issuer" alt="Cert-Manager acme issuer schema" class="img-fluid">
 
 A solver pod is launched that is responsible to request a certificate to the Let's encrypt server
 and to handle the ACME protocol. A corresponding service and ingress also need to be created.
@@ -266,7 +266,7 @@ which is a good practice and as such a very useful service provided by the Traef
 But in that case, the ACME server will receive HTTP redirects that it is not supposed to handle.
 
 So the K3s Traefik configuration provided at K3s installation time
-(see the [previous article](/blog/k3s-loc-sp))
+(see the [previous article](../k3s-loc-sp))
 should specifically
 mention a priority level higher than the default one (very high)
 so that the solver ingress may come with higher priority (*):
