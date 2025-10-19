@@ -29,12 +29,13 @@ and provides instructions to set up the environment.
 It also explains the role of the various components involved
 both during the setup and at run-time, and how they interact.
 
-While NVIDIA specific information is used, the content remains largely general, as Kubernetes is.
+While NVIDIA specific information is used, the content remains as general as possible,
+this is a Kubernetes gift.
 
 This is a domain where technology evolves rather quick,
 so this article could become partly outdated more quickly than others.
 
-## RTFM
+## Read the docs
 
 ### The documentation maze
 
@@ -46,8 +47,9 @@ Well, here I talk about NVIDIA, I didn't have to dive into AMD or Intel ones.
 
 So we can start by reading the Kubernetes's documentation page
 [Schedule GPUs | Kubernetes](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/),
-which by the way provide us a pointer to a NVIDIA
-useful entry point (NVIDIA Device Plugin for Kubernetes), yet not the main one we will use.
+which is a perfect entry point,
+and which by the way provide us a pointer to a NVIDIA
+useful document (NVIDIA Device Plugin for Kubernetes), yet not the main one we will use.
 
 As far as NVIDIA is concerned, we will later have to deal with the vendor's entry point:
 [NVIDIA Cloud Native Technologies](https://docs.nvidia.com/datacenter/cloud-native/index.html),
@@ -58,10 +60,11 @@ and mainly under the "Kubernetes and NVIDIA GPUs" tab, the following references:
 - [NVIDIA Device Plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin), already mentioned above
 
 also important under the "Containers and NVIDIA GPUs" tab:
+
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html), under which
 - [Architecture overview](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/arch-overview.html)
 
-but they shouldn't be recommended to get started, as we don't understand at first how those components rely on each other.
+but they shouldn't be recommended to get started, as we don't understand at first how those components rely to each other.
 
 ### Scheduling GPUs with Kubernetes
 
@@ -99,6 +102,37 @@ with a vendor's specific implementation
 it relies on the container runtime, and is implemented in that case as a daemonset.
 
 ### Scheduling pods on GPU nodes
+
+There are several features available with Kubernetes to control pod scheduling on specific nodes.
+The most straightforward one is based on
+[taints and tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/):
+a taint mark a given node as forbidding scheduling or even execution to any pod
+but one that has the corresponding toleration. Thus a node marked with a kind of GPU taint will only
+run pods that need this kind of GPU by providing the corresponding toleration.
+For instance:
+
+```shell
+kubectl taint nodes node-with-gpu "acme.com/gpu=true:NoSchedule"
+```
+
+```yaml
+containers:
+- name: workload-needing-gpu
+  image: "registry/ds-python-gpu:1.0"
+#...
+tolerations:
+- key: "acme.com/gpu"
+  operator: Exists
+  effect: "NoSchedule"
+```
+
+Even if we use other features to control GPU scheduling, corresponding taints are generally required
+to avoid the presence of application workloads that don't need GPU.
+
+Another scheduling feature simple to use relies on resources requests.
+For instance a container can request main CPU and RAM available on a node to ensure
+no other container will be scheduled on the same node.
+In the case of GPUs, Kubernetes accepts vendor-specific resources  
 
 ## Further information
 
