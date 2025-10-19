@@ -259,6 +259,45 @@ helm install --wait --generate-name \
     --set toolkit.env[1].value=/run/k3s/containerd/containerd.sock
 ```
 
+## GPU workloads
+
+A simple test workload enables to validate the installation:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-vectoradd
+spec:
+  restartPolicy: OnFailure
+  runtimeClassName: nvidia
+  containers:
+  - name: cuda-vectoradd
+    image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+  tolerations:
+  - key: "nvidia.com/gpu"
+    operator: Exists
+    effect: "NoSchedule"        
+```
+
+Which should log:
+
+```text
+[Vector addition of 50000 elements[]
+Copy input data from the host memory to the CUDA device
+CUDA kernel launch with 196 blocks of 256 threads
+Copy output data from the CUDA device to the host memory
+Test PASSED
+Done
+```
+
+### A testing environment
+
+WIP
+
 ## References
 
 Kubernetes:
