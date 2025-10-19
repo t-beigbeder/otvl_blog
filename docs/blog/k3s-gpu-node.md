@@ -6,10 +6,8 @@ version: "1.0"
 publication_date: "2025/10/17"
 summary_heading: "Adding a GPU node to a K3s cluster"
 summary: |
-    This article details how to integrate a node with a GPU in a K3s cluster,
-    while giving related explainations about how the involved components work and interact.
-    Lastly, container examples are provided.
-    While vendor-specific information is used, the content remains largely general.
+    This article details how to integrate a node with a GPU in a K3s cluster
+    and explains how the involved components work and interact.
 head_image: ../../assets/images/k3s-gpu-node/portVendres.jpg
 head_img_title: Blockhaus near Port-Vendres
 ---
@@ -29,8 +27,7 @@ and provides instructions to set up the environment.
 It also explains the role of the various components involved
 both during the setup and at run-time, and how they interact.
 
-While NVIDIA specific information is used, the content remains as general as possible,
-this is a Kubernetes gift.
+While NVIDIA specific information is used, the content remains as general as possible.
 
 This is a domain where technology evolves rather quick,
 so this article could become partly outdated more quickly than others.
