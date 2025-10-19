@@ -265,6 +265,7 @@ helm install --wait --generate-name \
     - [Schedule GPUs | Kubernetes](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)
     - [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/master/get-started/index.html)
 
+
 - [NVIDIA Cloud Native Technologies](https://docs.nvidia.com/datacenter/cloud-native/index.html)
     - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html)
     - [Architecture overview](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/arch-overview.html)
@@ -274,4 +275,4 @@ helm install --wait --generate-name \
 
 And also:
 
-- [For the ears and the soul](https://tricky.bandcamp.com/album/out-the-way)
+- [For the ears and for the soul](https://tricky.bandcamp.com/album/out-the-way)
