@@ -266,8 +266,8 @@ Kubernetes:
 - [Schedule GPUs | Kubernetes](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)
 - [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/master/get-started/index.html)
 
-
 [NVIDIA Cloud Native Technologies](https://docs.nvidia.com/datacenter/cloud-native/index.html):
+
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html)
 - [Architecture overview](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/arch-overview.html)
 - [NVIDIA Device Plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin)
