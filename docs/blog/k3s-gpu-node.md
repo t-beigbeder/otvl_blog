@@ -195,6 +195,46 @@ apt-get install -y nvidia-driver-cuda nvidia-kernel-dkms
 It is required to restart the system at that point,
 not the most pleasant thing to do if using cloud-init initiated automation.
 
+We can check the Kernel's module presence:
+
+```shell
+lsmod | grep nvidia
+nvidia_modeset       1630208  1
+nvidia              104009728  6 nvidia_modeset
+nvidia_drm             16384  0
+```
+
+and then run some sanity check:
+
+```shell
+sudo apt install -y git cmake
+
+export PATH=${PATH}:/usr/local/cuda-13.0/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-13.0/lib64
+git clone https://github.com/NVIDIA/cuda-samples.git
+cd cuda-samples
+mkdir build && cd build
+cmake ..
+make -j$(nproc)
+
+./Samples/1_Utilities/deviceQuery/deviceQuery Starting...
+
+ CUDA Device Query (Runtime API) version (CUDART static linking)
+
+Detected 1 CUDA Capable device(s)
+
+Device 0: "Quadro RTX 5000"
+  CUDA Driver Version / Runtime Version          13.0 / 13.0
+  CUDA Capability Major/Minor version number:    7.5
+  Total amount of global memory:                 14910 MBytes (15634726912 bytes)
+  (048) Multiprocessors, (064) CUDA Cores/MP:    3072 CUDA Cores
+  GPU Max Clock rate:                            1815 MHz (1.81 GHz)
+...
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 13.0, CUDA Runtime Version = 13.0, NumDevs = 1
+Result = PASS
+
+```
+
 Then let's move forward with the installation.
 
 ### Installing the Container Toolkit
@@ -224,6 +264,9 @@ apt-get install -y \
       libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
 ```
 
+As the container runtime gets installed with K3s, it is not possible to check
+this component's installation yet.
+
 ### Installing K3s and joining a cluster
 
 Instructions are provided [here](https://docs.k3s.io/quick-start).
@@ -236,6 +279,10 @@ curl -sfL https://get.k3s.io | \
 ```
 
 This will also install a container run-time on the node, by default K3s uses `containerd`.
+
+```shell
+apt-get install kubernetes-client
+```
 
 #### A note about the node's taint key name
 
