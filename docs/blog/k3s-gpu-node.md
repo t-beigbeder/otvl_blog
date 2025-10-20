@@ -29,8 +29,8 @@ both during the setup and at run-time, and how they interact.
 
 While NVIDIA specific information is used, the content remains as general as possible.
 
-This is a domain where technology evolves rather quick,
-so this article could become partly outdated more quickly than others.
+This is a domain where technology evolves fast
+and this article could become partly outdated more quickly than others.
 
 ## Read the docs
 
@@ -38,9 +38,8 @@ so this article could become partly outdated more quickly than others.
 
 It's a shame that billion-dollars companies sometimes provide documentation so poorly organized.
 Many open source projects wouldn't survive if they behaved like that.
-And indeed the first recommendation to find our way in the documentation to get started,
+And indeed the first recommendation to find our way in the documentation
 is to rely on Kubernetes generic information rather than our GPU vendor's one.
-Well, here I talk about NVIDIA, I didn't have to dive into AMD or Intel ones.
 
 So we can start by reading the Kubernetes's documentation page
 [Schedule GPUs | Kubernetes](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/),
@@ -63,9 +62,11 @@ also important under the "Containers and NVIDIA GPUs" tab:
 
 but they shouldn't be recommended to get started, as we don't understand at first how those components rely to each other.
 
+Now we know how to find information, let's get knowledge about the different components required.
+
 ### Scheduling GPUs with Kubernetes
 
-So our goal is to integrate a node equipped with one or several GPU devices in a Kubernetes cluster,
+Our goal is to integrate a node equipped with one or several GPU devices in a Kubernetes cluster,
 and to run data science related workloads on it.
 Linux containers enable to expose the GPU Linux device to a container running on the same host,
 so the code running in such a container can use the GPUs, as a native OS process would.
@@ -74,13 +75,13 @@ so the code running in such a container can use the GPUs, as a native OS process
 
 Now we know this is technically feasible, we also want:
 
-- to configure the GPU device so that Kubernetes pods can reliably access it
-- to control which Kubernetes pod running on the GPU node can access the device
+- to configure the containers when they start to have access to the devices
+- to monitor the GPU devices state
 - to control how other pods can be scheduled or not on the same node, as we often want the GPU workload to run as efficiently as possible once scheduled
 
 ### Enabling pods to access the GPU
 
-The node and GPU configuration is a shared responsibility between the container runtime level and the Kubernetes control plane.
+The devices and containers configuration is a responsibility shared between the container runtime and Kubernetes infrastructure components.
 This is summarized on the schema below:
 
 <img markdown="1" src=../../assets/images/k3s-gpu-node/k8s-gpu.png title="Configuring GPUs with Kubernetes" alt="Configuring GPUs with Kubernetes schema" class="img-fluid">
@@ -91,10 +92,10 @@ Without giving all the technical details:
 component `NVIDIA container-toolkit` to configure the GPU and the container at container initialization time, see the detailed architecture
 [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/arch-overview.html);
 - the [Kubernetes device plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/)
-is a component that informs the Kubernetes control plane about the node's GPU status: number, health,
+is a component that informs the Kubernetes control plane about the node's GPU status: number, health, hardware characteristics,
 with a vendor's specific implementation
 [`NVIDIA k8s-device-plugin`](https://github.com/NVIDIA/k8s-device-plugin?tab=readme-ov-file#about),
-it relies on the container runtime, and is implemented in that case as a daemonset.
+implemented in that case as a daemonset.
 
 ### Scheduling pods on GPU nodes
 
@@ -161,15 +162,16 @@ which has the ability to install the GPU driver and the Container Toolkit along 
 However, as the goal here is to get a better understanding of the underlying interactions,
 the choice is made to play the steps one by one.
 
-Also, cloud-providers often provide GPU pre-installed images for VMs, not always baqsed on the Linux distribution we want.
+Also, cloud-providers often provide GPU pre-installed images for VMs, not always based on the Linux distribution we want.
 Here the examples are based on Debian 12 (old stable) as Debian 13 is not yet supported by the vendor.
 
-<img markdown="1" src=../../assets/images/k3s-gpu-node/gpu-install.png title="GPU support software installation" alt="GPU support software installation schema" class="img-fluid">
+<img markdown="1" src=../../assets/images/k3s-gpu-node/NVIDIA-install.png title="GPU support software installation" alt="GPU support software installation schema" class="img-fluid">
 
 
 ### Installing CUDA and the kernel module
 
-Instructions are provided
+CUDA is the NVIDIA framework that contains the libraries to access the GPU through its dedicated Kernel module.
+Installation instructions are provided
 [here](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Debian&target_version=12&target_type=deb_network)
 in the case of Debian 12. For instance:
 
@@ -229,6 +231,31 @@ curl -sfL https://get.k3s.io | \
 
 This will also install a container run-time on the node, by default K3s uses `containerd`.
 
+#### A note about the node's taint key name
+
+Tainting the GPU node with an arbitrary key name will prevent the required NVIDIA Kubernetes components to be scheduled on the node.
+This is not explicitely documented, but reviewing the Helm chart's default values
+[gpu-operator/deployments/gpu-operator/values.yaml](https://github.com/NVIDIA/gpu-operator/blob/main/deployments/gpu-operator/values.yaml),
+we can find this has to be `nvidia.com/gpu=true:NoSchedule`.
+
+```yaml
+daemonsets:
+  # ...
+  tolerations:
+  - key: nvidia.com/gpu
+    operator: Exists
+    effect: NoSchedule
+node-feature-discovery:
+  # ...
+  worker:
+  # ...
+    tolerations:
+  # ...
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+```
+
 ### Installing the k8s-device-plugin
 
 This is the final step of the installation,
@@ -280,7 +307,7 @@ spec:
     effect: "NoSchedule"        
 ```
 
-Which should log:
+Which should log, depending on the hardware:
 
 ```text
 [Vector addition of 50000 elements[]
