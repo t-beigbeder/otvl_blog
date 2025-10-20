@@ -29,8 +29,7 @@ both during the setup and at run-time, and how they interact.
 
 While NVIDIA specific information is used, the content remains as general as possible.
 
-This is a domain where technology evolves fast
-and this article could become partly outdated more quickly than others.
+Things are changing rapidly in this domain and this article could become partly outdated more quickly than others.
 
 ## Read the docs
 
@@ -44,7 +43,7 @@ is to rely on Kubernetes generic information rather than our GPU vendor's one.
 So we can start by reading the Kubernetes's documentation page
 [Schedule GPUs | Kubernetes](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/),
 which is a perfect entry point,
-and which by the way provide us a pointer to a NVIDIA
+and which by the way provides us a pointer to a NVIDIA
 useful document (NVIDIA Device Plugin for Kubernetes), yet not the main one we will use.
 
 As far as NVIDIA is concerned, we will later have to deal with the vendor's entry point:
@@ -126,8 +125,8 @@ Even if we use other features to control GPU scheduling, corresponding taints ar
 to avoid the presence of application workloads that don't need GPU.
 
 Another scheduling feature simple to use relies on resources requests.
-For instance a container can request main CPU and RAM available on a node to ensure
-no other container will be scheduled on the same node.
+For instance a container can request most of the CPU and RAM available on a node
+to ensure no other container will be scheduled on the same node.
 In the case of GPUs, Kubernetes exposes vendor-specific resources after the device plugin has been installed.
 For instance (only limits are needed and meaningful in that case):
 
@@ -140,6 +139,8 @@ containers:
       acme.com/gpu: 1
 ```
 
+#### Node Feature Discovery
+
 Kubernetes also defines a service as an add-on:
 [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/master/get-started/index.html)
 whose purpose is to automatically add labels on nodes based on the hardware they integrate.
@@ -148,10 +149,10 @@ In the case of NVIDIA for instance we can find
 the labels are set when the 
 [NVIDIA GPU Feature Discovery](https://github.com/NVIDIA/k8s-device-plugin/tree/main/docs/gpu-feature-discovery)
 is deployed.
-The service is supposed to enable adding taints to the nodes, likely it is not implemented (or documented?) in the case of NVIDIA.
+The service is supposed to enable adding taints to the nodes, but it likely is not implemented (or documented?) in the case of NVIDIA.
 That's unfortunate, it would be a useful feature.
 
-Such labels can then be leveraged to fine-tune GPU workloads scheduling according the specific hardware requirements.
+Such labels can then be leveraged to fine-tune GPU workloads scheduling according to specific hardware requirements.
 
 ## GPU support software installation
 
@@ -164,6 +165,8 @@ the choice is made to play the steps one by one.
 
 Also, cloud-providers often provide GPU pre-installed images for VMs, not always based on the Linux distribution we want.
 Here the examples are based on Debian 12 (old stable) as Debian 13 is not yet supported by the vendor.
+
+The steps illustrated below are detailed in the following sections: 
 
 <img markdown="1" src=../../assets/images/k3s-gpu-node/NVIDIA-install.png title="GPU support software installation" alt="GPU support software installation schema" class="img-fluid">
 
@@ -189,7 +192,10 @@ apt-get install -y cuda-toolkit-13-0 && \
 apt-get install -y nvidia-driver-cuda nvidia-kernel-dkms
 ```
 
-It is required to restart the system at that point, not obvious if using cloud-init initiated automation.
+It is required to restart the system at that point,
+not the most pleasant thing to do if using cloud-init initiated automation.
+
+Then let's move forward with the installation.
 
 ### Installing the Container Toolkit
 
