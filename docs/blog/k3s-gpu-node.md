@@ -146,7 +146,7 @@ Kubernetes also defines a service as an add-on:
 whose purpose is to automatically add labels on nodes based on the hardware they integrate.
 In the case of NVIDIA for instance we can find
 [here](https://github.com/NVIDIA/k8s-device-plugin/blob/main/docs/gpu-feature-discovery/README.md#generated-labels)
-the labels are set when the 
+the labels that are set when the 
 [NVIDIA GPU Feature Discovery](https://github.com/NVIDIA/k8s-device-plugin/tree/main/docs/gpu-feature-discovery)
 is deployed.
 The service is supposed to enable adding taints to the nodes, but it likely is not implemented (or documented?) in the case of NVIDIA.
