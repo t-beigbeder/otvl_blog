@@ -336,6 +336,10 @@ helm install --wait --generate-name \
     --set toolkit.env[1].value=/run/k3s/containerd/containerd.sock
 ```
 
+The operator achievements on the cluster can therefore be observed, for instance:
+
+<img markdown="1" src=../../assets/images/k3s-gpu-node/gpu-operator.png title="Development environment" alt="Development environment schema" class="img-fluid">
+
 ## GPU workloads
 
 A simple test workload enables to validate the installation:
