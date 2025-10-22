@@ -314,7 +314,9 @@ node-feature-discovery:
 This is the final step of the installation,
 lastly using the
 [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html).
-It relies on Helm, among other options, that can be run on any host having access the the cluster API.
+A Kubernetes operator is a kind of pattern to automatically deploy various resources in a cluster,
+as a human operator would do step by step, thus the name.
+This one relies on Helm to be deployed, among other options, so this can be run on any host having access the the cluster API.
 Instructions are provided
 [here](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html).
 In the default case of K3s using `containerd`,
@@ -435,6 +437,16 @@ ENV HOME=/home/cs-user
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]       
 ```
 
+Be warned, you will get a 6GB image as a result. Yes Data Science infrastructure doesn't come for free.
+
+## Conclusion
+
+Using cloud-native technology for Data Science not only enables a more economic use of available resources,
+but also leads to a more standard way to package and deploy workloads,
+even giving access to remote development as illustrated just above.
+
+The documentation is not so easy to read in the case of NVIDIA,
+but the operator does a great work and is in the end the simplest component to deploy.
 
 ## References
 
