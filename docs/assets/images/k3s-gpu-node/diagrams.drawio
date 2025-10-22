@@ -249,10 +249,13 @@
     </mxGraphModel>
   </diagram>
   <diagram name="dev-env" id="tWgEsTxu2UYzUls1uLbM">
-    <mxGraphModel dx="1426" dy="2081" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2276" dy="2081" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="mZ2qIeFOlVFqwqRpEA1V-0" />
         <mxCell id="mZ2qIeFOlVFqwqRpEA1V-1" parent="mZ2qIeFOlVFqwqRpEA1V-0" />
+        <mxCell id="B9K2bFfrNJuEUVOPIGGN-0" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="mZ2qIeFOlVFqwqRpEA1V-1">
+          <mxGeometry x="-110" y="-1000" width="1070" height="457.5" as="geometry" />
+        </mxCell>
         <mxCell id="mZ2qIeFOlVFqwqRpEA1V-30" value="&lt;div&gt;k3s node + GPU&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#d5e8d4;strokeColor=#82b366;arcSize=3;spacing=0;" parent="mZ2qIeFOlVFqwqRpEA1V-1" vertex="1">
           <mxGeometry x="310" y="-640" width="272" height="60" as="geometry" />
         </mxCell>
