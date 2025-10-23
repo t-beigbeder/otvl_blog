@@ -3,7 +3,7 @@ ow_article: true
 template: article.html
 title: Adding a GPU node to a K3s cluster
 version: "1.0"
-publication_date: "2025/10/22"
+publication_date: "2025/10/23"
 summary_heading: "Adding a GPU node to a K3s cluster"
 summary: |
     This article details how to integrate a node with a GPU in a K3s cluster
