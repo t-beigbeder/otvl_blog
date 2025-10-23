@@ -376,6 +376,9 @@ Copy output data from the CUDA device to the host memory
 Test PASSED
 Done
 ```
+What is important in this specification beyond resources and toleration
+is to specify `runtimeClassName: nvidia` so that the NVIDIA container runtime
+is involved when the container is initialized.
 
 ### A development environment
 
@@ -438,6 +441,19 @@ ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
 ```
 
 Be warned, you will get a 6GB image as a result. Yes Data Science infrastructure doesn't come for free.
+
+When integrating the image in a Pod, don't forget to set the `runtimeClassName`.
+
+```yaml
+apiVersion: v1
+kind: Pod
+#...
+spec:
+  #...
+  runtimeClassName: nvidia
+  containers:
+    #...
+```
 
 ## Conclusion
 
